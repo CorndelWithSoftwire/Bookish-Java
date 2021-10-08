@@ -25,15 +25,6 @@ public class Main {
         // See this page for details: https://docs.oracle.com/javase/tutorial/jdbc/basics/processingsqlstatements.html
 
         Connection connection = DriverManager.getConnection(connectionString);
-        String query = "SELECT * FROM technologies";
-        Statement stmt = connection.createStatement();
-        ResultSet rs = stmt.executeQuery(query);
-        while(rs.next()) {
-            String technology = rs.getString("name");
-            String url = rs.getString("logoUrl");
-            System.out.println(technology + "'s logo URL: " + url);
-        }
-
         String selectingFromBooks = "SELECT * FROM book";
         Statement booksStmt = connection.createStatement();
         ResultSet bookRs = booksStmt.executeQuery(selectingFromBooks);
