@@ -3,7 +3,7 @@ package org.softwire.training.bookish.models.database;
 import java.util.Date;
 
 public class Book {
-    private int iD;
+    private final int iD;
     private String title;
     private String iSBN;
     private Date publishedDate;
