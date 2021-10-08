@@ -3,6 +3,7 @@ package org.softwire.training.bookish;
 import com.google.common.hash.Hashing;
 import org.jdbi.v3.core.Jdbi;
 
+import javax.lang.model.type.ArrayType;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.nio.charset.StandardCharsets;
@@ -17,7 +18,38 @@ public class Main {
 
     public static void main(String[] args) throws SQLException {
         jdbcMethod();
+        makeLibrarians();
         //jdbiMethod(connectionString);
+    }
+
+    private static void makeLibrarians() throws SQLException {
+        Properties connProperties = new Properties();
+        connProperties.put("user", "root");
+        connProperties.put("password", "c7f/SGXS<80D1H/Iqf0PQp90@dicw(J?");
+        connProperties.setProperty("useSSL", "false");
+        Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/bookish", connProperties);
+
+        Statement stmt = null;
+        int rs = 0;
+
+        List<String> librarians = Arrays.asList("Sears", "Kent", "Merrill");
+        for (String librarian: librarians) {
+            try {
+                stmt = connection.createStatement();
+                rs = stmt.executeUpdate("insert into Librarians values ('"+librarian+"')");
+            }
+            catch (SQLException ex) {
+                System.out.println("SQLException: " + ex.getMessage());
+                System.out.println("SQLState: " + ex.getSQLState());
+                System.out.println("VendorError: " + ex.getErrorCode());
+            }
+            finally {
+                if (stmt != null) {
+                    stmt.close();
+                }
+            }
+        }
+
     }
 
     private static void jdbcMethod() throws SQLException {
@@ -33,13 +65,19 @@ public class Main {
         Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/bookish", connProperties);
 
         Statement stmt = null;
-        boolean rs = false;
+        int rs = 0;
         ArrayList<User> users = getUsersFromCsv();
+        System.out.println(users);
 
         for (User user : users){
             try {
                 stmt = connection.createStatement();
-                rs = stmt.execute("insert into Users values ("+ user.getUsername()+","+user.getPasshash()+", "+user.getEmail()+","+user.getPhone()+")");
+                String query = "insert into Users values ('"+ user.getUsername()+"','"+user.getPasshash()+"', '"+user.getEmail()+"','"+user.getPhone()+"')";
+                System.out.println(query);
+                rs = stmt.executeUpdate(query);
+                if (rs > 0) {
+                    System.out.printf("%d rows have been changed", rs);
+                }
             } catch (SQLException ex) {
                 System.out.println("SQLException: " + ex.getMessage());
                 System.out.println("SQLState: " + ex.getSQLState());
@@ -59,7 +97,7 @@ public class Main {
     }
 
     private static ArrayList<User> getUsersFromCsv() {
-        List <User> users = new ArrayList<>();
+        ArrayList<User> users = new ArrayList<>();
         List<List<String>> records = new ArrayList<>();
         try (BufferedReader br = new BufferedReader(new FileReader("resources/users.csv"))) {
             String line;
@@ -77,8 +115,9 @@ public class Main {
             user.setPasshashFromString(e.get(3));
             user.setEmail(e.get(2));
             user.setPhone(e.get(1));
+            users.add(user);
         } );
-        return (ArrayList<User>) users;
+        return users;
     }
 
     private static void jdbiMethod(String connectionString) {
