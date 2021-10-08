@@ -9,7 +9,6 @@ public class Book {
     private Date publishedDate;
     private String publisher;
     private String genre;
-    private String summary;
     private String numOfCopies;
     private String authorID;
 
@@ -20,7 +19,6 @@ public class Book {
         this.publishedDate = publishedDate;
         this.publisher = publisher;
         this.genre = genre;
-        this.summary = summary;
         this.numOfCopies = numOfCopies;
         this.authorID = authorID;
     }
@@ -51,10 +49,6 @@ public class Book {
 
     public String getGenre() {
         return genre;
-    }
-
-    public String getSummary() {
-        return summary;
     }
 
     public String getNumOfCopies() {
