@@ -2,11 +2,15 @@ package org.softwire.training.bookish;
 
 import com.google.common.hash.Hashing;
 import org.jdbi.v3.core.Jdbi;
+import org.softwire.training.bookish.models.database.Books;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.nio.charset.StandardCharsets;
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -16,8 +20,10 @@ import java.util.Properties;
 public class Main {
 
     public static void main(String[] args) throws SQLException {
-        jdbcMethod();
+//        jdbcMethod();
         //jdbiMethod(connectionString);
+        Books myBooks = new Books("resources/books.csv");
+        myBooks.booksList.forEach(System.out::println);
     }
 
     private static void jdbcMethod() throws SQLException {
@@ -28,18 +34,19 @@ public class Main {
 
         Properties connProperties = new Properties();
         connProperties.put("user", "root");
-        connProperties.put("password", "c7f/SGXS<80D1H/Iqf0PQp90@dicw(J?");
+        connProperties.put("password", "c7f/SGXS<80D1H/Iqf0PQp90@dicw(J?"); // change to universal password for everyone's db
         connProperties.setProperty("useSSL", "false");
         Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/bookish", connProperties);
 
         Statement stmt = null;
         boolean rs = false;
         ArrayList<User> users = getUsersFromCsv();
+//        ArrayList<Books> books = getBooksFromCsv();
 
-        for (User user : users){
+        for (User user : users) {
             try {
                 stmt = connection.createStatement();
-                rs = stmt.execute("insert into Users values ("+ user.getUsername()+","+user.getPasshash()+", "+user.getEmail()+","+user.getPhone()+")");
+                rs = stmt.execute("insert into Users values (" + user.getUsername() + "," + user.getPasshash() + ", " + user.getEmail() + "," + user.getPhone() + ")");
             } catch (SQLException ex) {
                 System.out.println("SQLException: " + ex.getMessage());
                 System.out.println("SQLState: " + ex.getSQLState());
@@ -59,7 +66,7 @@ public class Main {
     }
 
     private static ArrayList<User> getUsersFromCsv() {
-        List <User> users = new ArrayList<>();
+        List<User> users = new ArrayList<>();
         List<List<String>> records = new ArrayList<>();
         try (BufferedReader br = new BufferedReader(new FileReader("resources/users.csv"))) {
             String line;
@@ -77,7 +84,7 @@ public class Main {
             user.setPasshashFromString(e.get(3));
             user.setEmail(e.get(2));
             user.setPhone(e.get(1));
-        } );
+        });
         return (ArrayList<User>) users;
     }
 
