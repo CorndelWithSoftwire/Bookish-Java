@@ -34,6 +34,15 @@ public class Main {
             System.out.println(technology + "'s logo URL: " + url);
         }
 
+        String selectingFromBooks = "SELECT * FROM book";
+        Statement booksStmt = connection.createStatement();
+        ResultSet bookRs = booksStmt.executeQuery(selectingFromBooks);
+        int count = 1;
+        while(bookRs.next()){
+            String book = bookRs.getString("title");
+            System.out.println("book " + count + " " + book);
+            count++;
+        }
 
 
     }
