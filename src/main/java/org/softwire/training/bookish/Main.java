@@ -3,9 +3,13 @@ package org.softwire.training.bookish;
 import com.google.common.hash.Hashing;
 import org.jdbi.v3.core.Jdbi;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
 import java.nio.charset.StandardCharsets;
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Properties;
 
 
@@ -30,29 +34,51 @@ public class Main {
 
         Statement stmt = null;
         boolean rs = false;
+        ArrayList<User> users = getUsersFromCsv();
 
-        try {
-            stmt = connection.createStatement();
-            rs = stmt.execute("insert into Users values ('test_two', '9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08', 'test_two@example.com', 07759545315)");
-        }
-        catch (SQLException ex) {
-            System.out.println("SQLException: " + ex.getMessage());
-            System.out.println("SQLState: " + ex.getSQLState());
-            System.out.println("VendorError: " + ex.getErrorCode());
-        }
-        finally {
-            if (stmt != null) {
-                try {
-                    stmt.close();
-                } catch (SQLException sqlEx) { }
+        for (User user : users){
+            try {
+                stmt = connection.createStatement();
+                rs = stmt.execute("insert into Users values ("+ user.getUsername()+","+user.getPasshash()+", "+user.getEmail()+","+user.getPhone()+")");
+            } catch (SQLException ex) {
+                System.out.println("SQLException: " + ex.getMessage());
+                System.out.println("SQLState: " + ex.getSQLState());
+                System.out.println("VendorError: " + ex.getErrorCode());
+            } finally {
+                if (stmt != null) {
+                    try {
+                        stmt.close();
+                    } catch (SQLException sqlEx) {
+                    }
 
-                stmt = null;
+                    stmt = null;
+                }
             }
         }
+
     }
 
     private static ArrayList<User> getUsersFromCsv() {
-        return new ArrayList<org.softwire.training.bookish.Main.User>();
+        List <User> users = new ArrayList<>();
+        List<List<String>> records = new ArrayList<>();
+        try (BufferedReader br = new BufferedReader(new FileReader("resources/users.csv"))) {
+            String line;
+            while ((line = br.readLine()) != null) {
+                String[] values = line.split(",");
+                records.add(Arrays.asList(values));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        records.forEach(e -> {
+            User user = new User();
+            user.setUsername(e.get(0));
+            user.setPasshashFromString(e.get(3));
+            user.setEmail(e.get(2));
+            user.setPhone(e.get(1));
+        } );
+        return (ArrayList<User>) users;
     }
 
     private static void jdbiMethod(String connectionString) {
@@ -65,7 +91,7 @@ public class Main {
         Jdbi jdbi = Jdbi.create(connectionString);
     }
 
-    public class User {
+    public static class User {
         String username;
         String passhash;
         String email;
