@@ -17,9 +17,11 @@
 
     <!-- Settings -->
     <properties>
-        <java.version>17</java.version>
+        <java.version>16</java.version>
         <thymeleaf.version>3.0.12.RELEASE</thymeleaf.version>
         <thymeleaf-layout-dialect.version>2.2.2</thymeleaf-layout-dialect.version>
+        <maven.compiler.source>16</maven.compiler.source>
+        <maven.compiler.target>16</maven.compiler.target>
     </properties>
 
     <!-- Dependencies -->
@@ -49,8 +51,8 @@
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
-           <version>5.1.45</version>
-<!--            <version>8.0.12</version>-->
+            <version>5.1.45</version>
+            <!--            <version>8.0.12</version>-->
         </dependency>
 
         <!-- JDBI -->
