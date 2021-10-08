@@ -6,15 +6,23 @@ public class CopyRegistry {
     private int borrowedBy;
     private String returnDate;
 
-    public CopyRegistry(int id, int bookId, int borrowedBy, String returnDate) {
-        this.id = id;
-        this.bookId = bookId;
-        this.borrowedBy = borrowedBy;
-        this.returnDate = returnDate;
-    }
+//    public CopyRegistry(int id, int bookId, int borrowedBy, String returnDate) {
+//        this.id = id;
+//        this.bookId = bookId;
+//        this.borrowedBy = borrowedBy;
+//        this.returnDate = returnDate;
+//    }
 
     public int getId() {
         return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public void setBookId(int bookId) {
+        this.bookId = bookId;
     }
 
     public int getBookId() {

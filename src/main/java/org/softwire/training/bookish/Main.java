@@ -1,8 +1,13 @@
 package org.softwire.training.bookish;
 
 import org.jdbi.v3.core.Jdbi;
+import org.softwire.training.bookish.models.database.Book;
+import org.softwire.training.bookish.models.database.CopyRegistry;
+import org.softwire.training.bookish.models.database.Technology;
+import org.softwire.training.bookish.models.database.User;
 
 import java.sql.*;
+import java.util.List;
 
 
 public class Main {
@@ -59,6 +64,7 @@ public class Main {
 
     }
 
+    // example for reading books
     private static void jdbiMethod(String connectionString) {
         System.out.println("\nJDBI method...");
 
@@ -67,6 +73,21 @@ public class Main {
         // Use the "Book" class that we've created for you (in the models.database folder)
 
         Jdbi jdbi = Jdbi.create(connectionString);
+
+        /*
+        book test
+         */
+        System.out.println("jdbi book test");
+        List<Book> bookList = jdbi.withHandle(handle ->
+              handle.createQuery("SELECT * FROM book")
+                      .mapToBean(Book.class)
+                      .list()
+        );
+        // print book title and author id
+        for (Book b: bookList) {
+            System.out.println(String.format("Title: %s, author ID: %s", b.getTitle(), b.getAuthorID()));
+        }
+
 
 
 
