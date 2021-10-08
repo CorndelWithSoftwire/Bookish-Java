@@ -9,7 +9,7 @@ public class Main {
 
     public static void main(String[] args) throws SQLException {
         String hostname = "localhost";
-        String database = "CAT_DATABASE";
+        String database = "bookish";
         String user = "bookish";
         String password = "bookish";
         String connectionString = "jdbc:mysql://" + hostname + "/" + database + "?user=" + user + "&password=" + password + "&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=GMT&useSSL=false";
@@ -25,13 +25,13 @@ public class Main {
         // See this page for details: https://docs.oracle.com/javase/tutorial/jdbc/basics/processingsqlstatements.html
 
         Connection connection = DriverManager.getConnection(connectionString);
-        String query = "SELECT * FROM cats";
+        String query = "SELECT * FROM technologies";
         Statement stmt = connection.createStatement();
         ResultSet rs = stmt.executeQuery(query);
         while(rs.next()) {
-            String name = rs.getString("name");
-            String age = rs.getString("age");
-            System.out.println(name + " with age " + age);
+            String technology = rs.getString("name");
+            String url = rs.getString("logoUrl");
+            System.out.println(technology + "'s logo URL: " + url);
         }
 
 
