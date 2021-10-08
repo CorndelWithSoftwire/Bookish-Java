@@ -1,3 +1,5 @@
+-- STEP TWO!!!! 
+
 CREATE TABLE author (
 	id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(255) NOT NULL,
@@ -75,32 +77,32 @@ CREATE TABLE copy_registry (
 	id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     book_id INT NOT NULL,
     FOREIGN KEY (book_id) REFERENCES book (id),
-    borrowed_by INT NOT NULL,
+    borrowed_by INT,
     FOREIGN KEY (borrowed_by) REFERENCES user (id),
     return_date VARCHAR(10)
 );
 
 INSERT INTO copy_registry (book_id, borrowed_by, return_date) VALUES
-(1, 2, '2021-12-31'),
-(1, 5, '2021-12-31'),
-(2, 1, '2021-12-31'),
-(3, 6, '2021-12-31'),
-(4, 2, '2021-12-31'),
-(4, 3, '2021-12-31'),
-(5, 5, '2021-12-31'),
-(6, 4, '2021-12-31'),
-(7, 3, '2021-12-31'),
-(8, 3, '2021-12-31'),
-(9, 1, '2021-12-31'),
-(10, 3, '2021-12-31'),
+(1,NULL,NULL),
+(1,NULL,NULL),
+(2,NULL,NULL),
+(3, NULL,NULL),
+(4, NULL,NULL),
+(4, NULL,NULL),
+(5, NULL,NULL),
+(6, NULL,NULL),
+(7, NULL,NULL),
+(8, NULL,NULL),
+(9, NULL,NULL),
+(10, NULL,NULL),
 (11, 5, '2021-12-31'),
 (12, 6, '2021-12-31'),
 (13, 6, '2021-12-31'),
 (14, 3, '2021-12-31'),
 (15, 2, '2021-12-31'),
 (16, 2, '2021-12-31'),
-(17, 1, '2021-12-31'),
-(18, 3, '2021-12-31'),
-(19, 1, '2021-12-31'),
+(17, NULL,NULL),
+(18, NULL,NULL),
+(19, NULL,NULL),
 (20, 5, '2021-12-31'),
-(21, 5, '2021-12-31');
+(21, NULL,NULL);
