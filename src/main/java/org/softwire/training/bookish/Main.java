@@ -2,6 +2,7 @@ package org.softwire.training.bookish;
 
 import com.google.common.hash.Hashing;
 import org.jdbi.v3.core.Jdbi;
+import org.jdbi.v3.core.statement.UnableToCreateStatementException;
 
 import javax.lang.model.type.ArrayType;
 import java.io.BufferedReader;
@@ -17,81 +18,37 @@ import java.util.Properties;
 public class Main {
 
     public static void main(String[] args) throws SQLException {
-        jdbcMethod();
-        makeLibrarians();
-        //jdbiMethod(connectionString);
-    }
-
-    private static void makeLibrarians() throws SQLException {
         Properties connProperties = new Properties();
         connProperties.put("user", "root");
         connProperties.put("password", "c7f/SGXS<80D1H/Iqf0PQp90@dicw(J?");
         connProperties.setProperty("useSSL", "false");
-        Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/bookish", connProperties);
+        Jdbi jdbi = Jdbi.create("jdbc:mysql://localhost:3306/bookish", connProperties);
+        jdbcMethod(jdbi);
+        makeLibrarians(jdbi);
+        //jdbiMethod(connectionString);
+    }
 
-        Statement stmt = null;
-        int rs = 0;
+    private static void makeLibrarians(Jdbi jdbi) throws SQLException {
 
         List<String> librarians = Arrays.asList("Sears", "Kent", "Merrill");
         for (String librarian: librarians) {
-            try {
-                stmt = connection.createStatement();
-                rs = stmt.executeUpdate("insert into Librarians values ('"+librarian+"')");
-            }
-            catch (SQLException ex) {
-                System.out.println("SQLException: " + ex.getMessage());
-                System.out.println("SQLState: " + ex.getSQLState());
-                System.out.println("VendorError: " + ex.getErrorCode());
-            }
-            finally {
-                if (stmt != null) {
-                    stmt.close();
-                }
-            }
+            jdbi.withHandle(handle -> {
+                return handle.execute("insert into Librarians values (?)", librarian);
+            });
         }
 
     }
 
-    private static void jdbcMethod() throws SQLException {
-        System.out.println("JDBC method...");
-
-        // TODO: print out the details of all the books (using JDBC)
-        // See this page for details: https://docs.oracle.com/javase/tutorial/jdbc/basics/processingsqlstatements.html
-
-        Properties connProperties = new Properties();
-        connProperties.put("user", "root");
-        connProperties.put("password", "c7f/SGXS<80D1H/Iqf0PQp90@dicw(J?");
-        connProperties.setProperty("useSSL", "false");
-        Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/bookish", connProperties);
-
-        Statement stmt = null;
-        int rs = 0;
+    private static void jdbcMethod(Jdbi jdbi) throws SQLException {
         ArrayList<User> users = getUsersFromCsv();
-        System.out.println(users);
-
         for (User user : users){
-            try {
-                stmt = connection.createStatement();
-                String query = "insert into Users values ('"+ user.getUsername()+"','"+user.getPasshash()+"', '"+user.getEmail()+"','"+user.getPhone()+"')";
-                System.out.println(query);
-                rs = stmt.executeUpdate(query);
-                if (rs > 0) {
-                    System.out.printf("%d rows have been changed", rs);
-                }
-            } catch (SQLException ex) {
-                System.out.println("SQLException: " + ex.getMessage());
-                System.out.println("SQLState: " + ex.getSQLState());
-                System.out.println("VendorError: " + ex.getErrorCode());
-            } finally {
-                if (stmt != null) {
+                jdbi.withHandle(handle -> {
                     try {
-                        stmt.close();
-                    } catch (SQLException sqlEx) {
+                        return handle.execute("insert into Users values (?, ?, ?, ?)", user.getUsername(), user.getPasshash(), user.getPasshash(), user.getPhone());
+                    } catch (UnableToCreateStatementException e) {
+                        return null;
                     }
-
-                    stmt = null;
-                }
-            }
+                });
         }
 
     }
@@ -118,16 +75,6 @@ public class Main {
             users.add(user);
         } );
         return users;
-    }
-
-    private static void jdbiMethod(String connectionString) {
-        System.out.println("\nJDBI method...");
-
-        // TODO: print out the details of all the books (using JDBI)
-        // See this page for details: http://jdbi.org
-        // Use the "Book" class that we've created for you (in the models.database folder)
-
-        Jdbi jdbi = Jdbi.create(connectionString);
     }
 
     public static class User {
