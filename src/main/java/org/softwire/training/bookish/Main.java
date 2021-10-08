@@ -2,16 +2,14 @@ package org.softwire.training.bookish;
 
 import org.jdbi.v3.core.Jdbi;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
+import java.sql.*;
 
 
 public class Main {
 
     public static void main(String[] args) throws SQLException {
         String hostname = "localhost";
-        String database = "bookish";
+        String database = "catDatabase";
         String user = "bookish";
         String password = "bookish";
         String connectionString = "jdbc:mysql://" + hostname + "/" + database + "?user=" + user + "&password=" + password + "&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=GMT&useSSL=false";
@@ -27,6 +25,14 @@ public class Main {
         // See this page for details: https://docs.oracle.com/javase/tutorial/jdbc/basics/processingsqlstatements.html
 
         Connection connection = DriverManager.getConnection(connectionString);
+        String query = "SELECT * FROM cats";
+        Statement stmt = connection.createStatement();
+        ResultSet rs = stmt.executeQuery(query);
+        while(rs.next()) {
+            String name = rs.getString("name");
+            String age = rs.getString("age");
+            System.out.println(name + " with age " + age);
+        }
 
 
 
