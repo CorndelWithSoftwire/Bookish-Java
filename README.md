@@ -1,4 +1,4 @@
 # Bookish
-![ERD](ERD%20photo.png)
+![ERD](ERDPhoto.png)
 
 Copyright © 2018 Softwire - All Rights Reserved
