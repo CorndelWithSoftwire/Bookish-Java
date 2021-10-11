@@ -9,5 +9,8 @@
         <module name="bookish" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="bookish" target="1.8" />
+    </bytecodeTargetLevel>
   </component>
 </project>

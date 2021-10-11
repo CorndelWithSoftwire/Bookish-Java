@@ -1,0 +1,3 @@
+[submodule "Bookish-Frontend"]
+	path = Bookish-Frontend
+	url = git@github.com:manfromth3m0oN/Bookish-Frontend.git
