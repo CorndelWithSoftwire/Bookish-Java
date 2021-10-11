@@ -1,5 +1,7 @@
 package org.softwire.training.bookish.models.database;
 
+import java.util.Objects;
+
 public class CopyRegistry {
     private int id;
     private int bookId;
@@ -43,5 +45,28 @@ public class CopyRegistry {
 
     public void setReturnDate(String returnDate) {
         this.returnDate = returnDate;
+    }
+
+    @Override
+    public String toString() {
+        return "CopyRegistry{" +
+                "id=" + id +
+                ", bookId=" + bookId +
+                ", borrowedBy=" + borrowedBy +
+                ", returnDate='" + returnDate + '\'' +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        CopyRegistry that = (CopyRegistry) o;
+        return id == that.id && bookId == that.bookId && borrowedBy == that.borrowedBy && Objects.equals(returnDate, that.returnDate);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, bookId, borrowedBy, returnDate);
     }
 }
