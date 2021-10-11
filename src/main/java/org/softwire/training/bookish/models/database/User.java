@@ -18,24 +18,6 @@ public class User {
 	String email;
 	String phone;
 
-	public void insertIntoDB(Jdbi jdbi) {
-		jdbi.withHandle(handle -> {
-			try {
-				return handle.execute("insert into Users values (?, ?, ?, ?)", this.getUsername(), this.getPasshash(), this.getEmail(), this.getPhone());
-			} catch (UnableToCreateStatementException e) {
-				return null;
-			}
-		});
-	}
-
-	public List<User> getUserByUsername(Jdbi jdbi, String username) {
-		return jdbi.withHandle(handle -> handle
-				.createQuery("select * from Users where Username=:username")
-				.bind("username", username)
-				.mapToBean(User.class)
-				.list());
-	}
-
 	public void setPasshashFromString(String password) {
 		this.passhash = Hashing.sha256()
 				.hashString(password, StandardCharsets.UTF_8)
@@ -82,5 +64,15 @@ public class User {
 	}
 
 	public User() {}
+
+	@Override
+	public String toString() {
+		return "User{" +
+				"username='" + username + '\'' +
+				", passhash='" + passhash + '\'' +
+				", email='" + email + '\'' +
+				", phone='" + phone + '\'' +
+				'}';
+	}
 }
 
