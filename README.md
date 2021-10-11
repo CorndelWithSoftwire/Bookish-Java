@@ -1,7 +1,8 @@
 # Bookish
 
 ## Database
-![ERD](ERD%20photo.png)
+![ERD](ERDPhoto.png)
+
 
 The database will consist of eight tables
 * Books
