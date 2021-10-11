@@ -1,4 +1,6 @@
-﻿CREATE TABLE `Book` (`BookId` int NOT NULL, `Title` varchar(255)  NOT NULL, `Category` int  NOT NULL, `CreatedAt` date  NOT NULL, `UpdatedAt` date  NOT NULL, `Slug` varchar(255)  NOT NULL, `Isbn` varchar(255)  NULL, `Subtitle` varchar(255)  NULL, `Subjects` varchar(255)  NULL, `CoverPhotoUrl` varchar(255) NULL, PRIMARY KEY (`BookId`));
+﻿CREATE DATABASE bookish
+
+CREATE TABLE `Book` (`BookId` int NOT NULL, `Title` varchar(255)  NOT NULL, `Category` int  NOT NULL, `CreatedAt` date  NOT NULL, `UpdatedAt` date  NOT NULL, `Slug` varchar(255)  NOT NULL, `Isbn` varchar(255)  NULL, `Subtitle` varchar(255)  NULL, `Subjects` varchar(255)  NULL, `CoverPhotoUrl` varchar(255) NULL, PRIMARY KEY (`BookId`));
 
 CREATE TABLE `Copies` (`CopyId` int  NOT NULL, `BookId` int  NOT NULL , PRIMARY KEY (`CopyId`));
 
