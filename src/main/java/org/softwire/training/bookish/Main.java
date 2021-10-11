@@ -20,7 +20,7 @@ public class Main {
         String connectionString = "jdbc:mysql://" + hostname + "/" + database + "?user=" + user + "&password=" + password + "&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=GMT&useSSL=false";
 
         jdbcMethod(connectionString);
-        getBookCopies(connectionString, listOfAvailableBooks(connectionString));
+        getBookCopies(connectionString);
         listOfAvailableBooks(connectionString);
         jdbiMethod(connectionString);
     }
@@ -45,7 +45,7 @@ public class Main {
 
     }
 
-    private static void getBookCopies(String connectionString, ArrayList<Integer> borrowedBooks) throws SQLException {
+    private static void getBookCopies(String connectionString) throws SQLException {
         System.out.println("JDBC method...");
 
         // TODO: print out the details of all the books (using JDBC)
@@ -57,27 +57,25 @@ public class Main {
         ResultSet rs = stmt.executeQuery(query);
         while(rs.next()) {
             String title = rs.getString("title");
-            int numberOfCopies = rs.getInt("number_of_copies");
-            int idOfBook = rs.getInt("id");
-            if(borrowedBooks.contains(idOfBook)){
-                numberOfCopies -= 1;
-            }
-            System.out.println(title +  " has " + numberOfCopies + " copies available.");
+            System.out.println("Copies in the library for " + title + " is: " + rs.getInt("number_of_copies"));
         }
     }
 
-    private static ArrayList<Integer> listOfAvailableBooks(String connectionString) throws SQLException{
-        ArrayList<Integer> arrayOfBooksBorrowed = new ArrayList<>();
+    private static ArrayList<String> listOfAvailableBooks(String connectionString) throws SQLException{
+        ArrayList<String> arrayOfBooksAvailable = new ArrayList<>();
         Connection connection = DriverManager.getConnection(connectionString);
-        String query = "select * from copy_registry";
+        String query = "select * from book, copy_registry cr where book.id = cr.book_id and cr.borrowed_by is null";
         Statement stmt = connection.createStatement();
         ResultSet rs = stmt.executeQuery(query);
         while (rs.next()){
-            if(rs.getString("borrowed_by") != null){
-                arrayOfBooksBorrowed.add(rs.getInt("book_id"));
-            }
+            arrayOfBooksAvailable.add(rs.getString("title"));
         }
-        return arrayOfBooksBorrowed;
+        System.out.println("Available books:");
+        for(int i=0;i<arrayOfBooksAvailable.size();i++){
+            System.out.println(arrayOfBooksAvailable.get(i));
+
+        }
+        return arrayOfBooksAvailable;
     }
 
     private static void jdbiMethod(String connectionString) {
