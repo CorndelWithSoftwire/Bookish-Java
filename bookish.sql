@@ -1,4 +1,6 @@
--- STEP TWO!!!! 
+USE bookish;
+
+-- STEP TWO!!!!
 
 CREATE TABLE author (
 	id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
@@ -36,6 +38,7 @@ VALUES
 ('Harvey', 'Parker-Acheson'),
 ('Van', 'Thoai Nguyen'),
 ('Bec', 'Sun');
+
 
 
 CREATE TABLE book (
