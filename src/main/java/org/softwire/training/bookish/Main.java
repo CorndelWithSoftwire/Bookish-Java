@@ -77,11 +77,9 @@ public class Main {
                 arrayOfBooksBorrowed.add(rs.getInt("book_id"));
             }
         }
-//        System.out.println(arrayOfBooksBorrowed);
         return arrayOfBooksBorrowed;
     }
 
-    // example for reading books
     private static void jdbiMethod(String connectionString) {
         System.out.println("\nJDBI method...");
 
