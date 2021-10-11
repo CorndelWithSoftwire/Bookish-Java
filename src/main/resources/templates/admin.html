@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <meta charset="UTF-8">
 
     <title>Bookish - Home</title>
@@ -15,33 +16,26 @@
 </div>
 <h3>Admin page- under construction</h3>
 <div class="container">
-    <h2>This app was made using:</h2>
-
-    <div class="user-list">
-        <div th:each="user : ${model.users}" class="user">
-            <a th:href="${'/about/delete-user?userId=' + user.id}" class="delete-button">delete</a>
-        </div>
-    </div>
-
-    <h2>Add a user:</h2>
-    <form th:action="@{/about/add-user}" method="post">
-        <div class="add-user-row">
-            <label>
-                <span>Name: </span>
-                <input type="text" name="name">
-            </label>
-        </div>
-<!--        <div class="add-tech-row">-->
-<!--            <label>-->
-<!--                <span>Logo URL: </span>-->
-<!--                <input type="text" name="logoUrl">-->
-<!--            </label>-->
-<!--        </div>-->
-        <div class="add-user-row">
-            <span><!-- spacer --></span>
-            <input type="submit" value="Add user" />
-        </div>
-    </form>
+<!--    ${model.users}-->
+<!--    @{/delete-user} @{/add-user}-->
+    <div class="tableParent">
+        <div class="pt-4 tablebox">
+            <table class="table" id="locationTable">
+                <thead>
+                <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">Forename</th>
+                    <th scope="col">Surname</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="user: ${model.users}">
+                    <th scope="row" th:text="${user.id}"></th>
+                    <td th:text="${user.forename}"></td>
+                    <td th:text="${user.surname}"></td>
+                </tr>
+                </tbody>
+            </table>
 </div>
 </body>
 </html>
