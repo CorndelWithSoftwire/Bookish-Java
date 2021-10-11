@@ -1,4 +1,35 @@
 package org.softwire.training.bookish.services;
 
-public class UserService {
+import org.softwire.training.bookish.models.database.User;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+
+@Service
+public class UserService extends DatabaseService {
+
+    public List<User> getAllUsers() {
+        return jdbi.withHandle(handle ->
+                handle.createQuery("SELECT * FROM user")
+                        .mapToBean(User.class)
+                        .list()
+        );
+    }
+
+    public void addUser(User user) {
+        jdbi.useHandle(handle ->
+                handle.createUpdate("INSERT INTO user (forename, surname) VALUES (:forename, :surname)")
+                        .bind("forename", user.getForename())
+                        .bind("surname", user.getSurname())
+                        .execute()
+        );
+    }
+
+    public void deleteUser(int userId) {
+        jdbi.useHandle(handle ->
+                handle.createUpdate("DELETE FROM user WHERE id = :id")
+                        .bind("id", userId)
+                        .execute()
+        );
+    }
 }
