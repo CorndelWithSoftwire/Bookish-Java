@@ -6,11 +6,10 @@ import org.jdbi.v3.core.mapper.reflect.BeanMapper;
 import org.jdbi.v3.core.spi.JdbiPlugin;
 import org.jdbi.v3.core.statement.UnableToCreateStatementException;
 import org.jdbi.v3.sqlobject.SqlObjectPlugin;
+import org.softwire.training.bookish.models.dao.BookDao;
 import org.softwire.training.bookish.models.dao.LibrarianDao;
 import org.softwire.training.bookish.models.dao.UserDao;
-import org.softwire.training.bookish.models.database.Librarian;
-import org.softwire.training.bookish.models.database.User;
-import org.softwire.training.bookish.models.database.UserMapper;
+import org.softwire.training.bookish.models.database.*;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -34,6 +33,30 @@ public class PopulateDB {
 		populateUsers(jdbi);
 		makeLibrarians(jdbi);
 		*/
+
+		Books allBooks = new Books("resources/books.csv");
+
+		List<Book> books = jdbi.withExtension(BookDao.class, dao -> {
+			for (Book each : allBooks.booksList) {
+				dao.insertBook(
+						each.getBookID(),
+						each.getTitle(),
+						each.getAuthors(),
+						each.getCategory(),
+						each.getCreated_at(),
+						each.getUpdated_at(),
+						each.getSlug(),
+						each.getISBN(),
+						each.getSubtitle(),
+						each.getSubjects(),
+						each.getCover_photo_url()
+				);
+
+			};
+			return null;
+		});
+
+
 
 		List<User> users = jdbi.withExtension(UserDao.class, dao -> dao.getUser("Test3"));
 		System.out.println(users);

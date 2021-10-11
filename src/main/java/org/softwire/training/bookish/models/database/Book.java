@@ -18,6 +18,46 @@ public class Book {
         return Authors;
     }
 
+    public Integer getBookID() {
+        return BookID;
+    }
+
+    public String getTitle() {
+        return Title;
+    }
+
+    public Integer getCategory() {
+        return Category;
+    }
+
+    public String getCreated_at() {
+        return Created_at;
+    }
+
+    public String getUpdated_at() {
+        return Updated_at;
+    }
+
+    public String getSlug() {
+        return Slug;
+    }
+
+    public String getISBN() {
+        return ISBN;
+    }
+
+    public String getSubtitle() {
+        return Subtitle;
+    }
+
+    public String getSubjects() {
+        return Subjects;
+    }
+
+    public String getCover_photo_url() {
+        return Cover_photo_url;
+    }
+
     public void setBookID(Integer bookID) {
         BookID = bookID;
     }

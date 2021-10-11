@@ -7,7 +7,7 @@ import java.util.Arrays;
 import java.util.List;
 
 public class Books {
-    public ArrayList<Book> booksList;
+    public List<Book> booksList;
 
     public Books(String filePath) {
         this.booksList = readCSV(filePath);
