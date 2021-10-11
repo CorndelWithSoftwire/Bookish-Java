@@ -60,7 +60,7 @@ public class Main {
 
     }
 
-    private static ArrayList<String> listOfAvailableBooks(String connectionString) throws SQLException{
+    private static void listOfAvailableBooks(String connectionString) throws SQLException{
         ArrayList<String> arrayOfBooksAvailable = new ArrayList<>();
         Connection connection = DriverManager.getConnection(connectionString);
         String query = "select * from book, copy_registry cr where book.id = cr.book_id and cr.borrowed_by is null";
@@ -70,12 +70,9 @@ public class Main {
             arrayOfBooksAvailable.add(rs.getString("title"));
         }
         System.out.println("Available books:");
-        for(int i=0;i<arrayOfBooksAvailable.size();i++){
-            System.out.println(arrayOfBooksAvailable.get(i));
-
+        for (String s : arrayOfBooksAvailable) {
+            System.out.println(s);
         }
-        return arrayOfBooksAvailable;
-
     }
 
     private static void jdbiMethod(String connectionString) {
