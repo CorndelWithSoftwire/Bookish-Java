@@ -41,8 +41,6 @@ public class Main {
             System.out.println("book " + count + " " + book);
             count++;
         }
-
-
     }
 
     private static void getBookCopies(String connectionString) throws SQLException {
@@ -59,6 +57,7 @@ public class Main {
             String title = rs.getString("title");
             System.out.println("Copies in the library for " + title + " is: " + rs.getInt("number_of_copies"));
         }
+
     }
 
     private static ArrayList<String> listOfAvailableBooks(String connectionString) throws SQLException{
@@ -76,6 +75,7 @@ public class Main {
 
         }
         return arrayOfBooksAvailable;
+
     }
 
     private static void jdbiMethod(String connectionString) {
@@ -100,9 +100,5 @@ public class Main {
         for (Book b: bookList) {
             System.out.println(String.format("Title: %s, author ID: %s", b.getTitle(), b.getAuthorID()));
         }
-
-
-
-
     }
 }
