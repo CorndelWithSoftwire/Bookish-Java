@@ -12,6 +12,8 @@ public interface UserDao {
 	@SqlUpdate("INSERT INTO Users VALUES (?, ?, ?, ?)")
 	void insertUser(String username, String passhash, String email, String phoneNumber);
 
+
+
 	@SqlQuery("SELECT * FROM Users WHERE Username=:username")
 	@RegisterBeanMapper(User.class)
 	List<User> getUser(@Bind("username") String name);

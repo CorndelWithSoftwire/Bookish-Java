@@ -5,6 +5,7 @@ import org.jdbi.v3.core.Jdbi;
 import org.jdbi.v3.core.mapper.RowMapper;
 import org.jdbi.v3.core.statement.StatementContext;
 import org.jdbi.v3.core.statement.UnableToCreateStatementException;
+import org.softwire.training.bookish.models.dao.UserDao;
 
 import java.nio.charset.StandardCharsets;
 import java.sql.ResultSet;
@@ -36,9 +37,7 @@ public class User {
 		return passhash;
 	}
 
-	public void setPasshash(String passhash) {
-		this.passhash = passhash;
-	}
+
 
 	public String getEmail() {
 		return email;
@@ -58,12 +57,29 @@ public class User {
 
 	public User(String username, String passhash, String email, String phone) {
 		this.username = username;
-		this.passhash = passhash;
 		this.email = email;
 		this.phone = phone;
+		setPasshashFromString(passhash);
 	}
 
 	public User() {}
+
+	public void getUserFromDatabase(Jdbi jdbi, String username){
+		List<User> temp = jdbi.withExtension(UserDao.class, dao -> dao.getUser(username));
+		this.email = temp.get(0).email;
+		this.phone = temp.get(0).phone;
+		this.username = temp.get(0).username;
+		this.passhash = temp.get(0).passhash;
+	}
+
+	public void insertUserToDatabase(Jdbi jdbi){
+		User user = jdbi.withExtension(UserDao.class, dao -> {
+			dao.insertUser(this.username, this.passhash, this.email, this.phone);
+			return null;
+		});
+
+	}
+
 
 	@Override
 	public String toString() {

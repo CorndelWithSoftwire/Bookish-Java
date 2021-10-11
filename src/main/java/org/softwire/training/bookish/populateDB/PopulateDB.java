@@ -35,14 +35,28 @@ public class PopulateDB {
 		makeLibrarians(jdbi);
 		*/
 
-		List<User> users = jdbi.withExtension(UserDao.class, dao -> dao.getUser("Test3"));
-		System.out.println(users);
+//		List<User> users = jdbi.withExtension(UserDao.class, dao -> {
+//			dao.insertUser("Test3","null","do@email.com","909876654");
+//		return null;
+//		});
+//		System.out.println(users);
+		User user2 = new User();
+		user2.setUsername("bec");
+		user2.setEmail("bec@gmail.com");
+		user2.setPasshashFromString("hello");
+		user2.setPhone("98765433");
+		user2.insertUserToDatabase(jdbi);
+//
+//		List<Librarian> librarians = jdbi.withExtension(LibrarianDao.class, dao -> {
+//			//dao.createLibrarian("Test3");
+//			return dao.getLibrarian("Test3");
+//		});
+//		System.out.println(librarians);
 
-		List<Librarian> librarians = jdbi.withExtension(LibrarianDao.class, dao -> {
-			//dao.createLibrarian("Test3");
-			return dao.getLibrarian("Test3");
-		});
-		System.out.println(librarians);
+		User user = new User();
+		user.getUserFromDatabase(jdbi, "bec" );
+		System.out.println(user);
+
 	}
 
 	private static void makeLibrarians(Jdbi jdbi) throws SQLException {
