@@ -1,10 +1,9 @@
 package org.softwire.training.bookish;
 
 import org.jdbi.v3.core.Jdbi;
-import org.softwire.training.bookish.models.database.Book;
-import org.softwire.training.bookish.models.database.CopyRegistry;
-import org.softwire.training.bookish.models.database.Technology;
-import org.softwire.training.bookish.models.database.User;
+import org.jdbi.v3.core.spi.JdbiPlugin;
+import org.jdbi.v3.sqlobject.SqlObjectPlugin;
+import org.softwire.training.bookish.models.database.*;
 
 import java.sql.*;
 import java.util.List;
@@ -22,10 +21,11 @@ public class Main {
         jdbcMethod(connectionString);
         getBookCopies(connectionString);
         jdbiMethod(connectionString);
+        getOwners(connectionString);
     }
 
     private static void jdbcMethod(String connectionString) throws SQLException {
-        System.out.println("JDBC method...");
+//        System.out.println("JDBC method...");
 
         // TODO: print out the details of all the books (using JDBC)
         // See this page for details: https://docs.oracle.com/javase/tutorial/jdbc/basics/processingsqlstatements.html
@@ -37,7 +37,7 @@ public class Main {
         int count = 1;
         while(bookRs.next()){
             String book = bookRs.getString("title");
-            System.out.println("book " + count + " " + book);
+//            System.out.println("book " + count + " " + book);
             count++;
         }
 
@@ -45,7 +45,7 @@ public class Main {
     }
 
     private static void getBookCopies(String connectionString) throws SQLException {
-        System.out.println("JDBC method...");
+//        System.out.println("JDBC method...");
 
         // TODO: print out the details of all the books (using JDBC)
         // See this page for details: https://docs.oracle.com/javase/tutorial/jdbc/basics/processingsqlstatements.html
@@ -57,7 +57,7 @@ public class Main {
         while(rs.next()) {
             String title = rs.getString("title");
             String numberOfCopies = rs.getString("number_of_copies");
-            System.out.println(title +  " has " + numberOfCopies + " copies available.");
+//            System.out.println(title +  " has " + numberOfCopies + " copies available.");
         }
 
 
@@ -66,7 +66,7 @@ public class Main {
 
     // example for reading books
     private static void jdbiMethod(String connectionString) {
-        System.out.println("\nJDBI method...");
+//        System.out.println("\nJDBI method...");
 
         // TODO: print out the details of all the books (using JDBI)
         // See this page for details: http://jdbi.org
@@ -77,7 +77,7 @@ public class Main {
         /*
         book test
          */
-        System.out.println("jdbi book test");
+//        System.out.println("jdbi book test");
         List<Book> bookList = jdbi.withHandle(handle ->
               handle.createQuery("SELECT * FROM book")
                       .mapToBean(Book.class)
@@ -85,11 +85,32 @@ public class Main {
         );
         // print book title and author id
         for (Book b: bookList) {
-            System.out.println(String.format("Title: %s, author ID: %s", b.getTitle(), b.getAuthorID()));
+//            System.out.println(String.format("Title: %s, author ID: %s", b.getTitle(), b.getAuthorID()));
+        }
+//        System.out.println("jdbi check user loan test");
+        List<CopyRegistry> loanList = jdbi.withHandle(handle ->
+                handle.createQuery("SELECT * FROM copy_registry")
+                        .mapToBean(CopyRegistry.class)
+                        .list()
+        );
+
+        for (CopyRegistry loans: loanList) {
+            if (loans.getBorrowedBy() != 0)
+            System.out.println(String.format("Book ID: %s, borrowed by ID: %s", loans.getBookId(), loans.getBorrowedBy()));
         }
 
 
+    }
+    private static void getOwners(String connectionString) {
+        Jdbi jdbi = Jdbi.create(connectionString);
+        jdbi.installPlugin((JdbiPlugin) new SqlObjectPlugin()); // usually when connecting
 
+        List<User> users = jdbi.withExtension(
+                UserDao.class, dao -> {
+                    return dao.listLoanUsers();
+                }
+        );
 
+        System.out.println("Users From DAO " + users);
     }
 }
