@@ -20,11 +20,11 @@ ALTER TABLE BookAuthor ADD CONSTRAINT fk_Book_BookId FOREIGN KEY(Book) REFERENCE
 
 ALTER TABLE Book ADD CONSTRAINT fk_Book_Category FOREIGN KEY(Category) REFERENCES Categories (CategoryId);
 
-ALTER TABLE Copies ADD CONSTRAINT fk_Copies_CopyId FOREIGN KEY(CopyId) REFERENCES Borrows (BorrowedCopyId);
+ALTER TABLE Borrows ADD CONSTRAINT fk_Copies_CopyId FOREIGN KEY(BorrowedCopyId) REFERENCES Copies (CopyId);
 
 ALTER TABLE Copies ADD CONSTRAINT fk_Copies_BookId FOREIGN KEY(BookId) REFERENCES Book (BookId);
 
-ALTER TABLE Authors ADD CONSTRAINT fk_Authors_AuthorId FOREIGN KEY(AuthorId) REFERENCES BookAuthor (Author);
+ALTER TABLE BookAuthor ADD CONSTRAINT fk_Authors_AuthorId FOREIGN KEY(Author) REFERENCES Authors (AuthorId);
 
 ALTER TABLE Librarians ADD CONSTRAINT fk_Librarians_Username FOREIGN KEY(Username) REFERENCES Users (Username);
 
