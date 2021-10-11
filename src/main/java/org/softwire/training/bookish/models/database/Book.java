@@ -14,6 +14,10 @@ public class Book {
     String Subjects;
     String Cover_photo_url;
 
+    public String getAuthors() {
+        return Authors;
+    }
+
     public void setBookID(Integer bookID) {
         BookID = bookID;
     }

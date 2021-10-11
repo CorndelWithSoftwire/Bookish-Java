@@ -2,6 +2,7 @@ package org.softwire.training.bookish;
 
 import com.google.common.hash.Hashing;
 import org.jdbi.v3.core.Jdbi;
+import org.softwire.training.bookish.models.database.Authors;
 import org.softwire.training.bookish.models.database.Books;
 
 import java.io.BufferedReader;
@@ -11,10 +12,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Properties;
+import java.util.*;
 
 
 public class Main {
@@ -22,8 +20,21 @@ public class Main {
     public static void main(String[] args) throws SQLException {
 //        jdbcMethod();
         //jdbiMethod(connectionString);
+
         Books myBooks = new Books("resources/books.csv");
-        myBooks.booksList.forEach(System.out::println);
+
+        myBooks.booksList.stream().filter(book -> book.getAuthors().isEmpty()).forEach(System.out::println);
+        Set<String> myAuthors = new TreeSet<String>();
+        Authors aBunchOfAuthors = new Authors(myBooks);
+        System.out.println(aBunchOfAuthors.getAuthors().toArray()[0]);
+        /*
+        Todo:
+            - Connect to Database.
+            - Populate Database.
+        Todo:
+            - Create Copies of Books
+            - Populate Database
+         */
     }
 
     private static void jdbcMethod() throws SQLException {

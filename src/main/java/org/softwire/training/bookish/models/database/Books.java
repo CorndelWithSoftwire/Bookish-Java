@@ -21,6 +21,8 @@ public class Books {
             br.readLine();
             while ((line = br.readLine()) != null) {
                 String[] values = line.split(",(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)", -1);
+                String defaultValue = Arrays.asList(values).get(2).isEmpty() ? "no author assigned" : Arrays.asList(values).get(2);
+                Arrays.asList(values).set(2, defaultValue);
                 bookRecords.add(Arrays.asList(values));
             }
         } catch (Exception e) {
