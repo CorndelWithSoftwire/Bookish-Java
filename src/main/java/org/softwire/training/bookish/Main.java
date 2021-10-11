@@ -7,7 +7,7 @@ import org.softwire.training.bookish.models.database.Technology;
 import org.softwire.training.bookish.models.database.User;
 
 import java.sql.*;
-import java.util.List;
+import java.util.*;
 
 
 public class Main {
@@ -21,6 +21,7 @@ public class Main {
 
         jdbcMethod(connectionString);
         getBookCopies(connectionString);
+        listOfAvailableBooks(connectionString);
         jdbiMethod(connectionString);
     }
 
@@ -56,15 +57,27 @@ public class Main {
         ResultSet rs = stmt.executeQuery(query);
         while(rs.next()) {
             String title = rs.getString("title");
-            String numberOfCopies = rs.getString("number_of_copies");
-            System.out.println(title +  " has " + numberOfCopies + " copies available.");
+            System.out.println("Copies in the library for " + title + " is: " + rs.getInt("number_of_copies"));
         }
-
-
-
     }
 
-    // example for reading books
+    private static ArrayList<String> listOfAvailableBooks(String connectionString) throws SQLException{
+        ArrayList<String> arrayOfBooksAvailable = new ArrayList<>();
+        Connection connection = DriverManager.getConnection(connectionString);
+        String query = "select * from book, copy_registry cr where book.id = cr.book_id and cr.borrowed_by is null";
+        Statement stmt = connection.createStatement();
+        ResultSet rs = stmt.executeQuery(query);
+        while (rs.next()){
+            arrayOfBooksAvailable.add(rs.getString("title"));
+        }
+        System.out.println("Available books:");
+        for(int i=0;i<arrayOfBooksAvailable.size();i++){
+            System.out.println(arrayOfBooksAvailable.get(i));
+
+        }
+        return arrayOfBooksAvailable;
+    }
+
     private static void jdbiMethod(String connectionString) {
         System.out.println("\nJDBI method...");
 
