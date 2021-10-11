@@ -40,8 +40,6 @@ public class Main {
             System.out.println("book " + count + " " + book);
             count++;
         }
-
-
     }
 
     private static void getBookCopies(String connectionString) throws SQLException {
@@ -59,9 +57,6 @@ public class Main {
             String numberOfCopies = rs.getString("number_of_copies");
             System.out.println(title +  " has " + numberOfCopies + " copies available.");
         }
-
-
-
     }
 
     // example for reading books
@@ -87,9 +82,5 @@ public class Main {
         for (Book b: bookList) {
             System.out.println(String.format("Title: %s, author ID: %s", b.getTitle(), b.getAuthorID()));
         }
-
-
-
-
     }
 }
