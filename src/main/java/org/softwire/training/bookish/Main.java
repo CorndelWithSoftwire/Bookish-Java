@@ -7,7 +7,7 @@ import org.softwire.training.bookish.models.database.Technology;
 import org.softwire.training.bookish.models.database.User;
 
 import java.sql.*;
-import java.util.List;
+import java.util.*;
 
 
 public class Main {
@@ -20,7 +20,8 @@ public class Main {
         String connectionString = "jdbc:mysql://" + hostname + "/" + database + "?user=" + user + "&password=" + password + "&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=GMT&useSSL=false";
 
         jdbcMethod(connectionString);
-        getBookCopies(connectionString);
+        getBookCopies(connectionString, listOfAvailableBooks(connectionString));
+        listOfAvailableBooks(connectionString);
         jdbiMethod(connectionString);
     }
 
@@ -44,7 +45,7 @@ public class Main {
 
     }
 
-    private static void getBookCopies(String connectionString) throws SQLException {
+    private static void getBookCopies(String connectionString, ArrayList<Integer> borrowedBooks) throws SQLException {
         System.out.println("JDBC method...");
 
         // TODO: print out the details of all the books (using JDBC)
@@ -56,12 +57,28 @@ public class Main {
         ResultSet rs = stmt.executeQuery(query);
         while(rs.next()) {
             String title = rs.getString("title");
-            String numberOfCopies = rs.getString("number_of_copies");
+            int numberOfCopies = rs.getInt("number_of_copies");
+            int idOfBook = rs.getInt("id");
+            if(borrowedBooks.contains(idOfBook)){
+                numberOfCopies -= 1;
+            }
             System.out.println(title +  " has " + numberOfCopies + " copies available.");
         }
+    }
 
-
-
+    private static ArrayList<Integer> listOfAvailableBooks(String connectionString) throws SQLException{
+        ArrayList<Integer> arrayOfBooksBorrowed = new ArrayList<>();
+        Connection connection = DriverManager.getConnection(connectionString);
+        String query = "select * from copy_registry";
+        Statement stmt = connection.createStatement();
+        ResultSet rs = stmt.executeQuery(query);
+        while (rs.next()){
+            if(rs.getString("borrowed_by") != null){
+                arrayOfBooksBorrowed.add(rs.getInt("book_id"));
+            }
+        }
+//        System.out.println(arrayOfBooksBorrowed);
+        return arrayOfBooksBorrowed;
     }
 
     // example for reading books
