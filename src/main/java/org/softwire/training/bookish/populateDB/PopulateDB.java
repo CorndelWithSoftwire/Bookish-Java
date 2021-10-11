@@ -1,16 +1,8 @@
 package org.softwire.training.bookish.populateDB;
 
 import org.jdbi.v3.core.Jdbi;
-import org.jdbi.v3.core.mapper.RowMapper;
-import org.jdbi.v3.core.mapper.reflect.BeanMapper;
-import org.jdbi.v3.core.spi.JdbiPlugin;
-import org.jdbi.v3.core.statement.UnableToCreateStatementException;
 import org.jdbi.v3.sqlobject.SqlObjectPlugin;
-import org.softwire.training.bookish.models.dao.LibrarianDao;
-import org.softwire.training.bookish.models.dao.UserDao;
-import org.softwire.training.bookish.models.database.Librarian;
 import org.softwire.training.bookish.models.database.User;
-import org.softwire.training.bookish.models.database.UserMapper;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -28,7 +20,6 @@ public class PopulateDB {
 		connProperties.setProperty("useSSL", "false");
 		Jdbi jdbi = Jdbi.create("jdbc:mysql://localhost:3306/bookish", connProperties);
 		jdbi.installPlugin(new SqlObjectPlugin());
-		jdbi.registerRowMapper(new UserMapper());
 
 		/*
 		populateUsers(jdbi);
