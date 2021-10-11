@@ -62,9 +62,58 @@
         </div>
 
     </div>
-
-
 </div>
-
+<!--title, ISBN, published_date, publisher, genre, number_of_copies, author_id-->
+<div class="container">
+<h2>Add a book:</h2>
+<form th:action="@{/library/add-book}" method="post">
+    <div class="add-book-row">
+        <label>
+            <span>Title: </span>
+            <input type="text" name="title">
+        </label>
+    </div>
+    <div class="add-book-row">
+        <label>
+            <span>ISBN: </span>
+            <input type="text" name="ISBN">
+        </label>
+    </div>
+    <div class="add-book-row">
+        <label>
+            <span>Published Date: </span>
+            <input type="text" name="published_date">
+        </label>
+    </div>
+    <div class="add-book-row">
+        <label>
+            <span>Publisher: </span>
+            <input type="text" name="publisher">
+        </label>
+    </div>
+    <div class="add-book-row">
+        <label>
+            <span>Genre: </span>
+            <input type="text" name="genre">
+        </label>
+    </div>
+    <div class="add-book-row">
+        <label>
+            <span>Number of Copies: </span>
+            <input type="text" name="number_of_copies">
+        </label>
+    </div>
+    <div class="add-book-row">
+        <label>
+            <span>Author ID: </span>
+            <input type="text" name="author_id">
+        </label>
+    </div>
+    <div class="add-book-row">
+        <span><!-- spacer --></span>
+        <input type="submit" value="Add book" />
+    </div>
+</form>
+</div>
 </body>
 </html>
