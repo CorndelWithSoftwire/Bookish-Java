@@ -30,62 +30,9 @@ public class LibraryService extends DatabaseService{
         );
     }
 
-    public List<Book> sortByTitle() {
+    public List<Book> sort(String column) {
         List<Book> bookList = jdbi.withHandle(handle ->
-                handle.createQuery("SELECT * FROM book ORDER BY title")
-                        .mapToBean(Book.class)
-                        .list()
-        );
-        return bookList;
-    }
-    public List<Book> sortByISBN() {
-        List<Book> bookList = jdbi.withHandle(handle ->
-                handle.createQuery("SELECT * FROM book ORDER BY isbn")
-                        .mapToBean(Book.class)
-                        .list()
-        );
-        return bookList;
-    }
-
-    public List<Book> sortByPublishedDate() {
-        List<Book> bookList = jdbi.withHandle(handle ->
-                handle.createQuery("SELECT * FROM book ORDER BY published_date")
-                        .mapToBean(Book.class)
-                        .list()
-        );
-        return bookList;
-    }
-
-    public List<Book> sortByPublisher() {
-        List<Book> bookList = jdbi.withHandle(handle ->
-                handle.createQuery("SELECT * FROM book ORDER BY publisher")
-                        .mapToBean(Book.class)
-                        .list()
-        );
-        return bookList;
-    }
-
-    public List<Book> sortByGenre() {
-        List<Book> bookList = jdbi.withHandle(handle ->
-                handle.createQuery("SELECT * FROM book ORDER BY genre")
-                        .mapToBean(Book.class)
-                        .list()
-        );
-        return bookList;
-    }
-
-    public List<Book> sortByNumberOfCopies() {
-        List<Book> bookList = jdbi.withHandle(handle ->
-                handle.createQuery("SELECT * FROM book ORDER BY number_of_copies")
-                        .mapToBean(Book.class)
-                        .list()
-        );
-        return bookList;
-    }
-
-    public List<Book> sortByAuthorID() {
-        List<Book> bookList = jdbi.withHandle(handle ->
-                handle.createQuery("SELECT * FROM book ORDER BY author_id")
+                handle.createQuery("SELECT * FROM book ORDER BY " + column)
                         .mapToBean(Book.class)
                         .list()
         );
