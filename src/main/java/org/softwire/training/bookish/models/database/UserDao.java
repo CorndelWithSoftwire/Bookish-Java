@@ -14,5 +14,4 @@ public interface UserDao {
     @RegisterBeanMapper(value = CopyRegistry.class)
     @UseRowReducer(UserCopyRegistryReducer.class)
     List<User> listLoanUsers();
-
 }
