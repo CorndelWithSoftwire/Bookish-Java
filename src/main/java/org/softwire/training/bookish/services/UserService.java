@@ -22,6 +22,7 @@ public class UserService extends DatabaseService {
         List<User> userList = jdbi.withExtension(
                 UserDao.class, dao -> {
                     return dao.sort(column);
+
                 });
 
         return userList;

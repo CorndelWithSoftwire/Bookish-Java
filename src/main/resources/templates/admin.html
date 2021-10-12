@@ -29,10 +29,10 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr th:each="user: ${model.users}">
-                    <th scope="row" th:text="${user.id}"></th>
-                    <td th:text="${user.forename}"></td>
-                    <td th:text="${user.surname}"></td>
+                <tr th:each="user: ${adminModel.getUsers}">
+                    <th scope="row" th:text="${user.getId}"></th>
+                    <td th:text="${user.getForename}"></td>
+                    <td th:text="${user.getSurname}"></td>
                 </tr>
                 </tbody>
             </table>

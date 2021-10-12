@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
-
 import java.util.List;
 
 @Controller
@@ -31,7 +30,18 @@ public class AdminController {
         AdminPageModel adminPageModel = new AdminPageModel();
         adminPageModel.setUsers(allUsers);
 
-        return new ModelAndView("admin", "model", adminPageModel);
+        return new ModelAndView("admin", "adminModel", adminPageModel);
+    }
+
+    @RequestMapping("/sort")
+    ModelAndView sort(@RequestParam String column) {
+
+        List<User> allUsers = userService.sort(column);
+
+        AdminPageModel adminPageModel = new AdminPageModel();
+        adminPageModel.setUsers(allUsers);
+
+        return new ModelAndView("admin", "adminModel", adminPageModel);
     }
 
     @RequestMapping("/add-user")
