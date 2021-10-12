@@ -28,6 +28,17 @@ public class UserService extends DatabaseService {
         return userList;
     }
 
+    public List<User> sortReverse(String column) {
+        jdbi.installPlugin( new SqlObjectPlugin() );
+        List<User> userList = jdbi.withExtension(
+                UserDao.class, dao -> {
+                    return dao.sortReverse(column);
+
+                });
+
+        return userList;
+    }
+
     public void addUser(User user) {
         jdbi.useHandle(handle ->
                 handle.createUpdate("INSERT INTO user (forename, surname) VALUES (:forename, :surname)")

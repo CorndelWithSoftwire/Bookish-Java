@@ -16,7 +16,11 @@ public interface UserDao {
     @UseRowReducer(UserCopyRegistryReducer.class)
     List<User> listLoanUsers();
 
-    @SqlQuery("SELECT * FROM user ORDER BY <column>")
+    @SqlQuery("SELECT * FROM user ORDER BY <column> ASC")
     @RegisterBeanMapper(value = User.class)
-    public List<User> sort(@Define("column") String column);
+    List<User> sort(@Define("column") String column);
+
+    @SqlQuery("SELECT * FROM user ORDER BY <column> DESC")
+    @RegisterBeanMapper(value = User.class)
+    List<User> sortReverse(@Define("column") String column);
 }

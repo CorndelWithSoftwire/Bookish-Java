@@ -17,6 +17,7 @@ import java.util.List;
 public class AdminController {
 
     private final UserService userService;
+    private boolean ascending = true;
 
     @Autowired
     public AdminController(UserService userService) {
@@ -36,7 +37,8 @@ public class AdminController {
     @RequestMapping("/sort")
     ModelAndView sort(@RequestParam String column) {
 
-        List<User> allUsers = userService.sort(column);
+        List<User> allUsers = (ascending) ? userService.sort(column) : userService.sortReverse(column);
+        ascending = !ascending;
 
         AdminPageModel adminPageModel = new AdminPageModel();
         adminPageModel.setUsers(allUsers);
