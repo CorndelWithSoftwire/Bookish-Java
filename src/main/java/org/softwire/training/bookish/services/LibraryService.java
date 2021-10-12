@@ -1,12 +1,14 @@
 package org.softwire.training.bookish.services;
 
+import org.jdbi.v3.sqlobject.SqlObjectPlugin;
 import org.softwire.training.bookish.models.database.Book;
+import org.softwire.training.bookish.models.database.LibraryDao;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-public class LibraryService extends DatabaseService{
+public class LibraryService extends DatabaseService {
     public List<Book> getAllBooks() {
         return jdbi.withHandle(handle ->
                 handle.createQuery("SELECT * FROM book")
@@ -30,14 +32,23 @@ public class LibraryService extends DatabaseService{
         );
     }
 
+//    public List<Book> sort(String column) {
+//        List<Book> bookList = jdbi.withHandle(handle ->
+//                handle.createQuery("SELECT * FROM book ORDER BY :column_name")
+//                        .bind("column_name", column)
+//                        .mapToBean(Book.class)
+//                        .list()
+//        );
+//        return bookList;
+//    }
+
     public List<Book> sort(String column) {
-        List<Book> bookList = jdbi.withHandle(handle ->
-                handle.createQuery("SELECT * FROM book ORDER BY :column_name")
-                        .bind("column_name", column)
-                        .mapToBean(Book.class)
-                        .list()
-        );
+        jdbi.installPlugin( new SqlObjectPlugin() ); // usually when connecting
+        List<Book> bookList = jdbi.withExtension(
+                LibraryDao.class, dao -> {
+                    return dao.sort(column);
+                });
+
         return bookList;
     }
-
 }
