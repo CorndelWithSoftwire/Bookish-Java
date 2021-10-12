@@ -34,14 +34,10 @@ public class Main {
 
         // TODO: print out the details of all the books (using JDBC)
         // See this page for details: https://docs.oracle.com/javase/tutorial/jdbc/basics/processingsqlstatements.html
-
-        Connection connection = DriverManager.getConnection(connectionString);
-        String selectingFromBooks = "SELECT * FROM book";
-        Statement booksStmt = connection.createStatement();
-        ResultSet bookRs = booksStmt.executeQuery(selectingFromBooks);
+        ResultSet rs = makingTheConnection(connectionString,"SELECT * FROM book");
         int count = 1;
-        while(bookRs.next()){
-            String book = bookRs.getString("title");
+        while(rs.next()){
+            String book = rs.getString("title");
             System.out.println("book " + count + " " + book);
             count++;
         }
@@ -53,10 +49,7 @@ public class Main {
         // TODO: print out the details of all the books (using JDBC)
         // See this page for details: https://docs.oracle.com/javase/tutorial/jdbc/basics/processingsqlstatements.html
 
-        Connection connection = DriverManager.getConnection(connectionString);
-        String query = "select * from book";
-        Statement stmt = connection.createStatement();
-        ResultSet rs = stmt.executeQuery(query);
+        ResultSet rs = makingTheConnection(connectionString,"select * from book");
         while(rs.next()) {
             String title = rs.getString("title");
             System.out.println("Copies in the library for " + title + " is: " + rs.getInt("number_of_copies"));
@@ -66,10 +59,7 @@ public class Main {
 
     private static void listOfAvailableBooks(String connectionString) throws SQLException{
         ArrayList<String> arrayOfBooksAvailable = new ArrayList<>();
-        Connection connection = DriverManager.getConnection(connectionString);
-        String query = "select * from book, copy_registry cr where book.id = cr.book_id and cr.borrowed_by is null";
-        Statement stmt = connection.createStatement();
-        ResultSet rs = stmt.executeQuery(query);
+        ResultSet rs = makingTheConnection(connectionString,"select * from book, copy_registry cr where book.id = cr.book_id and cr.borrowed_by is null");
         while (rs.next()){
             arrayOfBooksAvailable.add(rs.getString("title"));
         }
@@ -128,5 +118,13 @@ public class Main {
         );
       
        System.out.println("Users From DAO " + users);
+    }
+
+    public static ResultSet makingTheConnection(String connectionString, String sql) throws SQLException {
+        Connection connection = DriverManager.getConnection(connectionString);
+        String selectingFromBooks = sql;
+        Statement booksStmt = connection.createStatement();
+        ResultSet sqlRs = booksStmt.executeQuery(selectingFromBooks);
+        return sqlRs;
     }
 }
