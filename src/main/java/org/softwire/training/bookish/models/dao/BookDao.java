@@ -11,10 +11,9 @@ import java.util.List;
 
 public interface BookDao {
 
-    @SqlUpdate("INSERT INTO Book VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)")
+    @SqlUpdate("INSERT INTO Book VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)")
     void insertBook(Integer BookID
             , String Title
-            , String Authors
             , Integer Category
             , String Created_at
             , String Updated_at

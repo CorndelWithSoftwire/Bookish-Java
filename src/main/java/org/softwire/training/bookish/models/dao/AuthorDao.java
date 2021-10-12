@@ -4,6 +4,7 @@ import org.jdbi.v3.sqlobject.config.RegisterBeanMapper;
 import org.jdbi.v3.sqlobject.customizer.Bind;
 import org.jdbi.v3.sqlobject.statement.SqlQuery;
 import org.jdbi.v3.sqlobject.statement.SqlUpdate;
+import org.softwire.training.bookish.models.database.Author;
 import org.softwire.training.bookish.models.database.Book;
 import org.softwire.training.bookish.models.database.User;
 
@@ -11,17 +12,16 @@ import java.util.List;
 
 public interface AuthorDao {
 
-    @SqlUpdate("INSERT INTO Authors VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)")
-    void insertBook(Integer authorID
-            , String firstName
-            , String lastName
+    @SqlUpdate("INSERT INTO Authors VALUES (?, ?)")
+    void insertAuthors(Integer authorID
+            , String authorName
             );
 
-    @SqlQuery("SELECT * FROM Book WHERE Title=:title")
-    @RegisterBeanMapper(Book.class)
-    List<User> getBookByTitle(@Bind("title") String title);
+    @SqlQuery("SELECT * FROM Authors WHERE FirstName=:firstName")
+    @RegisterBeanMapper(Author.class)
+    List<User> getAuthorByFirstName(@Bind("FirstName") String firstName);
 
-    @SqlQuery("SELECT * FROM Book")
-    @RegisterBeanMapper(Book.class)
-    List<User> getBooks();
+    @SqlQuery("SELECT * FROM Authors")
+    @RegisterBeanMapper(Author.class)
+    List<User> getAuthors();
 }

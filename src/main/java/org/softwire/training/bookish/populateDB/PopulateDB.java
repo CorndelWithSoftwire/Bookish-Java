@@ -6,6 +6,7 @@ import org.jdbi.v3.core.mapper.reflect.BeanMapper;
 import org.jdbi.v3.core.spi.JdbiPlugin;
 import org.jdbi.v3.core.statement.UnableToCreateStatementException;
 import org.jdbi.v3.sqlobject.SqlObjectPlugin;
+import org.softwire.training.bookish.models.dao.AuthorDao;
 import org.softwire.training.bookish.models.dao.BookDao;
 import org.softwire.training.bookish.models.dao.LibrarianDao;
 import org.softwire.training.bookish.models.dao.UserDao;
@@ -36,12 +37,28 @@ public class PopulateDB {
 
 		Books allBooks = new Books("resources/books.csv");
 
-		List<Book> books = jdbi.withExtension(BookDao.class, dao -> {
+		populateBooks(jdbi, allBooks);
+
+		Authors allAuthors = new Authors(allBooks);
+
+		populateAuthors(jdbi, allAuthors);
+
+		List<User> users = jdbi.withExtension(UserDao.class, dao -> dao.getUser("Test3"));
+		System.out.println(users);
+
+		List<Librarian> librarians = jdbi.withExtension(LibrarianDao.class, dao -> {
+			//dao.createLibrarian("Test3");
+			return dao.getLibrarian("Test3");
+		});
+		System.out.println(librarians);
+	}
+
+	private static void populateBooks(Jdbi jdbi, Books allBooks) {
+		Integer count = jdbi.withExtension(BookDao.class, dao -> {
 			for (Book each : allBooks.booksList) {
 				dao.insertBook(
 						each.getBookID(),
 						each.getTitle(),
-						each.getAuthors(),
 						each.getCategory(),
 						each.getCreated_at(),
 						each.getUpdated_at(),
@@ -53,19 +70,20 @@ public class PopulateDB {
 				);
 
 			};
-			return null;
+			return 5;
 		});
+	}
 
-
-
-		List<User> users = jdbi.withExtension(UserDao.class, dao -> dao.getUser("Test3"));
-		System.out.println(users);
-
-		List<Librarian> librarians = jdbi.withExtension(LibrarianDao.class, dao -> {
-			//dao.createLibrarian("Test3");
-			return dao.getLibrarian("Test3");
+	private static void populateAuthors(Jdbi jdbi, Authors allAuthors) {
+		Integer count = jdbi.withExtension(AuthorDao.class, dao -> {
+			for (Author each : allAuthors.getAuthors()) {
+				dao.insertAuthors(
+						each.getId(),
+						each.getAuthorName()
+				);
+			};
+			return 5;
 		});
-		System.out.println(librarians);
 	}
 
 	private static void makeLibrarians(Jdbi jdbi) throws SQLException {

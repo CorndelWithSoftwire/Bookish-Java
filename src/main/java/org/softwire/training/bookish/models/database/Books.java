@@ -23,6 +23,11 @@ public class Books {
                 String[] values = line.split(",(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)", -1);
                 String defaultValue = Arrays.asList(values).get(2).isEmpty() ? "no author assigned" : Arrays.asList(values).get(2);
                 Arrays.asList(values).set(2, defaultValue);
+                for (int i = 0; i < Arrays.asList(values).size(); i++) {
+                    if (Arrays.asList(values).get(i).isEmpty()) {
+                        Arrays.asList(values).set(i, null);
+                    }
+                }
                 bookRecords.add(Arrays.asList(values));
             }
         } catch (Exception e) {
