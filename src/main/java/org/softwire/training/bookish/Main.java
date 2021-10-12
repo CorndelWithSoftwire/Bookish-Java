@@ -5,6 +5,9 @@ import org.softwire.training.bookish.models.database.Book;
 import org.softwire.training.bookish.models.database.CopyRegistry;
 import org.softwire.training.bookish.models.database.Technology;
 import org.softwire.training.bookish.models.database.User;
+import org.jdbi.v3.core.spi.JdbiPlugin;
+import org.jdbi.v3.sqlobject.SqlObjectPlugin;
+import org.softwire.training.bookish.models.database.*;
 
 import java.sql.*;
 import java.util.*;
@@ -23,6 +26,7 @@ public class Main {
         getBookCopies(connectionString);
         listOfAvailableBooks(connectionString);
         jdbiMethod(connectionString);
+        getOwners(connectionString);
     }
 
     private static void jdbcMethod(String connectionString) throws SQLException {
@@ -60,7 +64,7 @@ public class Main {
 
     }
 
-    private static ArrayList<String> listOfAvailableBooks(String connectionString) throws SQLException{
+    private static void listOfAvailableBooks(String connectionString) throws SQLException{
         ArrayList<String> arrayOfBooksAvailable = new ArrayList<>();
         Connection connection = DriverManager.getConnection(connectionString);
         String query = "select * from book, copy_registry cr where book.id = cr.book_id and cr.borrowed_by is null";
@@ -70,12 +74,9 @@ public class Main {
             arrayOfBooksAvailable.add(rs.getString("title"));
         }
         System.out.println("Available books:");
-        for(int i=0;i<arrayOfBooksAvailable.size();i++){
-            System.out.println(arrayOfBooksAvailable.get(i));
-
+        for (String s : arrayOfBooksAvailable) {
+            System.out.println(s);
         }
-        return arrayOfBooksAvailable;
-
     }
 
     private static void jdbiMethod(String connectionString) {
@@ -100,5 +101,32 @@ public class Main {
         for (Book b: bookList) {
             System.out.println(String.format("Title: %s, author ID: %s", b.getTitle(), b.getAuthorID()));
         }
+      
+      
+        System.out.println("jdbi check user loan test");
+        List<CopyRegistry> loanList = jdbi.withHandle(handle ->
+                handle.createQuery("SELECT * FROM copy_registry")
+                        .mapToBean(CopyRegistry.class)
+                        .list()
+        );
+
+        for (CopyRegistry loans: loanList) {
+            if (loans.getBorrowedBy() != 0)
+            System.out.println(String.format("Book ID: %s, borrowed by ID: %s", loans.getBookId(), loans.getBorrowedBy()));
+        }
+
+
+    }
+    private static void getOwners(String connectionString) {
+        Jdbi jdbi = Jdbi.create(connectionString);
+        jdbi.installPlugin((JdbiPlugin) new SqlObjectPlugin()); // usually when connecting
+
+        List<User> users = jdbi.withExtension(
+                UserDao.class, dao -> {
+                    return dao.listLoanUsers();
+                }
+        );
+      
+       System.out.println("Users From DAO " + users);
     }
 }
