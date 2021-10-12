@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
-
 import java.util.List;
 
 @Controller
@@ -18,6 +17,7 @@ import java.util.List;
 public class AdminController {
 
     private final UserService userService;
+    private boolean ascending = true;
 
     @Autowired
     public AdminController(UserService userService) {
@@ -26,13 +26,24 @@ public class AdminController {
 
     @RequestMapping("")
     ModelAndView admin() {
-
         List<User> allUsers = userService.getAllUsers();
 
         AdminPageModel adminPageModel = new AdminPageModel();
         adminPageModel.setUsers(allUsers);
 
-        return new ModelAndView("admin", "model", adminPageModel);
+        return new ModelAndView("admin", "adminModel", adminPageModel);
+    }
+
+    @RequestMapping("/sort")
+    ModelAndView sort(@RequestParam String column) {
+
+        List<User> allUsers = (ascending) ? userService.sort(column) : userService.sortReverse(column);
+        ascending = !ascending;
+
+        AdminPageModel adminPageModel = new AdminPageModel();
+        adminPageModel.setUsers(allUsers);
+
+        return new ModelAndView("admin", "adminModel", adminPageModel);
     }
 
     @RequestMapping("/add-user")
