@@ -64,7 +64,7 @@ public class User {
 
 	public User() {}
 
-	public void getUserFromDatabase(Jdbi jdbi, String username){
+	public void getUserFromDatabase(Jdbi jdbi, String username) throws IndexOutOfBoundsException {
 		List<User> temp = jdbi.withExtension(UserDao.class, dao -> dao.getUser(username));
 		this.email = temp.get(0).email;
 		this.phoneNumber = temp.get(0).phoneNumber;
