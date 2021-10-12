@@ -22,10 +22,7 @@ public class Librarian {
 	}
 
 	public void insertLibrarianIntoDb(Jdbi jdbi) {
-		Librarian librarian = jdbi.withExtension(LibrarianDao.class, dao -> {
-			dao.createLibrarian(this.username);
-					return null;
-		});
+		jdbi.useExtension(LibrarianDao.class, dao -> dao.createLibrarian(this.username));
 	}
 
 	@Override

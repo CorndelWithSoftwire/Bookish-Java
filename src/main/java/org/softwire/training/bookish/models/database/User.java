@@ -82,10 +82,7 @@ public class User {
 	}
 
 	public void insertUserToDatabase(Jdbi jdbi){
-		User user = jdbi.withExtension(UserDao.class, dao -> {
-			dao.insertUser(this.username, this.passhash, this.email, this.phoneNumber);
-			return null;
-		});
+		jdbi.useExtension(UserDao.class, dao -> dao.insertUser(this.username, this.passhash, this.email, this.phoneNumber));
 
 	}
 
