@@ -1,11 +1,8 @@
 package org.softwire.training.bookish.services;
 
 import org.jdbi.v3.sqlobject.SqlObjectPlugin;
-import org.softwire.training.bookish.models.database.Author;
 import org.softwire.training.bookish.models.database.Book;
 import org.softwire.training.bookish.models.database.LibraryDao;
-import org.softwire.training.bookish.models.database.User;
-import org.softwire.training.bookish.models.database.UserDao;
 import org.springframework.stereotype.Service;
 import java.util.List;
 
@@ -29,7 +26,7 @@ public class LibraryService extends DatabaseService {
                             .bind("published_date", book.getPublishedDate())
                             .bind("publisher", book.getPublisher())
                             .bind("genre", book.getGenre())
-                            .bind("number_of_copies", book.getNumOfCopies())
+                            .bind("number_of_copies", book.getNumberOfCopies())
                             .bind("author_id", book.getAuthorID())
                             .execute()
             );
