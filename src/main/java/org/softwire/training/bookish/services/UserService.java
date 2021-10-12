@@ -1,6 +1,8 @@
 package org.softwire.training.bookish.services;
 
+import org.jdbi.v3.sqlobject.SqlObjectPlugin;
 import org.softwire.training.bookish.models.database.User;
+import org.softwire.training.bookish.models.database.UserDao;
 import org.springframework.stereotype.Service;
 import java.util.List;
 
@@ -13,6 +15,28 @@ public class UserService extends DatabaseService {
                         .mapToBean(User.class)
                         .list()
         );
+    }
+
+    public List<User> sort(String column) {
+        jdbi.installPlugin( new SqlObjectPlugin() );
+        List<User> userList = jdbi.withExtension(
+                UserDao.class, dao -> {
+                    return dao.sort(column);
+
+                });
+
+        return userList;
+    }
+
+    public List<User> sortReverse(String column) {
+        jdbi.installPlugin( new SqlObjectPlugin() );
+        List<User> userList = jdbi.withExtension(
+                UserDao.class, dao -> {
+                    return dao.sortReverse(column);
+
+                });
+
+        return userList;
     }
 
     public void addUser(User user) {
