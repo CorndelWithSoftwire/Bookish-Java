@@ -7,6 +7,7 @@ import org.softwire.training.bookish.models.dao.BookDao;
 import org.softwire.training.bookish.models.dao.LibrarianDao;
 import org.softwire.training.bookish.models.dao.UserDao;
 import org.softwire.training.bookish.models.database.*;
+import org.softwire.training.bookish.models.database.User;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -24,7 +25,6 @@ public class PopulateDB {
 		connProperties.setProperty("useSSL", "false");
 		Jdbi jdbi = Jdbi.create("jdbc:mysql://localhost:3306/bookish", connProperties);
 		jdbi.installPlugin(new SqlObjectPlugin());
-		jdbi.registerRowMapper(new UserMapper());
 
 		/*
 		populateUsers(jdbi);
@@ -52,6 +52,31 @@ public class PopulateDB {
 		});
 		System.out.println(librarians);
 	}
+
+//		List<User> users = jdbi.withExtension(UserDao.class, dao -> {
+//			dao.insertUser("Test3","null","do@email.com","909876654");
+//		return null;
+//		});
+//		System.out.println(users);
+		User user2 = new User();
+		user2.setUsername("bec");
+		user2.setEmail("bec@gmail.com");
+		user2.setPasshashFromString("hello");
+		user2.setPhoneNumber("98765433");
+		user2.insertUserToDatabase(jdbi);
+//
+//		List<Librarian> librarians = jdbi.withExtension(LibrarianDao.class, dao -> {
+//			//dao.createLibrarian("Test3");
+//			return dao.getLibrarian("Test3");
+//		});
+//		System.out.println(librarians);
+
+		User user = new User();
+		user.getUserFromDatabase(jdbi, "bec" );
+		System.out.println(user);
+
+	}
+
 
 	private static void populateBooks(Jdbi jdbi, Books allBooks) {
 		Integer count = jdbi.withExtension(BookDao.class, dao -> {
@@ -84,7 +109,6 @@ public class PopulateDB {
 			};
 			return 5;
 		});
-	}
 
 	private static void makeLibrarians(Jdbi jdbi) throws SQLException {
 		List<String> librarians = Arrays.asList("Sears", "Kent", "Merrill");
@@ -123,7 +147,7 @@ public class PopulateDB {
 			user.setUsername(e.get(0));
 			user.setPasshashFromString(e.get(3));
 			user.setEmail(e.get(2));
-			user.setPhone(e.get(1));
+			user.setPhoneNumber(e.get(1));
 			users.add(user);
 		} );
 		return users;

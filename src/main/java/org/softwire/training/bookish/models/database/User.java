@@ -6,6 +6,9 @@ import org.jdbi.v3.core.mapper.RowMapper;
 import org.jdbi.v3.core.statement.StatementContext;
 import org.jdbi.v3.core.statement.UnableToCreateStatementException;
 
+import org.softwire.training.bookish.models.dao.UserDao;
+
+
 import java.nio.charset.StandardCharsets;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -16,7 +19,8 @@ public class User {
 	String username;
 	String passhash;
 	String email;
-	String phone;
+	String phoneNumber;
+
 
 	public void setPasshashFromString(String password) {
 		this.passhash = Hashing.sha256()
@@ -36,9 +40,11 @@ public class User {
 		return passhash;
 	}
 
+
 	public void setPasshash(String passhash) {
 		this.passhash = passhash;
 	}
+
 
 	public String getEmail() {
 		return email;
@@ -48,22 +54,42 @@ public class User {
 		this.email = email;
 	}
 
-	public String getPhone() {
-		return phone;
+
+	public String getPhoneNumber() {
+		return phoneNumber;
 	}
 
-	public void setPhone(String phone) {
-		this.phone = phone;
+	public void setPhoneNumber(String phone) {
+		this.phoneNumber = phone;
+
 	}
 
 	public User(String username, String passhash, String email, String phone) {
 		this.username = username;
-		this.passhash = passhash;
 		this.email = email;
-		this.phone = phone;
+		this.phoneNumber = phone;
+		setPasshashFromString(passhash);
 	}
 
 	public User() {}
+
+	public void getUserFromDatabase(Jdbi jdbi, String username) throws IndexOutOfBoundsException {
+		List<User> temp = jdbi.withExtension(UserDao.class, dao -> dao.getUser(username));
+		this.email = temp.get(0).email;
+		this.phoneNumber = temp.get(0).phoneNumber;
+		this.username = temp.get(0).username;
+		this.passhash = temp.get(0).passhash;
+	}
+
+	public void insertUserToDatabase(Jdbi jdbi){
+		User user = jdbi.withExtension(UserDao.class, dao -> {
+			dao.insertUser(this.username, this.passhash, this.email, this.phoneNumber);
+			return null;
+		});
+
+	}
+
+
 
 	@Override
 	public String toString() {
@@ -71,7 +97,7 @@ public class User {
 				"username='" + username + '\'' +
 				", passhash='" + passhash + '\'' +
 				", email='" + email + '\'' +
-				", phone='" + phone + '\'' +
+				", phone='" + phoneNumber + '\'' +
 				'}';
 	}
 }
