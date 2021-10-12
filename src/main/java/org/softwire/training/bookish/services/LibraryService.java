@@ -22,12 +22,12 @@ public class LibraryService extends DatabaseService {
                 handle.createUpdate("INSERT INTO book (title, ISBN, published_date, publisher, genre, number_of_copies, author_id) " +
                                 "VALUES (:title, :ISBN, :published_date, :publisher, :genre, :number_of_copies, :author_id)")
                         .bind("title", book.getTitle())
-                        .bind("ISBN", book.getiSBN())
+                        .bind("ISBN", book.getIsbn())
                         .bind("published_date", book.getPublishedDate())
                         .bind("publisher", book.getPublisher())
                         .bind("genre", book.getGenre())
-                        .bind("number_of_copies", book.getNumOfCopies())
-                        .bind("author_id", book.getAuthorID())
+                        .bind("number_of_copies", book.getNumberOfCopies())
+                        .bind("author_id", book.getAuthorId())
                         .execute()
         );
     }
