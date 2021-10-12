@@ -12,18 +12,6 @@ public class Book {
     private int numOfCopies;
     private int authorID;
 
-//    public Book(int iD, String title, String iSBN, Date publishedDate, String publisher, String genre, String summary, String numOfCopies, String authorID) {
-//        this.iD = iD;
-//        this.title = title;
-//        this.iSBN = iSBN;
-//        this.publishedDate = publishedDate;
-//        this.publisher = publisher;
-//        this.genre = genre;
-//        this.numOfCopies = numOfCopies;
-//        this.authorID = authorID;
-//    }
-
-
     public int getiD() {
         return iD;
     }
