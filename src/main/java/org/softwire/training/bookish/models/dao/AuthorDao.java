@@ -17,9 +17,9 @@ public interface AuthorDao {
             , String authorName
             );
 
-    @SqlQuery("SELECT * FROM Authors WHERE FirstName=:firstName")
+    @SqlQuery("SELECT * FROM Authors WHERE AuthorName=:authorName")
     @RegisterBeanMapper(Author.class)
-    List<User> getAuthorByFirstName(@Bind("FirstName") String firstName);
+    List<Author> getAuthorByName(@Bind("authorName") String authorName);
 
     @SqlQuery("SELECT * FROM Authors")
     @RegisterBeanMapper(Author.class)

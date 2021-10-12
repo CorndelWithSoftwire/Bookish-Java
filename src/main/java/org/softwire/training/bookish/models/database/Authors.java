@@ -17,7 +17,7 @@ public class Authors {
                 if (each.contains("\"")) {
                     author_name = each.replace("\"", "");
                 }
-                authors.add(new Author(author_name, increment.getAndIncrement()));
+                authors.add(new Author(increment.getAndIncrement(), author_name));
             }
         });
     }
@@ -25,9 +25,6 @@ public class Authors {
     public Set<Author> getAuthors() {
         return authors;
     }
-
-
-
 
 
     @Override

@@ -1,10 +1,6 @@
 package org.softwire.training.bookish.populateDB;
 
 import org.jdbi.v3.core.Jdbi;
-import org.jdbi.v3.core.mapper.RowMapper;
-import org.jdbi.v3.core.mapper.reflect.BeanMapper;
-import org.jdbi.v3.core.spi.JdbiPlugin;
-import org.jdbi.v3.core.statement.UnableToCreateStatementException;
 import org.jdbi.v3.sqlobject.SqlObjectPlugin;
 import org.softwire.training.bookish.models.dao.AuthorDao;
 import org.softwire.training.bookish.models.dao.BookDao;
@@ -37,11 +33,15 @@ public class PopulateDB {
 
 		Books allBooks = new Books("resources/books.csv");
 
-		populateBooks(jdbi, allBooks);
+//		populateBooks(jdbi, allBooks);
 
 		Authors allAuthors = new Authors(allBooks);
 
-		populateAuthors(jdbi, allAuthors);
+//		populateAuthors(jdbi, allAuthors);
+
+		List<Author> authorObj = jdbi.withExtension(AuthorDao.class, dao -> dao.getAuthorByName("  Andrew Glover"));
+		System.out.println(authorObj);
+
 
 		List<User> users = jdbi.withExtension(UserDao.class, dao -> dao.getUser("Test3"));
 		System.out.println(users);
@@ -78,7 +78,7 @@ public class PopulateDB {
 		Integer count = jdbi.withExtension(AuthorDao.class, dao -> {
 			for (Author each : allAuthors.getAuthors()) {
 				dao.insertAuthors(
-						each.getId(),
+						each.getAuthorId(),
 						each.getAuthorName()
 				);
 			};

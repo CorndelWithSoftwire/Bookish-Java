@@ -1,29 +1,39 @@
 package org.softwire.training.bookish.models.database;
 
 public class Author {
-    private final String authorName;
-    private final int id;
+    private  String authorName;
+    private  int authorId;
 
 
-    public Author(String authorName, int increment) {
+    public Author(int increment,String authorName) {
+        this.authorId = increment;
         this.authorName = authorName;
-        this.id = increment;
     }
+
+    public Author(){};
 
     public String getAuthorName() {
         return authorName;
     }
 
-    public int getId() {
-        return id;
+    public int getAuthorId() {
+        return authorId;
     }
 
     @Override
     public String toString() {
         return "Author{" +
                 "name='" + authorName + '\'' +
-                ", id=" + id +
+                ", id=" + authorId +
                 '}';
+    }
+
+    public void setAuthorName(String authorName) {
+        this.authorName = authorName;
+    }
+
+    public void setAuthorId(int authorId) {
+        this.authorId = authorId;
     }
 }
 

@@ -18,6 +18,8 @@ public class Book {
         return Authors;
     }
 
+    public Book(){}
+
     public Integer getBookID() {
         return BookID;
     }
