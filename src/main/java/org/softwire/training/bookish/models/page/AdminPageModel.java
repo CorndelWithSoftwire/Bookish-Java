@@ -5,7 +5,6 @@ import java.util.List;
 
 public class AdminPageModel {
     private List<User> users;
-
     public List<User> getUsers() {
         return users;
     }

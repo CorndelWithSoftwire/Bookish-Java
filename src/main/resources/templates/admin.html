@@ -23,9 +23,9 @@
             <table class="table" id="locationTable">
                 <thead>
                 <tr>
-                    <th scope="col">ID</th>
-                    <th scope="col">Forename</th>
-                    <th scope="col">Surname</th>
+                    <th><a th:href="${'/admin/'}">ID</a></th>
+                    <th><a th:href="${'/admin/sort?column=forename'}">Forename</a> </th>
+                    <th><a th:href="${'/admin/sort?column=surname'}">Surname</a> </th>
                 </tr>
                 </thead>
                 <tbody>

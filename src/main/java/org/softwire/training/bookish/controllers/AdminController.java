@@ -26,7 +26,6 @@ public class AdminController {
 
     @RequestMapping("")
     ModelAndView admin() {
-
         List<User> allUsers = userService.getAllUsers();
 
         AdminPageModel adminPageModel = new AdminPageModel();

@@ -4,7 +4,6 @@ import org.jdbi.v3.sqlobject.SqlObjectPlugin;
 import org.softwire.training.bookish.models.database.Book;
 import org.softwire.training.bookish.models.database.LibraryDao;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 
 @Service
