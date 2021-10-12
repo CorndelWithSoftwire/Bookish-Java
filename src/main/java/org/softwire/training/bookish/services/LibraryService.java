@@ -32,7 +32,8 @@ public class LibraryService extends DatabaseService{
 
     public List<Book> sort(String column) {
         List<Book> bookList = jdbi.withHandle(handle ->
-                handle.createQuery("SELECT * FROM book ORDER BY " + column)
+                handle.createQuery("SELECT * FROM book ORDER BY :column_name")
+                        .bind("column_name", column)
                         .mapToBean(Book.class)
                         .list()
         );
