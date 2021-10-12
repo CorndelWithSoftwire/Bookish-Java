@@ -3,11 +3,9 @@ package org.softwire.training.bookish;
 import org.jdbi.v3.core.Jdbi;
 import org.jdbi.v3.sqlobject.SqlObjectPlugin;
 import org.junit.jupiter.api.Test;
-import org.softwire.training.bookish.models.dao.UserDao;
 import org.softwire.training.bookish.models.database.User;
 
 import java.util.Date;
-import java.util.List;
 import java.util.Properties;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
@@ -34,7 +32,7 @@ public class UserDbTest {
 		testUser.setUsername(username);
 		testUser.setPasshashFromString(testPassword);
 		testUser.setEmail(email);
-		testUser.setPhone(phone);
+		testUser.setPhoneNumber(phone);
 
 		testUser.insertUserToDatabase(jdbi);
 
@@ -43,6 +41,6 @@ public class UserDbTest {
 
 		assertThat(assertionUser.getUsername()).isEqualTo(username);
 		assertThat(assertionUser.getEmail()).isEqualTo(email);
-		assertThat(assertionUser.getPhone()).isEqualTo(phone);
+		assertThat(assertionUser.getPhoneNumber()).isEqualTo(phone);
 	}
 }

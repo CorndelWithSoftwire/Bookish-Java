@@ -35,7 +35,7 @@ public class PopulateDB {
 		user2.setUsername("bec");
 		user2.setEmail("bec@gmail.com");
 		user2.setPasshashFromString("hello");
-		user2.setPhone("98765433");
+		user2.setPhoneNumber("98765433");
 		user2.insertUserToDatabase(jdbi);
 //
 //		List<Librarian> librarians = jdbi.withExtension(LibrarianDao.class, dao -> {
@@ -87,7 +87,7 @@ public class PopulateDB {
 			user.setUsername(e.get(0));
 			user.setPasshashFromString(e.get(3));
 			user.setEmail(e.get(2));
-			user.setPhone(e.get(1));
+			user.setPhoneNumber(e.get(1));
 			users.add(user);
 		} );
 		return users;

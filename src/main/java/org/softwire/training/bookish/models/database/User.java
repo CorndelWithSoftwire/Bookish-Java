@@ -17,7 +17,7 @@ public class User {
 	String username;
 	String passhash;
 	String email;
-	String phone;
+	String phoneNumber;
 
 	public void setPasshashFromString(String password) {
 		this.passhash = Hashing.sha256()
@@ -47,18 +47,18 @@ public class User {
 		this.email = email;
 	}
 
-	public String getPhone() {
-		return phone;
+	public String getPhoneNumber() {
+		return phoneNumber;
 	}
 
-	public void setPhone(String phone) {
-		this.phone = phone;
+	public void setPhoneNumber(String phone) {
+		this.phoneNumber = phone;
 	}
 
 	public User(String username, String passhash, String email, String phone) {
 		this.username = username;
 		this.email = email;
-		this.phone = phone;
+		this.phoneNumber = phone;
 		setPasshashFromString(passhash);
 	}
 
@@ -67,14 +67,14 @@ public class User {
 	public void getUserFromDatabase(Jdbi jdbi, String username){
 		List<User> temp = jdbi.withExtension(UserDao.class, dao -> dao.getUser(username));
 		this.email = temp.get(0).email;
-		this.phone = temp.get(0).phone;
+		this.phoneNumber = temp.get(0).phoneNumber;
 		this.username = temp.get(0).username;
 		this.passhash = temp.get(0).passhash;
 	}
 
 	public void insertUserToDatabase(Jdbi jdbi){
 		User user = jdbi.withExtension(UserDao.class, dao -> {
-			dao.insertUser(this.username, this.passhash, this.email, this.phone);
+			dao.insertUser(this.username, this.passhash, this.email, this.phoneNumber);
 			return null;
 		});
 
@@ -87,7 +87,7 @@ public class User {
 				"username='" + username + '\'' +
 				", passhash='" + passhash + '\'' +
 				", email='" + email + '\'' +
-				", phone='" + phone + '\'' +
+				", phone='" + phoneNumber + '\'' +
 				'}';
 	}
 }
