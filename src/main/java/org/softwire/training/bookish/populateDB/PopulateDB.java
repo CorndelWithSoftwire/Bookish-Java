@@ -2,6 +2,11 @@ package org.softwire.training.bookish.populateDB;
 
 import org.jdbi.v3.core.Jdbi;
 import org.jdbi.v3.sqlobject.SqlObjectPlugin;
+import org.softwire.training.bookish.models.dao.AuthorDao;
+import org.softwire.training.bookish.models.dao.BookDao;
+import org.softwire.training.bookish.models.dao.LibrarianDao;
+import org.softwire.training.bookish.models.dao.UserDao;
+import org.softwire.training.bookish.models.database.*;
 import org.softwire.training.bookish.models.database.User;
 
 import java.io.BufferedReader;
@@ -26,6 +31,28 @@ public class PopulateDB {
 		makeLibrarians(jdbi);
 		*/
 
+		Books allBooks = new Books("resources/books.csv");
+
+//		populateBooks(jdbi, allBooks);
+
+		Authors allAuthors = new Authors(allBooks);
+
+//		populateAuthors(jdbi, allAuthors);
+
+		List<Author> authorObj = jdbi.withExtension(AuthorDao.class, dao -> dao.getAuthorByName("  Andrew Glover"));
+		System.out.println(authorObj);
+
+
+		List<User> users = jdbi.withExtension(UserDao.class, dao -> dao.getUser("Test3"));
+		System.out.println(users);
+
+		List<Librarian> librarians = jdbi.withExtension(LibrarianDao.class, dao -> {
+			//dao.createLibrarian("Test3");
+			return dao.getLibrarian("Test3");
+		});
+		System.out.println(librarians);
+	}
+
 //		List<User> users = jdbi.withExtension(UserDao.class, dao -> {
 //			dao.insertUser("Test3","null","do@email.com","909876654");
 //		return null;
@@ -49,6 +76,39 @@ public class PopulateDB {
 		System.out.println(user);
 
 	}
+
+
+	private static void populateBooks(Jdbi jdbi, Books allBooks) {
+		Integer count = jdbi.withExtension(BookDao.class, dao -> {
+			for (Book each : allBooks.booksList) {
+				dao.insertBook(
+						each.getBookID(),
+						each.getTitle(),
+						each.getCategory(),
+						each.getCreated_at(),
+						each.getUpdated_at(),
+						each.getSlug(),
+						each.getISBN(),
+						each.getSubtitle(),
+						each.getSubjects(),
+						each.getCover_photo_url()
+				);
+
+			};
+			return 5;
+		});
+	}
+
+	private static void populateAuthors(Jdbi jdbi, Authors allAuthors) {
+		Integer count = jdbi.withExtension(AuthorDao.class, dao -> {
+			for (Author each : allAuthors.getAuthors()) {
+				dao.insertAuthors(
+						each.getAuthorId(),
+						each.getAuthorName()
+				);
+			};
+			return 5;
+		});
 
 	private static void makeLibrarians(Jdbi jdbi) throws SQLException {
 		List<String> librarians = Arrays.asList("Sears", "Kent", "Merrill");

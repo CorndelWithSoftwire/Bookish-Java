@@ -60,7 +60,6 @@
             <artifactId>jdbi3-sqlobject</artifactId>
             <version>3.23.0</version>
         </dependency>
-
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter</artifactId>

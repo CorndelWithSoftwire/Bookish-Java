@@ -5,7 +5,9 @@ import org.jdbi.v3.core.Jdbi;
 import org.jdbi.v3.core.mapper.RowMapper;
 import org.jdbi.v3.core.statement.StatementContext;
 import org.jdbi.v3.core.statement.UnableToCreateStatementException;
+
 import org.softwire.training.bookish.models.dao.UserDao;
+
 
 import java.nio.charset.StandardCharsets;
 import java.sql.ResultSet;
@@ -18,6 +20,7 @@ public class User {
 	String passhash;
 	String email;
 	String phoneNumber;
+
 
 	public void setPasshashFromString(String password) {
 		this.passhash = Hashing.sha256()
@@ -38,6 +41,10 @@ public class User {
 	}
 
 
+	public void setPasshash(String passhash) {
+		this.passhash = passhash;
+	}
+
 
 	public String getEmail() {
 		return email;
@@ -47,12 +54,14 @@ public class User {
 		this.email = email;
 	}
 
+
 	public String getPhoneNumber() {
 		return phoneNumber;
 	}
 
 	public void setPhoneNumber(String phone) {
 		this.phoneNumber = phone;
+
 	}
 
 	public User(String username, String passhash, String email, String phone) {
@@ -79,6 +88,7 @@ public class User {
 		});
 
 	}
+
 
 
 	@Override
