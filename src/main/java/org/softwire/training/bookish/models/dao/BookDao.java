@@ -14,7 +14,6 @@ public interface BookDao {
     @SqlUpdate("INSERT INTO Book VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)")
     void insertBook(Integer BookID
             , String Title
-            , Integer Category
             , String Created_at
             , String Updated_at
             , String Slug

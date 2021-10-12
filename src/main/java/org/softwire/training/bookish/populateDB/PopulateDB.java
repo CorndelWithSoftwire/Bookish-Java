@@ -12,10 +12,8 @@ import org.softwire.training.bookish.models.database.User;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Properties;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class PopulateDB {
 	public static void main(String[] args) throws SQLException {
@@ -32,12 +30,13 @@ public class PopulateDB {
 		*/
 
 		Books allBooks = new Books("resources/books.csv");
-
-//		populateBooks(jdbi, allBooks);
-
 		Authors allAuthors = new Authors(allBooks);
+		List<BookAuthor> bookAuthor = createBookAuthors(allBooks, allAuthors);
 
-//		populateAuthors(jdbi, allAuthors);
+		populateAuthors(jdbi, allAuthors);
+		populateBooks(jdbi, allBooks);
+		populateBookAuthors(jdbi, bookAuthor);
+
 
 		List<Author> authorObj = jdbi.withExtension(AuthorDao.class, dao -> dao.getAuthorByName("  Andrew Glover"));
 		System.out.println(authorObj);
@@ -51,19 +50,18 @@ public class PopulateDB {
 			return dao.getLibrarian("Test3");
 		});
 		System.out.println(librarians);
-	}
 
 //		List<User> users = jdbi.withExtension(UserDao.class, dao -> {
 //			dao.insertUser("Test3","null","do@email.com","909876654");
 //		return null;
 //		});
 //		System.out.println(users);
-		User user2 = new User();
-		user2.setUsername("bec");
-		user2.setEmail("bec@gmail.com");
-		user2.setPasshashFromString("hello");
-		user2.setPhoneNumber("98765433");
-		user2.insertUserToDatabase(jdbi);
+		User user3 = new User();
+		user3.setUsername("bec");
+		user3.setEmail("bec@gmail.com");
+		user3.setPasshashFromString("hello");
+		user3.setPhoneNumber("98765433");
+		user3.insertUserToDatabase(jdbi);
 //
 //		List<Librarian> librarians = jdbi.withExtension(LibrarianDao.class, dao -> {
 //			//dao.createLibrarian("Test3");
@@ -77,6 +75,40 @@ public class PopulateDB {
 
 	}
 
+	private static void populateBookAuthors(Jdbi jdbi, List<BookAuthor> bookAuthor) {
+		bookAuthor.forEach(bookAuthor1 -> bookAuthor1.insertBookAuthor(jdbi));
+	}
+
+	private static List<BookAuthor> createBookAuthors(Books allBooks, Authors allAuthors) {
+		HashMap<Integer, ArrayList<Integer>> bookAuthorSet = new HashMap<>();
+		Set<Author> authors = allAuthors.getAuthors();
+		allBooks.booksList.forEach(book -> {
+			String bookAuthors = book.getAuthors();
+			String[] individualAuthors = bookAuthors.split(",");
+			for (String author : individualAuthors) {
+				List<Author> collectedAuthors = authors.stream().filter(e -> e.getAuthorName().equals(author.trim())).collect(Collectors.toList());
+				Author bookAuthor = collectedAuthors.get(0);
+				ArrayList<Integer> tempAuthorList = bookAuthorSet.get(bookAuthor.getAuthorId());
+				if (tempAuthorList == null) {
+					tempAuthorList = new ArrayList<>();
+				}
+				tempAuthorList.add(bookAuthor.getAuthorId());
+				bookAuthorSet.put(book.getBookID(), tempAuthorList);
+			}
+		});
+		List<BookAuthor> bookAuthorList = new ArrayList<>();
+		bookAuthorSet.keySet().forEach(key -> {
+			ArrayList<Integer> authorsList = bookAuthorSet.get(key);
+			authorsList.forEach(auth -> {
+				BookAuthor bookAuthor = new BookAuthor();
+				bookAuthor.setAuthor(auth);
+				bookAuthor.setBook(key);
+				bookAuthorList.add(bookAuthor);
+			});
+		});
+		return bookAuthorList;
+	}
+
 
 	private static void populateBooks(Jdbi jdbi, Books allBooks) {
 		Integer count = jdbi.withExtension(BookDao.class, dao -> {
@@ -84,7 +116,6 @@ public class PopulateDB {
 				dao.insertBook(
 						each.getBookID(),
 						each.getTitle(),
-						each.getCategory(),
 						each.getCreated_at(),
 						each.getUpdated_at(),
 						each.getSlug(),
@@ -106,9 +137,11 @@ public class PopulateDB {
 						each.getAuthorId(),
 						each.getAuthorName()
 				);
-			};
+			}
+			;
 			return 5;
 		});
+	}
 
 	private static void makeLibrarians(Jdbi jdbi) throws SQLException {
 		List<String> librarians = Arrays.asList("Sears", "Kent", "Merrill");

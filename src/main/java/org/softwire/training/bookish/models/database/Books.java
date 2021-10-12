@@ -38,7 +38,6 @@ public class Books {
             book.setBookID(Integer.valueOf(e.get(0)));
             book.setTitle(e.get(1));
             book.setAuthors(e.get(2));
-            book.setCategory(Integer.valueOf(e.get(3)));
             book.setCreated_at(e.get(4));
             book.setUpdated_at(e.get(5));
             book.setSlug(e.get(6));

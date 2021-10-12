@@ -1,11 +1,13 @@
 package org.softwire.training.bookish.models.database;
 
 
+import org.jdbi.v3.core.Jdbi;
+import org.softwire.training.bookish.models.dao.BookDao;
+
 public class Book {
     Integer BookID;
     String Title;
     String Authors;
-    Integer Category;
     String Created_at;
     String Updated_at;
     String Slug;
@@ -26,10 +28,6 @@ public class Book {
 
     public String getTitle() {
         return Title;
-    }
-
-    public Integer getCategory() {
-        return Category;
     }
 
     public String getCreated_at() {
@@ -72,10 +70,6 @@ public class Book {
         Authors = authors;
     }
 
-    public void setCategory(Integer category) {
-        Category = category;
-    }
-
     public void setCreated_at(String created_at) {
         Created_at = created_at;
     }
@@ -104,6 +98,9 @@ public class Book {
         Cover_photo_url = cover_photo_url;
     }
 
+    public void insertBook(Jdbi jdbi) {
+       jdbi.useExtension(BookDao.class, dao -> dao.insertBook(this.BookID, this.Title, this.Created_at, this.getUpdated_at(), this.Slug, this.ISBN, this.Subtitle, this.Subjects, this.Cover_photo_url));
+    }
 
     @Override
     public String toString() {
@@ -111,7 +108,6 @@ public class Book {
                 "BookID=" + BookID +
                 ", Title='" + Title + '\'' +
                 ", Authors='" + Authors + '\'' +
-                ", Category=" + Category +
                 ", Created_at='" + Created_at + '\'' +
                 ", Updated_at='" + Updated_at + '\'' +
                 ", Slug='" + Slug + '\'' +
