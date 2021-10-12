@@ -18,6 +18,8 @@
 
 <h3>Books: </h3>
 
+
+<!--collapsible list of books-->
 <div id="accordion">
     <div class="card">
         <div class="card-header" id="headingOne">
@@ -35,13 +37,13 @@
                         <thead>
                         <tr>
                             <th><a th:href="${'/library/'}">ID</a></th>
-                            <th><a th:href="${'/library/sort-by-title'}">Title</a> </th>
-                            <th><a th:href="${'/library/sort-by-isbn'}">ISBN</a> </th>
-                            <th><a th:href="${'/library/sort-by-published-date'}">Published Date</a></th>
-                            <th><a th:href="${'/library/sort-by-publisher'}">Publisher</a></th>
-                            <th><a th:href="${'/library/sort-by-genre'}">Genre</a></th>
-                            <th><a th:href="${'/library/sort-by-number-of-copies'}">Number of Copies</a></th>
-                            <th><a th:href="${'/library/sort-by-author-id'}">Author ID</a></th>
+                            <th><a th:href="${'/library/sort?column=title'}">Title</a> </th>
+                            <th><a th:href="${'/library/sort?column=isbn'}">ISBN</a> </th>
+                            <th><a th:href="${'/library/sort?column=published_date'}">Published Date</a></th>
+                            <th><a th:href="${'/library/sort?column=publisher'}">Publisher</a></th>
+                            <th><a th:href="${'/library/sort?column=genre'}">Genre</a></th>
+                            <th><a th:href="${'/library/sort?column=number_of_copies'}">Number of Copies</a></th>
+                            <th><a th:href="${'/library/sort?column=author_id'}">Author ID</a></th>
                         </tr>
                         </thead>
                         <tbody>
@@ -62,9 +64,62 @@
         </div>
 
     </div>
-
-
 </div>
 
+
+
+<!--adding new book -->
+<!--title, ISBN, published_date, publisher, genre, number_of_copies, author_id-->
+<div class="container">
+<h2>Add a book:</h2>
+<form th:action="@{/library/add-book}" method="post">
+    <div class="add-book-row">
+        <label>
+            <span>Title: </span>
+            <input type="text" name="title">
+        </label>
+    </div>
+    <div class="add-book-row">
+        <label>
+            <span>ISBN: </span>
+            <input type="text" name="ISBN">
+        </label>
+    </div>
+    <div class="add-book-row">
+        <label>
+            <span>Published Date: </span>
+            <input type="text" name="published_date">
+        </label>
+    </div>
+    <div class="add-book-row">
+        <label>
+            <span>Publisher: </span>
+            <input type="text" name="publisher">
+        </label>
+    </div>
+    <div class="add-book-row">
+        <label>
+            <span>Genre: </span>
+            <input type="text" name="genre">
+        </label>
+    </div>
+    <div class="add-book-row">
+        <label>
+            <span>Number of Copies: </span>
+            <input type="text" name="number_of_copies">
+        </label>
+    </div>
+    <div class="add-book-row">
+        <label>
+            <span>Author ID: </span>
+            <input type="text" name="author_id">
+        </label>
+    </div>
+    <div class="add-book-row">
+        <span><!-- spacer --></span>
+        <input type="submit" value="Add book" />
+    </div>
+</form>
+</div>
 </body>
 </html>
