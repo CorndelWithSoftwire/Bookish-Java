@@ -1,7 +1,6 @@
 package org.softwire.training.bookish.models.database;
 
 import java.util.HashSet;
-import java.util.Locale;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
@@ -22,6 +21,8 @@ public class Authors {
                 authors.add(new Author(increment.getAndIncrement(), author_name));
             }
         });
+        authors.stream().map(x -> x.getAuthorName().replaceAll("\"", "").trim()).collect(Collectors.toSet());
+
     }
 
     public Set<Author> getAuthors() {

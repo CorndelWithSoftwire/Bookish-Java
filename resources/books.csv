@@ -7,7 +7,7 @@ id,title,author,book_category_id,created_at,updated_at,slug,isbn,subtitle,subjec
 1955,Learn how to be an Astronaut,Lewis Galoo,8,31/07/2013 13:45,31/07/2013 13:45,learn-how-to-be-an-astronaut,NULL,NULL,NULL,NULL
 1956,Learn how to be a Supermodel,Lewis Galoo,8,31/07/2013 13:45,31/07/2013 13:45,learn-how-to-be-a-supermodel,NULL,NULL,NULL,NULL
 1951,Serious Mathematics,Lewis Galoo,4,31/07/2013 13:44,31/07/2013 13:44,serious-mathematics,NULL,NULL,NULL,NULL
-1944,The Elements of Style," William Strunk Jr.,  E. B. White,  William Strunk",9,27/06/2013 16:12,17/08/2013 08:55,the-elements-of-style,020530902X,,,http://covers.openlibrary.org/b/id/6716028-M.jpg
+1944,The Elements of Style," William Strunk Jr., E. B. White, William Strunk",9,27/06/2013 16:12,17/08/2013 08:55,the-elements-of-style,020530902X,,,http://covers.openlibrary.org/b/id/6716028-M.jpg
 1946,Selenium Simplified - Automated Web Testing with Java and Selenium RC 2nd edition,Alan Richardson,4,11/07/2013 12:00,17/08/2013 10:06,selenium-simplified-automated-web-testing-with-java-and-selenium-rc-2nd-edition,956733239,,,
 1945,Selenium Simplified - Automated Web Testing with Java and Selenium RC,Alan Richardson,4,11/07/2013 11:55,17/08/2013 10:06,selenium-simplified-automated-web-testing-with-java-and-selenium-rc--2,956733239,,,
 1511,Software Testing:  An ISEB Foundation,"Brian Hambling, Peter Morgan, Angelina Samaroo, Geoff Thompson, Peter Williams",9,NULL,17/08/2013 08:57,software-testing-an-iseb-foundation,1906124760,,,

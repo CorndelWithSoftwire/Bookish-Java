@@ -79,12 +79,21 @@ public class PopulateDB {
 		bookAuthor.forEach(bookAuthor1 -> bookAuthor1.insertBookAuthor(jdbi));
 	}
 
+	public String cleanString(String dirtyString){
+		boolean complete = false;
+		int i = 0;
+		while (!complete){
+		if (dirtyString.toCharArray()[i].equals(' ')
+		}
+	}
+	
 	private static List<BookAuthor> createBookAuthors(Books allBooks, Authors allAuthors) {
 		HashMap<Integer, ArrayList<Integer>> bookAuthorSet = new HashMap<>();
 		Set<Author> authors = allAuthors.getAuthors();
 		allBooks.booksList.forEach(book -> {
 			String bookAuthors = book.getAuthors();
 			String[] individualAuthors = bookAuthors.split(",");
+			Arrays.stream(individualAuthors).map(x -> x.replaceAll("\"","").trim());
 			for (String author : individualAuthors) {
 				List<Author> collectedAuthors = authors.stream().filter(e -> e.getAuthorName().equals(author.trim())).collect(Collectors.toList());
 				Author bookAuthor = collectedAuthors.get(0);
