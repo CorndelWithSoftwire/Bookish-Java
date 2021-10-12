@@ -65,6 +65,8 @@ public class CopyRegistry {
         return id == that.id && bookId == that.bookId && borrowedBy == that.borrowedBy && Objects.equals(returnDate, that.returnDate);
     }
 
+
+
     @Override
     public int hashCode() {
         return Objects.hash(id, bookId, borrowedBy, returnDate);
