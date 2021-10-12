@@ -14,7 +14,7 @@ CREATE TABLE BookAuthor (Book int  NOT NULL ,Author int  NOT NULL );
 CREATE TABLE Authors (AuthorId int  NOT NULL, AuthorName varchar(32)  NOT NULL, PRIMARY KEY (AuthorId));
 
 
-CREATE TABLE Users (Username varchar(32)  NOT NULL ,PasswordHash varchar()  NOT NULL ,Email varchar(255)  NOT NULL ,PhoneNumber long  NOT NULL ,PRIMARY KEY (Username));
+CREATE TABLE Users (Username varchar(32)  NOT NULL ,PasswordHash varchar(32)  NOT NULL ,Email varchar(255)  NOT NULL ,PhoneNumber long  NOT NULL ,PRIMARY KEY (Username));
 
 CREATE TABLE Librarians (Username varchar(32)  NOT NULL ,PRIMARY KEY (Username));
 

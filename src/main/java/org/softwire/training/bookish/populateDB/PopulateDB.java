@@ -79,13 +79,6 @@ public class PopulateDB {
 		bookAuthor.forEach(bookAuthor1 -> bookAuthor1.insertBookAuthor(jdbi));
 	}
 
-	public String cleanString(String dirtyString){
-		boolean complete = false;
-		int i = 0;
-		while (!complete){
-		if (dirtyString.toCharArray()[i].equals(' ')
-		}
-	}
 	
 	private static List<BookAuthor> createBookAuthors(Books allBooks, Authors allAuthors) {
 		HashMap<Integer, ArrayList<Integer>> bookAuthorSet = new HashMap<>();
