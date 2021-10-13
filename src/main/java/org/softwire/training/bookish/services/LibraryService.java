@@ -33,8 +33,16 @@ public class LibraryService extends DatabaseService {
     }
 
     public void deleteBook(int bookID) {
+
         jdbi.useHandle(handle ->
-                handle.createUpdate("DELETE FROM book WHERE id = :id")
+                handle.createUpdate("DELETE FROM copy_registry WHERE book_id = :book_id")
+                        .bind("book_id", bookID)
+                        .execute()
+        );
+
+
+        jdbi.useHandle(handle ->
+                handle.createUpdate("DELETE FROM book WHERE id = :id;")
                         .bind("id", bookID)
                         .execute()
         );

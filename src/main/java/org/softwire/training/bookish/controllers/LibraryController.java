@@ -51,8 +51,12 @@ public class LibraryController {
 
     @RequestMapping("/delete-book")
     RedirectView deleteTechnology(@RequestParam int bookID) {
+        try {
+            libraryService.deleteBook(bookID);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
 
-        libraryService.deleteBook(bookID);
 
         return new RedirectView("/library");
     }
