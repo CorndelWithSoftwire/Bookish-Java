@@ -26,7 +26,7 @@ public class Main {
         listOfAvailableBooks(connectionString);
         jdbiMethod(connectionString);
         getOwners(connectionString);
-        searchForBookTitle(connectionString, "le act");
+        searchForBookTitle(connectionString, "the");
     }
 
     private static void jdbcMethod(String connectionString) throws SQLException {
