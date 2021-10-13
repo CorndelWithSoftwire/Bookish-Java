@@ -1,6 +1,7 @@
 package org.softwire.training.bookish.restService.controller;
 
 import org.jdbi.v3.core.Jdbi;
+import org.softwire.training.bookish.execeptions.NoUserExeception;
 import org.softwire.training.bookish.models.database.User;
 import org.softwire.training.bookish.populateDB.PopulateDB;
 import org.softwire.training.bookish.restService.models.JsonWebToken;
@@ -20,11 +21,16 @@ public class AuthController {
     @PostMapping("/register")
     ResponseEntity<String> registerNewUser(@RequestBody User userPayload) {
         Jdbi jdbi = PopulateDB.createJdbiConnection();
-        List<User> checkToSeeIfUserExist = userPayload.getUserFromDatabase(jdbi, userPayload.getUsername());
-        if (checkToSeeIfUserExist.isEmpty()) {
+        try {
+            User checkToSeeIfUserExist = userPayload.getUserFromDatabase(jdbi, userPayload.getUsername());
+        } catch (NoUserExeception ex) {
             userPayload.insertUserToDatabase(jdbi);
-            List<User> foundUser = userPayload.getUserFromDatabase(jdbi, userPayload.getUsername());
-            if (foundUser.get(0).getUsername().equals(userPayload.getUsername())) {
+            try {
+                User foundUser = userPayload.getUserFromDatabase(jdbi, userPayload.getUsername());
+            } catch {
+             e
+            }
+            if (foundUser.getUsername().equals(userPayload.getUsername())) {
                 return ResponseEntity.status(HttpStatus.CREATED).body("Successfully Created new User");
             }
         }

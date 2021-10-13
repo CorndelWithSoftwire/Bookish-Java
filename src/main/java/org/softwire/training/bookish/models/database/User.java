@@ -3,6 +3,7 @@ package org.softwire.training.bookish.models.database;
 import com.google.common.hash.Hashing;
 import org.jdbi.v3.core.Jdbi;
 
+import org.softwire.training.bookish.execeptions.NoUserExeception;
 import org.softwire.training.bookish.models.dao.UserDao;
 
 
@@ -67,14 +68,13 @@ public class User {
 
 	public User() {}
 
-	public List<User> getUserFromDatabase(Jdbi jdbi, String username) throws IndexOutOfBoundsException {
-		return jdbi.withExtension(UserDao.class, dao -> dao.getUser(username));
-
-//		this.email = temp.get(0).email;
-//		this.phoneNumber = temp.get(0).phoneNumber;
-//		this.username = temp.get(0).username;
-//		this.passhash = temp.get(0).passhash;
-
+	public User getUserFromDatabase(Jdbi jdbi, String username) throws NoUserExeception {
+		List<User> users = jdbi.withExtension(UserDao.class, dao -> dao.getUser(username));
+		try {
+			return users.get(0);
+		} catch (Exception e) {
+			throw new NoUserExeception("No user in the database under that username");
+		}
 	}
 
 	public void insertUserToDatabase(Jdbi jdbi){
