@@ -4,8 +4,6 @@ import org.jdbi.v3.core.Jdbi;
 import org.jdbi.v3.sqlobject.SqlObjectPlugin;
 import org.softwire.training.bookish.models.dao.AuthorDao;
 import org.softwire.training.bookish.models.dao.BookDao;
-import org.softwire.training.bookish.models.dao.LibrarianDao;
-import org.softwire.training.bookish.models.dao.UserDao;
 import org.softwire.training.bookish.models.database.*;
 import org.softwire.training.bookish.models.database.User;
 
@@ -13,6 +11,7 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.sql.SQLException;
 import java.util.*;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
 public class PopulateDB {
@@ -24,10 +23,9 @@ public class PopulateDB {
 		Jdbi jdbi = Jdbi.create("jdbc:mysql://localhost:3306/bookish", connProperties);
 		jdbi.installPlugin(new SqlObjectPlugin());
 
-		/*
-		populateUsers(jdbi);
+
+		//populateUsers(jdbi);
 		makeLibrarians(jdbi);
-		*/
 
 		Books allBooks = new Books("resources/books.csv");
 		Authors allAuthors = new Authors(allBooks);
@@ -36,8 +34,10 @@ public class PopulateDB {
 		populateAuthors(jdbi, allAuthors);
 		populateBooks(jdbi, allBooks);
 		populateBookAuthors(jdbi, bookAuthor);
+		populateCopies(jdbi, allBooks);
 
 
+		/*
 		List<Author> authorObj = jdbi.withExtension(AuthorDao.class, dao -> dao.getAuthorByName("  Andrew Glover"));
 		System.out.println(authorObj);
 
@@ -72,28 +72,35 @@ public class PopulateDB {
 		User user = new User();
 		user.getUserFromDatabase(jdbi, "bec" );
 		System.out.println(user);
+*/
+	}
 
+	private static void populateCopies(Jdbi jdbi, Books allBooks) {
+		AtomicInteger id = new AtomicInteger();
+		Random rand = new Random();
+		allBooks.booksList.forEach(b -> {
+			int numOfCopies = rand.nextInt(5);
+			for (int copyNum = 0; copyNum <= numOfCopies; copyNum++) {
+				Copy copy = new Copy();
+				copy.setBookId(b.getBookID());
+				copy.setCopyId(id.getAndIncrement());
+				copy.insertCopyIntoDb(jdbi);
+			}
+		});
 	}
 
 	private static void populateBookAuthors(Jdbi jdbi, List<BookAuthor> bookAuthor) {
 		bookAuthor.forEach(bookAuthor1 -> bookAuthor1.insertBookAuthor(jdbi));
 	}
 
-	public String cleanString(String dirtyString){
-		boolean complete = false;
-		int i = 0;
-		while (!complete){
-		if (dirtyString.toCharArray()[i].equals(' ')
-		}
-	}
-	
+
+
 	private static List<BookAuthor> createBookAuthors(Books allBooks, Authors allAuthors) {
 		HashMap<Integer, ArrayList<Integer>> bookAuthorSet = new HashMap<>();
 		Set<Author> authors = allAuthors.getAuthors();
 		allBooks.booksList.forEach(book -> {
 			String bookAuthors = book.getAuthors();
-			String[] individualAuthors = bookAuthors.split(",");
-			Arrays.stream(individualAuthors).map(x -> x.replaceAll("\"","").trim());
+			List<String> individualAuthors = Arrays.stream(bookAuthors.split(",")).map(a -> recursiveTrim(a.replaceAll("\"", ""))).collect(Collectors.toList());
 			for (String author : individualAuthors) {
 				List<Author> collectedAuthors = authors.stream().filter(e -> e.getAuthorName().equals(author.trim())).collect(Collectors.toList());
 				Author bookAuthor = collectedAuthors.get(0);
@@ -118,6 +125,12 @@ public class PopulateDB {
 		return bookAuthorList;
 	}
 
+	private static String recursiveTrim(String string) {
+		while (string.charAt(0) == ' ' || string.charAt(string.length()-1) == ' ') {
+			string = string.trim();
+		}
+		return string;
+	}
 
 	private static void populateBooks(Jdbi jdbi, Books allBooks) {
 		Integer count = jdbi.withExtension(BookDao.class, dao -> {
@@ -161,15 +174,12 @@ public class PopulateDB {
 		}
 	}
 
-	/*
 	private static void populateUsers(Jdbi jdbi) throws SQLException {
 		ArrayList<User> users = getUsersFromCsv();
 		for (User user : users){
-			user.insertIntoDB(jdbi);
+			user.insertUserToDatabase(jdbi);
 		}
 	}
-
-	 */
 
 	private static ArrayList<User> getUsersFromCsv() {
 		ArrayList<User> users = new ArrayList<>();

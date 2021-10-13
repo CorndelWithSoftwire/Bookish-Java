@@ -7,15 +7,16 @@ import org.jdbi.v3.sqlobject.statement.SqlUpdate;
 import org.softwire.training.bookish.models.database.Book;
 import org.softwire.training.bookish.models.database.User;
 
+import java.util.Date;
 import java.util.List;
 
 public interface BookDao {
 
-    @SqlUpdate("INSERT INTO Book VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)")
+    @SqlUpdate("INSERT INTO Book VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)")
     void insertBook(Integer BookID
             , String Title
-            , String Created_at
-            , String Updated_at
+            , Date Created_at
+            , Date Updated_at
             , String Slug
             , String ISBN
             , String Subtitle
