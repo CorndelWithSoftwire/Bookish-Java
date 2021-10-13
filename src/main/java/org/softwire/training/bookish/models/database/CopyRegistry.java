@@ -8,13 +8,6 @@ public class CopyRegistry {
     private int borrowedBy;
     private String returnDate;
 
-//    public CopyRegistry(int id, int bookId, int borrowedBy, String returnDate) {
-//        this.id = id;
-//        this.bookId = bookId;
-//        this.borrowedBy = borrowedBy;
-//        this.returnDate = returnDate;
-//    }
-
     public int getId() {
         return id;
     }
@@ -64,6 +57,8 @@ public class CopyRegistry {
         CopyRegistry that = (CopyRegistry) o;
         return id == that.id && bookId == that.bookId && borrowedBy == that.borrowedBy && Objects.equals(returnDate, that.returnDate);
     }
+
+
 
     @Override
     public int hashCode() {

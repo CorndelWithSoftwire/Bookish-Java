@@ -39,8 +39,20 @@ public class LibraryController {
 
     @RequestMapping("/add-book")
     RedirectView addBook(@ModelAttribute Book book) {
+        try{
+            libraryService.addBook(book);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            // redirect to author page to create an account
+        }
 
-        libraryService.addBook(book);
+        return new RedirectView("/library");
+    }
+
+    @RequestMapping("/delete-book")
+    RedirectView deleteTechnology(@RequestParam int bookID) {
+
+        libraryService.deleteBook(bookID);
 
         return new RedirectView("/library");
     }
@@ -57,7 +69,6 @@ public class LibraryController {
 
         return new ModelAndView("library", "libraryModel", libraryPageModel);
     }
-
 
 
 }
