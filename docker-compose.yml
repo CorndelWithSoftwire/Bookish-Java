@@ -21,3 +21,15 @@ services:
   populate:
     build: setup_db
     image: populate
+
+  webapp:
+    build: Bookish-Frontend
+    image: webapp
+    ports:
+      - "5000:80"
+
+  spring-api:
+    build: .
+    image: spring-api
+    ports:
+      - "6060:8080"
