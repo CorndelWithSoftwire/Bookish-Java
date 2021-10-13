@@ -11,6 +11,7 @@ import java.util.Arrays;
 @SpringBootApplication
 public class RestService {
     public static void main(String[] args) {
+        System.setProperty("server.servlet.context-path", "/api/");
         SpringApplication.run(RestService.class, args);
     }
 
