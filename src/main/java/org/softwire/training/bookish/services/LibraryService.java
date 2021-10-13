@@ -3,8 +3,6 @@ package org.softwire.training.bookish.services;
 import org.jdbi.v3.sqlobject.SqlObjectPlugin;
 import org.softwire.training.bookish.models.database.Book;
 import org.softwire.training.bookish.models.database.LibraryDao;
-import org.softwire.training.bookish.models.database.User;
-import org.softwire.training.bookish.models.database.UserDao;
 import org.springframework.stereotype.Service;
 import java.util.List;
 
