@@ -56,15 +56,15 @@
                         </thead>
                         <tbody>
                         <tr th:each="book : ${libraryModel.getBooks()}">
-                            <td th:text="${book.getiD()}"></td>
+                            <td th:text="${book.getId()}"></td>
                             <td th:text="${book.getTitle()}"></td>
-                            <td th:text="${book.getiSBN()}"></td>
+                            <td th:text="${book.getIsbn()}"></td>
                             <td th:text="${book.getPublishedDate()}"></td>
                             <td th:text="${book.getPublisher()}"></td>
                             <td th:text="${book.getGenre()}"></td>
                             <td th:text="${book.getNumberOfCopies()}"></td>
-                            <td th:text="${book.getAuthorID()}"></td>
-                            <td class="delete-button"> <a th:href="${'/library/delete-book?bookID=' + book.getiD()}">Delete</a></td>
+                            <td th:text="${book.getAuthorId()}"></td>
+                            <td class="delete-button"> <a th:href="${'/library/delete-book?bookID=' + book.getId()}">Delete</a></td>
                         </tr>
                         </tbody>
                     </table>
