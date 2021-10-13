@@ -112,8 +112,6 @@ public class PopulateDB {
 		bookAuthor.forEach(bookAuthor1 -> bookAuthor1.insertBookAuthor(jdbi));
 	}
 
-
-
 	private static List<BookAuthor> createBookAuthors(Books allBooks, Authors allAuthors) {
 		HashMap<Integer, ArrayList<Integer>> bookAuthorSet = new HashMap<>();
 		Set<Author> authors = allAuthors.getAuthors();
