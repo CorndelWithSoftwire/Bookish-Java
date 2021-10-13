@@ -5,7 +5,6 @@ import org.jdbi.v3.sqlobject.customizer.Bind;
 import org.jdbi.v3.sqlobject.statement.SqlQuery;
 import org.jdbi.v3.sqlobject.statement.SqlUpdate;
 import org.softwire.training.bookish.models.database.Book;
-import org.softwire.training.bookish.models.database.User;
 
 import java.util.Date;
 import java.util.List;
@@ -35,4 +34,6 @@ public interface BookDao {
     @RegisterBeanMapper(Book.class)
     List<Book> getBooks();
 
+    @SqlQuery("SELECT Title FROM BOOK LIMIT :limit offset :page")
+    List<String> getAllBooks(@Bind("limit") int limit, @Bind("page") int page);
 }

@@ -57,9 +57,8 @@ public class Books {
     }
 
 
-    public List<Book> getBooksList(Jdbi jdbi) {
-        List<Book> bookList = jdbi.withExtension(BookDao.class, BookDao::getBooks);
-        return bookList;
+    public List<String> getBooksList(Jdbi jdbi, int page) {
+        return jdbi.withExtension(BookDao.class, Dao -> Dao.getAllBooks(50, page * 50));
     }
 
 
