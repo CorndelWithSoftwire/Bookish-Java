@@ -22,12 +22,12 @@ public class LibraryService extends DatabaseService {
                     handle.createUpdate("INSERT INTO book (title, ISBN, published_date, publisher, genre, number_of_copies, author_id) " +
                                     "VALUES (:title, :ISBN, :published_date, :publisher, :genre, :number_of_copies, :author_id)")
                             .bind("title", book.getTitle())
-                            .bind("ISBN", book.getiSBN())
+                            .bind("ISBN", book.getIsbn())
                             .bind("published_date", book.getPublishedDate())
                             .bind("publisher", book.getPublisher())
                             .bind("genre", book.getGenre())
                             .bind("number_of_copies", book.getNumberOfCopies())
-                            .bind("author_id", book.getAuthorID())
+                            .bind("author_id", book.getAuthorId())
                             .execute()
             );
     }
@@ -35,15 +35,7 @@ public class LibraryService extends DatabaseService {
     public void deleteBook(int bookID) {
         jdbi.useHandle(handle ->
 
-                handle.createUpdate("INSERT INTO book (title, ISBN, published_date, publisher, genre, number_of_copies, author_id) " +
-                                "VALUES (:title, :ISBN, :published_date, :publisher, :genre, :number_of_copies, :author_id)")
-                        .bind("title", book.getTitle())
-                        .bind("ISBN", book.getIsbn())
-                        .bind("published_date", book.getPublishedDate())
-                        .bind("publisher", book.getPublisher())
-                        .bind("genre", book.getGenre())
-                        .bind("number_of_copies", book.getNumberOfCopies())
-                        .bind("author_id", book.getAuthorId())
+                // TODO try + catch
 
                 handle.createUpdate("DELETE FROM book WHERE id = :id")
                         .bind("id", bookID)
