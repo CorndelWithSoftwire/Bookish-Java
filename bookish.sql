@@ -50,7 +50,9 @@ CREATE TABLE book (
     genre VARCHAR(255) NULL,
     number_of_copies INT NOT NULL,
     author_id INT NOT NULL,
-    FOREIGN KEY (author_id) REFERENCES author (id)
+    FOREIGN KEY (author_id)
+        REFERENCES author (id)
+        ON DELETE CASCADE
 );
 
 INSERT INTO book (title, ISBN, author_id, published_date, publisher, genre, number_of_copies) VALUES
@@ -79,10 +81,15 @@ INSERT INTO book (title, ISBN, author_id, published_date, publisher, genre, numb
 CREATE TABLE copy_registry (
 	id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     book_id INT NOT NULL,
-    FOREIGN KEY (book_id) REFERENCES book (id),
     borrowed_by INT,
-    FOREIGN KEY (borrowed_by) REFERENCES user (id),
-    return_date VARCHAR(10)
+    return_date VARCHAR(10),
+    FOREIGN KEY (book_id)
+        REFERENCES book (id)
+        ON DELETE CASCADE,
+    FOREIGN KEY (borrowed_by)
+        REFERENCES user (id)
+        ON DELETE SET NULL
+
 );
 
 INSERT INTO copy_registry (book_id, borrowed_by, return_date) VALUES
