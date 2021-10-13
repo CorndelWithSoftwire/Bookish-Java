@@ -1,7 +1,5 @@
 package org.softwire.training.bookish.models.database;
 
-import java.util.Date;
-
 public class Book {
     private int iD;
     private String title;
@@ -9,7 +7,7 @@ public class Book {
     private String publishedDate;
     private String publisher;
     private String genre;
-    private int numOfCopies;
+    private int numberOfCopies;
     private int authorID;
 
     public int getiD() {
@@ -60,12 +58,12 @@ public class Book {
         this.genre = genre;
     }
 
-    public int getNumOfCopies() {
-        return numOfCopies;
+    public int getNumberOfCopies() {
+        return numberOfCopies;
     }
 
-    public void setNumOfCopies(int numOfCopies) {
-        this.numOfCopies = numOfCopies;
+    public void setNumberOfCopies(int numberOfCopies) {
+        this.numberOfCopies = numberOfCopies;
     }
 
     public int getAuthorID() {
