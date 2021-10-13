@@ -37,6 +37,7 @@ public class LibraryController {
         return new ModelAndView("library", "libraryModel", libraryPageModel);
     }
 
+
     @RequestMapping("/add-book")
     RedirectView addBook(@ModelAttribute Book book) {
         try{

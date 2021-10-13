@@ -76,7 +76,7 @@
 
 <!--adding book section-->
 <h2>Add a book:</h2>
-<form th:action="@{/library/add-book}" method="post">
+<form id="formForAddBook" th:action="@{/library/add-book}" method="post">
     <div class="form-group row">
         <label form="inputTitle" class="col-sm-2 col-form-label">Title</label>
         <div class="col-sm-10">
@@ -120,21 +120,94 @@
         </div>
     </div>
 <!--        <input type="submit" value="Add book" />-->
-    <input type="submit" class="col-sm-12 btn btn-primary"></input>
+    <input type="submit" class="col-sm-12 btn btn-primary" id="addBookInput"></input>
 
 </form>
 </body>
 
 <script>
+
     $(document).ready(function(){
+        // for accessing the links
         $(".delete-button a").click(function(event){
             if(document.getElementById('flexSwitchCheckDefault').checked) {
                 console.log('checkbox is checked');
                 return true;
             }
-            console.log('checkbox is not checked');
+            console.log('admin right not enabled');
             event.preventDefault();
         });
+
+        // for accessing the form and submit button
+
+        $("#flexSwitchCheckDefault").on('change', function() {
+
+            localStorage.input = $(this).is(':checked');
+
+            if ($(this).is(':checked')) {
+
+                // alert(switchStatus);// To verify
+                alert("Admin right enabled");
+                $("#addBookInput").removeClass("disabled")
+                // also enable the form
+                const form = document.getElementById("formForAddBook");
+                const elements = form.elements;
+                let i = 0, len = elements.length;
+                for (; i < len; ++i) {
+                    elements[i].readOnly = false;
+                }
+            }
+            else {
+
+                // alert(switchStatus);// To verify
+                alert("Admin right disabled");
+                $("#addBookInput").addClass("disabled");
+
+                // also disable the forms
+                const form = document.getElementById("formForAddBook");
+                const elements = form.elements;
+                let i = 0, len = elements.length;
+                for (; i < len; ++i) {
+                    elements[i].readOnly = true;
+                }
+            }
+        });
     });
+
+
+    // checkbox persistence
+    $(function(){
+        const test = localStorage.input === 'true' ? true : false;
+        $('#flexSwitchCheckDefault').prop('checked', test);
+
+        console.log("Admin right: " +$("#flexSwitchCheckDefault").is(':checked'));
+
+        if (! $("#flexSwitchCheckDefault").is(':checked')) {
+            $("#addBookInput").addClass("disabled");
+            // also disable the forms
+            const form = document.getElementById("formForAddBook");
+            const elements = form.elements;
+            let i = 0, len = elements.length;
+            for (; i < len; ++i) {
+                elements[i].readOnly = true;
+            }
+        } else {
+            $("#addBookInput").removeClass("disabled")
+            // also enable the form
+            const form = document.getElementById("formForAddBook");
+            const elements = form.elements;
+            let i = 0, len = elements.length;
+            for (; i < len; ++i) {
+                elements[i].readOnly = false;
+            }
+        }
+
+    });
+
+    // $('#flexSwitchCheckDefault').on('change', function() {
+    //     localStorage.input = $(this).is(':checked');
+    //     console.log($(this).is(':checked'));
+    // });
+
 </script>
 </html>
