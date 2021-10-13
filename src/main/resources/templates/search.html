@@ -22,8 +22,8 @@
 <!--collapsible list of books-->
 <div id="accordion">
     <div>
-        <form th:action="@{/searchModel}" method="POST">
-            <input type="text" id="search" name="search" th:value="@{searchedBook}"><br>
+        <form th:action="@{/search/search-book}" method="post">
+            <input type="text" id="search" name="search"><br>
             <input type="submit" value="Search">
         </form>
     </div>
