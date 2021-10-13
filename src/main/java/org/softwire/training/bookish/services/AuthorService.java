@@ -21,18 +21,23 @@ public class AuthorService extends DatabaseService{
 
     public List<Author> sort(String column) {
         jdbi.installPlugin( new SqlObjectPlugin() ); // usually when connecting
+        List<Author> authorList = jdbi.withExtension(
+                AuthorDao.class, dao -> {
+                    return dao.sort(column);
+                });
 
-        return jdbi.withExtension(
-                AuthorDao.class,
-                dao -> dao.sort(column));
+        return authorList;
     }
 
     public List<Author> sortReverse(String column) {
         jdbi.installPlugin( new SqlObjectPlugin() );
+        List<Author> authorList = jdbi.withExtension(
+                AuthorDao.class, dao -> {
+                    return dao.sortReverse(column);
 
-        return jdbi.withExtension(
-                AuthorDao.class,
-                dao -> dao.sortReverse(column));
+                });
+
+        return authorList;
     }
 
 }

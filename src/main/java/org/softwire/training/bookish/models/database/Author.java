@@ -42,10 +42,6 @@ public class Author {
 
     public void addAuthorsBook(Book book) {writtenBookList.add(book);}
 
-    public List<Book> getWrittenBookList() {
-        return writtenBookList;
-    }
-
     @Override
     public String toString() {
         return "Author{" +
