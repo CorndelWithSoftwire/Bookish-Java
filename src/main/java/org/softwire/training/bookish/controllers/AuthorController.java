@@ -1,11 +1,8 @@
 package org.softwire.training.bookish.controllers;
 
 import org.softwire.training.bookish.models.database.Author;
-import org.softwire.training.bookish.models.database.Book;
 import org.softwire.training.bookish.models.page.AuthorPageModel;
-import org.softwire.training.bookish.models.page.LibraryPageModel;
 import org.softwire.training.bookish.services.AuthorService;
-import org.softwire.training.bookish.services.LibraryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
