@@ -1,7 +1,7 @@
 package org.softwire.training.bookish.controllers;
 
 import org.softwire.training.bookish.models.database.Book;
-import org.softwire.training.bookish.models.database.Technology;
+import org.softwire.training.bookish.models.database.User;
 import org.softwire.training.bookish.models.page.LibraryPageModel;
 import org.softwire.training.bookish.services.LibraryService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +20,7 @@ import java.util.List;
 public class LibraryController {
 
     private final LibraryService libraryService;
+    private boolean ascending = true;
 
     @Autowired
     public LibraryController(LibraryService libraryService) {
@@ -38,8 +39,20 @@ public class LibraryController {
 
     @RequestMapping("/add-book")
     RedirectView addBook(@ModelAttribute Book book) {
+        try{
+            libraryService.addBook(book);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            // redirect to author page to create an account
+        }
 
-        libraryService.addBook(book);
+        return new RedirectView("/library");
+    }
+
+    @RequestMapping("/delete-book")
+    RedirectView deleteTechnology(@RequestParam int bookID) {
+
+        libraryService.deleteBook(bookID);
 
         return new RedirectView("/library");
     }
@@ -48,14 +61,14 @@ public class LibraryController {
     @RequestMapping("/sort")
     ModelAndView sort(@RequestParam String column) {
 
-        List<Book> allBooks = libraryService.sort(column);
+        List<Book> allBooks = (ascending) ? libraryService.sort(column) : libraryService.sortReverse(column);
+        ascending = !ascending;
 
         LibraryPageModel libraryPageModel = new LibraryPageModel();
         libraryPageModel.setBooks(allBooks);
 
         return new ModelAndView("library", "libraryModel", libraryPageModel);
     }
-
 
 
 }

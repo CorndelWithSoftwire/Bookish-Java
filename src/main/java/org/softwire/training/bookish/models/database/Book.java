@@ -1,5 +1,6 @@
 package org.softwire.training.bookish.models.database;
 
+
 import java.util.Objects;
 
 public class Book {
@@ -23,9 +24,11 @@ public class Book {
 //        this.authorID = authorID;
 //    }
 
+    private int authorID;
 
     public int getId() {
         return id;
+
     }
 
     public void setId(int id) {
