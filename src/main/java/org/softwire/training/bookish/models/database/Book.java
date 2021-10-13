@@ -4,12 +4,16 @@ package org.softwire.training.bookish.models.database;
 import org.jdbi.v3.core.Jdbi;
 import org.softwire.training.bookish.models.dao.BookDao;
 
+import java.util.Date;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+
 public class Book {
     Integer BookID;
     String Title;
     String Authors;
-    String Created_at;
-    String Updated_at;
+    Date Created_at;
+    Date Updated_at;
     String Slug;
     String ISBN;
     String Subtitle;
@@ -30,11 +34,11 @@ public class Book {
         return Title;
     }
 
-    public String getCreated_at() {
+    public Date getCreated_at() {
         return Created_at;
     }
 
-    public String getUpdated_at() {
+    public Date getUpdated_at() {
         return Updated_at;
     }
 
@@ -71,11 +75,11 @@ public class Book {
     }
 
     public void setCreated_at(String created_at) {
-        Created_at = created_at;
+        Created_at = createDate(created_at);
     }
 
     public void setUpdated_at(String updated_at) {
-        Updated_at = updated_at;
+        Updated_at = createDate(updated_at);
     }
 
     public void setSlug(String slug) {
@@ -100,6 +104,16 @@ public class Book {
 
     public void insertBook(Jdbi jdbi) {
        jdbi.useExtension(BookDao.class, dao -> dao.insertBook(this.BookID, this.Title, this.Created_at, this.getUpdated_at(), this.Slug, this.ISBN, this.Subtitle, this.Subjects, this.Cover_photo_url));
+    }
+
+    private Date createDate(String dateString) {
+        String pattern = "dd/MM/yy HH:mm";
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
+        try {
+            return simpleDateFormat.parse(dateString);
+        } catch (ParseException e) {
+            return new Date();
+        }
     }
 
     @Override

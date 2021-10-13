@@ -16,19 +16,23 @@ public class Authors {
             for (String each : multipleAuthors) {
                 String author_name = each.trim();
                 if (each.contains("\"")) {
-                    author_name = each.replaceAll("\"", "");
+                    author_name = recursiveTrim(each.replaceAll("\"", ""));
                 }
                 authors.add(new Author(increment.getAndIncrement(), author_name));
             }
         });
-        authors.stream().map(x -> x.getAuthorName().replaceAll("\"", "").trim()).collect(Collectors.toSet());
-
     }
 
     public Set<Author> getAuthors() {
         return authors;
     }
 
+    private static String recursiveTrim(String string) {
+        while (string.charAt(0) == ' ' || string.charAt(string.length()-1) == ' ') {
+            string = string.trim();
+        }
+        return string;
+    }
 
     @Override
     public String toString() {
