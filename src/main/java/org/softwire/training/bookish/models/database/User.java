@@ -68,10 +68,14 @@ public class User {
 
 	public User() {}
 
-	public User getUserFromDatabase(Jdbi jdbi, String username) throws NoUserExeception {
+	public void getUserFromDatabase(Jdbi jdbi, String username) throws NoUserExeception {
 		List<User> users = jdbi.withExtension(UserDao.class, dao -> dao.getUser(username));
 		try {
-			return users.get(0);
+			User tempUser = users.get(0);
+			this.username = tempUser.getUsername();
+			this.email = tempUser.getEmail();
+			this.passhash = tempUser.getPasshash();
+			this.phoneNumber = tempUser.getPhoneNumber();
 		} catch (Exception e) {
 			throw new NoUserExeception("No user in the database under that username");
 		}
@@ -82,7 +86,9 @@ public class User {
 
 	}
 
-
+	public void deleteUserFromDatabase(Jdbi jdbi) {
+		jdbi.useExtension(UserDao.class, dao -> dao.deleteUser(this.username));
+	}
 
 	@Override
 	public String toString() {

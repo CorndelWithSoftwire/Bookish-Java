@@ -3,13 +3,13 @@ package org.softwire.training.bookish;
 import org.jdbi.v3.core.Jdbi;
 import org.jdbi.v3.sqlobject.SqlObjectPlugin;
 import org.junit.jupiter.api.Test;
+import org.softwire.training.bookish.execeptions.NoUserExeception;
 import org.softwire.training.bookish.models.database.User;
 
 import java.util.Date;
 import java.util.Properties;
 
-import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
-import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
+import static org.assertj.core.api.AssertionsForClassTypes.*;
 
 public class UserDbTest {
 	@Test
@@ -38,7 +38,11 @@ public class UserDbTest {
 		testUser.insertUserToDatabase(jdbi);
 
 		User assertionUser = new User();
-		assertionUser.getUserFromDatabase(jdbi, username);
+		try {
+			assertionUser.getUserFromDatabase(jdbi, username);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 
 		assertThat(assertionUser.getUsername()).isEqualTo(username);
 		assertThat(assertionUser.getEmail()).isEqualTo(email);

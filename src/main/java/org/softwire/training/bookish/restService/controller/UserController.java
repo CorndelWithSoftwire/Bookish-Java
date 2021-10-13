@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 public class UserController {
     @PostMapping("/user/promote/{userId}")
-    public @ResponseBody Response promoteUser(@PathVariable(value="userId")String userId) {
+    public Response promoteUser(@PathVariable(value="userId")String userId) {
         Jdbi jdbi = PopulateDB.createJdbiConnection();
         User userToPromote = new User();
         try {
@@ -27,4 +27,27 @@ public class UserController {
         return new UserSuccessResponse(200, newLibrarian.getUsername());
     }
 
+    @PostMapping("/user/demote/{userId}")
+    public Response demoteUser(@PathVariable("userId") String userId) {
+        Jdbi jdbi = PopulateDB.createJdbiConnection();
+        User userToDemote = new User();
+        try {
+            userToDemote.getUserFromDatabase(jdbi, userId);
+        } catch (NoUserExeception noUserExeception) {
+            return new ErrorResponse(400, noUserExeception.getLocalizedMessage());
+        }
+        return new UserSuccessResponse(200, userId);
+    }
+
+    @DeleteMapping("/user/delete/{userId}")
+    public Response deleteUser(@PathVariable("userId") String userId) {
+        Jdbi jdbi = PopulateDB.createJdbiConnection();
+        User userToDelete = new User;
+        try {
+            userToDelete.getUserFromDatabase(jdbi, userId);
+        } catch (NoUserExeception noUserExeception) {
+            return new ErrorResponse(400, noUserExeception.getLocalizedMessage())
+        }
+
+    }
 }

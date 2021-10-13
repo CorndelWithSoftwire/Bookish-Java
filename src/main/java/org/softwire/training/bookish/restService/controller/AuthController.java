@@ -22,13 +22,14 @@ public class AuthController {
     ResponseEntity<String> registerNewUser(@RequestBody User userPayload) {
         Jdbi jdbi = PopulateDB.createJdbiConnection();
         try {
-            User checkToSeeIfUserExist = userPayload.getUserFromDatabase(jdbi, userPayload.getUsername());
+            userPayload.getUserFromDatabase(jdbi, userPayload.getUsername());
         } catch (NoUserExeception ex) {
             userPayload.insertUserToDatabase(jdbi);
+            User foundUser = null;
             try {
-                User foundUser = userPayload.getUserFromDatabase(jdbi, userPayload.getUsername());
-            } catch {
-             e
+                userPayload.getUserFromDatabase(jdbi, userPayload.getUsername());
+            } catch (Exception e) {
+                e.printStackTrace();
             }
             if (foundUser.getUsername().equals(userPayload.getUsername())) {
                 return ResponseEntity.status(HttpStatus.CREATED).body("Successfully Created new User");
@@ -50,12 +51,17 @@ public class AuthController {
          */
         // check if the username and password are the same, if so return json web token if not then an error-
         Jdbi jdbi = PopulateDB.createJdbiConnection();
-        List<User> userFound = userPayload.getUserFromDatabase(jdbi, userPayload.getUsername());
-        if (userFound.get(0).getUsername().equals(userPayload.getUsername())) {
+        User userFound = null;
+        try {
+            userPayload.getUserFromDatabase(jdbi, userPayload.getUsername());
+        } catch (Exception e ) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("This User doesn't exist");
+        }
+        if (userFound.getUsername().equals(userPayload.getUsername())) {
             JsonWebToken jwt = new JsonWebToken("ebc2b8fcf79ac184c8c5dd112ea2ce64912023ab6e4de8d55f18494b0504f2d3", userPayload);
             return ResponseEntity.status(HttpStatus.OK).body(jwt.getToken());
         }
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("This User doesn't exist");
+        return null;
     }
 
 
