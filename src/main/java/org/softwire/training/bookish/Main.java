@@ -3,7 +3,6 @@ package org.softwire.training.bookish;
 import org.jdbi.v3.core.Jdbi;
 import org.softwire.training.bookish.models.database.Book;
 import org.softwire.training.bookish.models.database.CopyRegistry;
-import org.softwire.training.bookish.models.database.Technology;
 import org.softwire.training.bookish.models.database.User;
 import org.jdbi.v3.core.spi.JdbiPlugin;
 import org.jdbi.v3.sqlobject.SqlObjectPlugin;
@@ -27,6 +26,7 @@ public class Main {
         listOfAvailableBooks(connectionString);
         jdbiMethod(connectionString);
         getOwners(connectionString);
+        searchForBookTitle(connectionString, "le act");
     }
 
     private static void jdbcMethod(String connectionString) throws SQLException {
@@ -89,7 +89,7 @@ public class Main {
         );
         // print book title and author id
         for (Book b: bookList) {
-            System.out.println(String.format("Title: %s, author ID: %s", b.getTitle(), b.getAuthorID()));
+            System.out.println(String.format("Title: %s, author ID: %s", b.getTitle(), b.getAuthorId()));
         }
       
       
@@ -119,6 +119,32 @@ public class Main {
       
        System.out.println("Users From DAO " + users);
     }
+
+    private static void searchForBookTitle(String connectionString, String userInputBookTitle) {
+        Jdbi jdbi = Jdbi.create(connectionString);
+        jdbi.installPlugin((JdbiPlugin) new SqlObjectPlugin()); // usually when connecting
+
+        List<Author> authors = jdbi.withExtension(
+                BookDao.class, dao -> {
+                    return dao.listAuthorAndBooks("%"+userInputBookTitle+"%");
+                }
+        );
+
+        System.out.println("Books From DAO " + authors);
+    }
+
+//    private static void searchForBookTitle(String connectionString, String searchedBookTitle){
+//        Jdbi jdbi = Jdbi.create(connectionString);
+//        List<Book> searchedBookList = jdbi.withHandle(handle ->
+//                handle.createQuery("SELECT author.name AS author_name, book.title AS book_title FROM book JOIN author ON book.author_id = author.id where book.title = 'Becoming'")
+//                        .mapToBean(Book.class)
+//                        .list()
+//        );
+//
+//        for (Book books: searchedBookList) {
+//            System.out.println(String.format("Book title: %s, author ID: %s", books.getTitle(), books.getAuthorID()));
+//        }
+//    }
 
     public static ResultSet makingTheConnection(String connectionString, String sql) throws SQLException {
         Connection connection = DriverManager.getConnection(connectionString);
