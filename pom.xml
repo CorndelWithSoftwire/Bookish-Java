@@ -49,6 +49,11 @@
             <version>5.1.45</version>
             <!--<version>8.0.12</version>-->
         </dependency>
+        <!-- to satisify the error of Reason: Failed to determine a suitable driver class -->
+        <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+        </dependency>
 
         <!-- JDBI -->
         <dependency>

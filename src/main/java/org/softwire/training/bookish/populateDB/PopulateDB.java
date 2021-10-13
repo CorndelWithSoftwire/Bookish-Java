@@ -16,12 +16,7 @@ import java.util.stream.Collectors;
 
 public class PopulateDB {
 	public static void main(String[] args) throws SQLException {
-		Properties connProperties = new Properties();
-		connProperties.put("user", "root");
-		connProperties.put("password", "c7f/SGXS<80D1H/Iqf0PQp90@dicw(J?");
-		connProperties.setProperty("useSSL", "false");
-		Jdbi jdbi = Jdbi.create("jdbc:mysql://localhost:3306/bookish", connProperties);
-		jdbi.installPlugin(new SqlObjectPlugin());
+		Jdbi jdbi = createJdbiConnection();
 
 
 		/*
@@ -77,6 +72,16 @@ public class PopulateDB {
 		user.getUserFromDatabase(jdbi, "bec" );
 		System.out.println(user);
 */
+	}
+
+	public static Jdbi createJdbiConnection() {
+		Properties connProperties = new Properties();
+		connProperties.put("user", "root");
+		connProperties.put("password", "c7f/SGXS<80D1H/Iqf0PQp90@dicw(J?");
+		connProperties.setProperty("useSSL", "false");
+		Jdbi jdbi = Jdbi.create("jdbc:mysql://localhost:3306/bookish", connProperties);
+		jdbi.installPlugin(new SqlObjectPlugin());
+		return jdbi;
 	}
 
 	private static void populateBorrows(Jdbi jdbi) {
