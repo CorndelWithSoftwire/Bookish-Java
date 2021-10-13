@@ -12,6 +12,7 @@ public class Book {
     private String genre;
     private int numberOfCopies;
     private int authorId;
+    private String authorName;
 
 //    public Book(int iD, String title, String iSBN, Date publishedDate, String publisher, String genre, String summary, String numOfCopies, String authorID) {
 //        this.iD = iD;
@@ -24,7 +25,17 @@ public class Book {
 //        this.authorID = authorID;
 //    }
 
-    private int authorID;
+    public Book() {
+        this.id = 0;
+        this.title = "";
+        this.isbn = 0;
+        this.publishedDate = "";
+        this.publisher = "";
+        this.genre = "";
+        this.numberOfCopies = 0;
+        this.authorId = 0;
+        this.authorName = "";
+    }
 
     public int getId() {
         return id;
@@ -89,6 +100,14 @@ public class Book {
 
     public void setAuthorId(int authorId) {
         this.authorId = authorId;
+    }
+
+    public String getAuthorName() {
+        return authorName;
+    }
+
+    public void setAuthorName(String authorName) {
+        this.authorName = authorName;
     }
 
     @Override

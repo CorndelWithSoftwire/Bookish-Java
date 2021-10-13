@@ -12,24 +12,24 @@ import java.util.List;
 
 @Service
 public class LibraryService extends DatabaseService {
-    public List<Book> getAllBooks() {
-        return jdbi.withHandle(handle ->
-                handle.createQuery("SELECT * FROM book")
-                        .mapToBean(Book.class)
-                        .list()
-        );
-    }
-
-//    public List<Author> searchForBookTitle(String userInputBookTitle) {
-//        jdbi.installPlugin((JdbiPlugin) new SqlObjectPlugin()); // usually when connecting
-//
-//        List<Author> authors = jdbi.withExtension(
-//                BookDao.class, dao -> {
-//                    return dao.listAuthorAndBooks("%"+userInputBookTitle+"%");
-//                }
+//    public List<Book> getAllBooks() {
+//        return jdbi.withHandle(handle ->
+//                handle.createQuery("SELECT * FROM book")
+//                        .mapToBean(Book.class)
+//                        .list()
 //        );
-//        return authors;
 //    }
+
+    public List<Book> getAllBooks() {
+        jdbi.installPlugin((JdbiPlugin) new SqlObjectPlugin()); // usually when connecting
+
+        List<Book> books = jdbi.withExtension(
+                LibraryDao.class, dao -> {
+                    return dao.listOfBooks();
+                }
+        );
+        return books;
+    }
 
     public void addBook(Book book) {
             jdbi.useHandle(handle ->

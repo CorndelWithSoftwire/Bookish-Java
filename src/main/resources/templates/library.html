@@ -43,7 +43,7 @@
                             <th><a th:href="${'/library/sort?column=publisher'}">Publisher</a></th>
                             <th><a th:href="${'/library/sort?column=genre'}">Genre</a></th>
                             <th><a th:href="${'/library/sort?column=number_of_copies'}">Number of Copies</a></th>
-                            <th><a th:href="${'/library/sort?column=author_id'}">Author ID</a></th>
+                            <th><a th:href="${'/library/sort?column=name'}">Author</a></th>
                             <th><a>Remove</a></th>
                         </tr>
                         </thead>
@@ -56,7 +56,7 @@
                             <td th:text="${book.getPublisher()}"></td>
                             <td th:text="${book.getGenre()}"></td>
                             <td th:text="${book.getNumberOfCopies()}"></td>
-                            <td th:text="${book.getAuthorId()}"></td>
+                            <td th:text="${book.getAuthorName()}"></td>
                             <td class="delete-button"> <a th:href="${'/library/delete-book?bookID=' + book.getId()}">Delete</a></td>
                         </tr>
                         </tbody>
