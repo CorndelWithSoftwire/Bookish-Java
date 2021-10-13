@@ -1,8 +1,7 @@
 -- DROP SCHEMA bookish;
 -- DROP DATABASE bookish;
 
--- CREATE DATABASE bookish;
--- CREATE SCHEMA bookish;
+CREATE SCHEMA bookish;
 
 use bookish;
 

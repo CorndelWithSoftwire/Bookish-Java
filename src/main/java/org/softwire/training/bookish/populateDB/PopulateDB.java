@@ -18,22 +18,23 @@ public class PopulateDB {
 	public static void main(String[] args) throws SQLException {
 		Jdbi jdbi = createJdbiConnection();
 
-
+		Books allBooks = new Books("resources/books.csv");
+		populateBooks(jdbi, allBooks);
 		/*
 		populateUsers(jdbi);
 		makeLibrarians(jdbi);
 
-		Books allBooks = new Books("resources/books.csv");
+
 		Authors allAuthors = new Authors(allBooks);
 		List<BookAuthor> bookAuthor = createBookAuthors(allBooks, allAuthors);
 
 		populateAuthors(jdbi, allAuthors);
-		populateBooks(jdbi, allBooks);
+
 		populateBookAuthors(jdbi, bookAuthor);
 		populateCopies(jdbi, allBooks);
 
 		 */
-		populateBorrows(jdbi);
+//		populateBorrows(jdbi);
 
 
 		/*

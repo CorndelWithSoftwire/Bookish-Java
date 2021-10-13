@@ -12,7 +12,7 @@ import java.util.List;
 
 public interface BookDao {
 
-    @SqlUpdate("INSERT INTO Book VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)")
+    @SqlUpdate("INSERT INTO Book VALUES (?, ?, ?, ?, ?, ?, ?, ?,?)")
     void insertBook(Integer BookID
             , String Title
             , Date Created_at
@@ -29,10 +29,10 @@ public interface BookDao {
 
     @SqlQuery("SELECT * FROM Book WHERE Title=:title")
     @RegisterBeanMapper(Book.class)
-    List<User> getBookByTitle(@Bind("title") String title);
+    List<Book> getBookByTitle(@Bind("title") String title);
 
     @SqlQuery("SELECT * FROM Book")
     @RegisterBeanMapper(Book.class)
-    List<User> getBooks();
+    List<Book> getBooks();
 
 }

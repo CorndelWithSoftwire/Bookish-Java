@@ -3,6 +3,7 @@ package org.softwire.training.bookish;
 import org.jdbi.v3.core.Jdbi;
 import org.jdbi.v3.sqlobject.SqlObjectPlugin;
 import org.junit.jupiter.api.Test;
+import org.softwire.training.bookish.execeptions.NoUserExeception;
 import org.softwire.training.bookish.models.database.User;
 
 import java.util.Date;
@@ -38,7 +39,11 @@ public class UserDbTest {
 		testUser.insertUserToDatabase(jdbi);
 
 		User assertionUser = new User();
-		assertionUser.getUserFromDatabase(jdbi, username);
+		try {
+			assertionUser.getUserFromDatabase(jdbi, username);
+		} catch (NoUserExeception e) {
+			e.printStackTrace();
+		}
 
 		assertThat(assertionUser.getUsername()).isEqualTo(username);
 		assertThat(assertionUser.getEmail()).isEqualTo(email);

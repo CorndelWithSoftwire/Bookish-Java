@@ -1,5 +1,8 @@
 package org.softwire.training.bookish.models.database;
 
+import org.jdbi.v3.core.Jdbi;
+import org.softwire.training.bookish.models.dao.BookDao;
+
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.util.ArrayList;
@@ -11,6 +14,9 @@ public class Books {
 
     public Books(String filePath) {
         this.booksList = readCSV(filePath);
+    }
+
+    public Books() {
     }
 
     ArrayList<Book> readCSV(String filePath) {
@@ -48,6 +54,12 @@ public class Books {
             book_array.add(book);
         });
         return book_array;
+    }
+
+
+    public List<Book> getBooksList(Jdbi jdbi) {
+        List<Book> bookList = jdbi.withExtension(BookDao.class, BookDao::getBooks);
+        return bookList;
     }
 
 

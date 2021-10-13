@@ -131,6 +131,8 @@ public class Book {
                 ", Cover_photo_url='" + Cover_photo_url + '\'' +
                 '}';
     }
+
+
 }
 
 
