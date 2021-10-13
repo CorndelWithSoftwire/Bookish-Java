@@ -1,12 +1,18 @@
 package org.softwire.training.bookish.models.database;
 
+import org.jdbi.v3.core.Jdbi;
+import org.softwire.training.bookish.models.dao.BorrowDao;
+
+import java.util.Date;
+import java.util.List;
+
 public class Borrow {
 	private int borrowId;
 	private int borrowCopyId;
 	private String username;
-	private String checkOutDate;
-	private String checkInDate;
-	private String dueDate;
+	private Date checkOutDate;
+	private Date checkInDate;
+	private Date dueDate;
 
 	public Borrow() {};
 
@@ -34,27 +40,39 @@ public class Borrow {
 		this.username = username;
 	}
 
-	public String getCheckOutDate() {
+	public Date getCheckOutDate() {
 		return checkOutDate;
 	}
 
-	public void setCheckOutDate(String checkOutDate) {
+	public void setCheckOutDate(Date checkOutDate) {
 		this.checkOutDate = checkOutDate;
 	}
 
-	public String getCheckInDate() {
+	public Date getCheckInDate() {
 		return checkInDate;
 	}
 
-	public void setCheckInDate(String checkInDate) {
+	public void setCheckInDate(Date checkInDate) {
 		this.checkInDate = checkInDate;
 	}
 
-	public String getDueDate() {
+	public Date getDueDate() {
 		return dueDate;
 	}
 
-	public void setDueDate(String dueDate) {
+	public void setDueDate(Date dueDate) {
 		this.dueDate = dueDate;
+	}
+
+	public void insertIntoDatabase(Jdbi jdbi) {
+		jdbi.useExtension(BorrowDao.class, dao -> dao.insertBorrow(this.borrowId, this.borrowCopyId, this.username, this.checkOutDate, this.checkInDate, this.dueDate));
+	}
+
+	public List<Borrow> queryByUsername(Jdbi jdbi, String username) {
+		return jdbi.withExtension(BorrowDao.class, dao -> dao.getUsersBorrows(username));
+	}
+
+	public List<Book> queryUsersBorrowedBooks(Jdbi jdbi, String username) {
+		return jdbi.withExtension(BorrowDao.class, dao -> dao.getUsersBorrowedBooks(username));
 	}
 }

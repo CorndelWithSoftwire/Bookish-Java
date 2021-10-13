@@ -24,7 +24,8 @@ public class PopulateDB {
 		jdbi.installPlugin(new SqlObjectPlugin());
 
 
-		//populateUsers(jdbi);
+		/*
+		populateUsers(jdbi);
 		makeLibrarians(jdbi);
 
 		Books allBooks = new Books("resources/books.csv");
@@ -35,6 +36,9 @@ public class PopulateDB {
 		populateBooks(jdbi, allBooks);
 		populateBookAuthors(jdbi, bookAuthor);
 		populateCopies(jdbi, allBooks);
+
+		 */
+		populateBorrows(jdbi);
 
 
 		/*
@@ -73,6 +77,21 @@ public class PopulateDB {
 		user.getUserFromDatabase(jdbi, "bec" );
 		System.out.println(user);
 */
+	}
+
+	private static void populateBorrows(Jdbi jdbi) {
+		Date date = new Date();
+		Calendar c = Calendar.getInstance();
+		c.setTime(date);
+		c.add(Calendar.DATE, 10);
+		Borrow borrow = new Borrow();
+		borrow.setBorrowId(0);
+		borrow.setBorrowCopyId(348);
+		borrow.setUsername("Anthony");
+		borrow.setCheckOutDate(date);
+		borrow.setDueDate(c.getTime());
+		borrow.setCheckInDate(null);
+		borrow.insertIntoDatabase(jdbi);
 	}
 
 	private static void populateCopies(Jdbi jdbi, Books allBooks) {
