@@ -2,18 +2,12 @@ package org.softwire.training.bookish.models.database;
 
 import com.google.common.hash.Hashing;
 import org.jdbi.v3.core.Jdbi;
-import org.jdbi.v3.core.mapper.RowMapper;
-import org.jdbi.v3.core.statement.StatementContext;
-import org.jdbi.v3.core.statement.UnableToCreateStatementException;
 
 import org.softwire.training.bookish.models.dao.UserDao;
 
 
 import java.nio.charset.StandardCharsets;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.List;
-import java.util.Optional;
 
 public class User {
 	String username;
@@ -73,12 +67,14 @@ public class User {
 
 	public User() {}
 
-	public void getUserFromDatabase(Jdbi jdbi, String username) throws IndexOutOfBoundsException {
-		List<User> temp = jdbi.withExtension(UserDao.class, dao -> dao.getUser(username));
-		this.email = temp.get(0).email;
-		this.phoneNumber = temp.get(0).phoneNumber;
-		this.username = temp.get(0).username;
-		this.passhash = temp.get(0).passhash;
+	public List<User> getUserFromDatabase(Jdbi jdbi, String username) throws IndexOutOfBoundsException {
+		return jdbi.withExtension(UserDao.class, dao -> dao.getUser(username));
+
+//		this.email = temp.get(0).email;
+//		this.phoneNumber = temp.get(0).phoneNumber;
+//		this.username = temp.get(0).username;
+//		this.passhash = temp.get(0).passhash;
+
 	}
 
 	public void insertUserToDatabase(Jdbi jdbi){

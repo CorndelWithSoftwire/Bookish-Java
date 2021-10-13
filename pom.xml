@@ -29,11 +29,13 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
-        <!-- Spring Boot Thymeleaf - provides templating engine for views -->
+
         <dependency>
             <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-thymeleaf</artifactId>
+            <artifactId>spring-boot-starter-data-jpa</artifactId>
+            <version>2.2.6.RELEASE</version>
         </dependency>
+
         <dependency>
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
@@ -46,6 +48,11 @@
             <artifactId>mysql-connector-java</artifactId>
             <version>5.1.45</version>
             <!--<version>8.0.12</version>-->
+        </dependency>
+        <!-- to satisify the error of Reason: Failed to determine a suitable driver class -->
+        <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
         </dependency>
 
         <!-- JDBI -->
