@@ -29,7 +29,7 @@ public class SearchController {
         SearchPageModel searchPageModel = new SearchPageModel();
         searchPageModel.setBooks(searchedBooks);
 
-        return new ModelAndView("search", "searchModelModel", searchPageModel);
+        return new ModelAndView("search", "searchModel", searchPageModel);
     }
 
 }

@@ -21,46 +21,44 @@
 
 <!--collapsible list of books-->
 <div id="accordion">
-    <div class="card">
-        <div class="card-header" id="headingOne">
-            <h5 class="mb-0">
-                <button class="btn btn-link" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                    Hide Content
-                </button>
-            </h5>
-        </div>
+    <div>
+        <form th:action="@{/searchModel}" method="POST">
+            <input type="text" id="search" name="search" th:value="@{searchedBook}"><br>
+            <input type="submit" value="Search">
+        </form>
+    </div>
 
-        <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
-            <div class="card-body">
-                <div>
-                    <table class="table">
-                        <thead>
-                        <tr>
-                            <th><a th:href="${'/library/sort?column=id'}">ID</a></th>
-                            <th><a th:href="${'/library/sort?column=title'}">Title</a> </th>
-                            <th><a th:href="${'/library/sort?column=isbn'}">ISBN</a> </th>
-                            <th><a th:href="${'/library/sort?column=published_date'}">Published Date</a></th>
-                            <th><a th:href="${'/library/sort?column=publisher'}">Publisher</a></th>
-                            <th><a th:href="${'/library/sort?column=genre'}">Genre</a></th>
-                            <th><a th:href="${'/library/sort?column=number_of_copies'}">Number of Copies</a></th>
-                            <th><a th:href="${'/library/sort?column=author_id'}">Author</a></th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr th:each="book : ${searchModel.getBooks()}">
-                            <td th:text="${book.getId()}"></td>
-                            <td th:text="${book.getTitle()}"></td>
-                            <td th:text="${book.getIsbn()}"></td>
-                            <td th:text="${book.getPublishedDate()}"></td>
-                            <td th:text="${book.getPublisher()}"></td>
-                            <td th:text="${book.getGenre()}"></td>
-                            <td th:text="${book.getNumberOfCopies()}"></td>
-                            <td th:text="${book.getAuthorId()}"></td>
-                        </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
+<!--        <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">-->
+<!--            <div class="card-body">-->
+<!--                <div>-->
+<!--                    <table class="table">-->
+<!--                        <thead>-->
+<!--                        <tr>-->
+<!--                            <th><a th:href="${'/library/sort?column=id'}">ID</a></th>-->
+<!--                            <th><a th:href="${'/library/sort?column=title'}">Title</a> </th>-->
+<!--                            <th><a th:href="${'/library/sort?column=isbn'}">ISBN</a> </th>-->
+<!--                            <th><a th:href="${'/library/sort?column=published_date'}">Published Date</a></th>-->
+<!--                            <th><a th:href="${'/library/sort?column=publisher'}">Publisher</a></th>-->
+<!--                            <th><a th:href="${'/library/sort?column=genre'}">Genre</a></th>-->
+<!--                            <th><a th:href="${'/library/sort?column=number_of_copies'}">Number of Copies</a></th>-->
+<!--                            <th><a th:href="${'/library/sort?column=author_id'}">Author</a></th>-->
+<!--                        </tr>-->
+<!--                        </thead>-->
+<!--                        <tbody>-->
+<!--                        <tr th:each="book : ${searchModel.getBooks()}">-->
+<!--                            <td th:text="${book.getId()}"></td>-->
+<!--                            <td th:text="${book.getTitle()}"></td>-->
+<!--                            <td th:text="${book.getIsbn()}"></td>-->
+<!--                            <td th:text="${book.getPublishedDate()}"></td>-->
+<!--                            <td th:text="${book.getPublisher()}"></td>-->
+<!--                            <td th:text="${book.getGenre()}"></td>-->
+<!--                            <td th:text="${book.getNumberOfCopies()}"></td>-->
+<!--                            <td th:text="${book.getAuthorId()}"></td>-->
+<!--                        </tr>-->
+<!--                        </tbody>-->
+<!--                    </table>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
     </div>
 </div>
