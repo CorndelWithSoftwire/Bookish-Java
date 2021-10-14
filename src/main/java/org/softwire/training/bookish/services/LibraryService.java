@@ -1,21 +1,35 @@
 package org.softwire.training.bookish.services;
 
+import org.jdbi.v3.core.Jdbi;
+import org.jdbi.v3.core.spi.JdbiPlugin;
 import org.jdbi.v3.sqlobject.SqlObjectPlugin;
+import org.softwire.training.bookish.models.database.Author;
 import org.softwire.training.bookish.models.database.Book;
+import org.softwire.training.bookish.models.database.BookDao;
 import org.softwire.training.bookish.models.database.LibraryDao;
 import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
 public class LibraryService extends DatabaseService {
-    public List<Book> getAllBooks() {
-        return jdbi.withHandle(handle ->
-                handle.createQuery("SELECT * FROM book")
-                        .mapToBean(Book.class)
-                        .list()
-        );
-    }
+//    public List<Book> getAllBooks() {
+//        return jdbi.withHandle(handle ->
+//                handle.createQuery("SELECT * FROM book")
+//                        .mapToBean(Book.class)
+//                        .list()
+//        );
+//    }
 
+    public List<Book> getAllBooks() {
+        jdbi.installPlugin((JdbiPlugin) new SqlObjectPlugin()); // usually when connecting
+
+        List<Book> books = jdbi.withExtension(
+                LibraryDao.class, dao -> {
+                    return dao.listOfBooks();
+                }
+        );
+        return books;
+    }
 
     public void addBook(Book book) {
             jdbi.useHandle(handle ->
