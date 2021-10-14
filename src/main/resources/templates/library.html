@@ -31,9 +31,19 @@
     <div class="card">
         <div class="card-header" id="headingOne">
             <h5 class="mb-0">
-                <button class="btn btn-link" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                    Hide Content
+                <p>
+                <button class="btn btn-primary" onclick="change()" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne" id="content-button">
+                    <script>
+                        function change()
+                        {
+                            var elem = document.getElementById("content-button");
+                            if (elem.innerHTML == "Expand Content") elem.innerHTML = "Collapse Content";
+                            else elem.innerHTML = "Expand Content";
+                        }
+                    </script>
+                    Collapse Content
                 </button>
+                </p>
             </h5>
         </div>
 
