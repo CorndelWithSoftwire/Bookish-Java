@@ -52,22 +52,22 @@ public class LibraryService extends DatabaseService {
 
     public List<Book> sort(String column) {
         jdbi.installPlugin( new SqlObjectPlugin() ); // usually when connecting
-        List<Book> bookList = jdbi.withExtension(
-                LibraryDao.class, dao -> {
-                    return dao.sort(column);
-                });
 
-        return bookList;
+        return jdbi.withExtension(
+                LibraryDao.class, dao -> dao.sort(column));
     }
 
     public List<Book> sortReverse(String column) {
         jdbi.installPlugin( new SqlObjectPlugin() );
-        List<Book> bookList = jdbi.withExtension(
-                LibraryDao.class, dao -> {
-                    return dao.sortReverse(column);
 
-                });
+        return jdbi.withExtension(
+                LibraryDao.class, dao -> dao.sortReverse(column));
+    }
 
-        return bookList;
+    public List<Book> filterId(int id){
+        jdbi.installPlugin( new SqlObjectPlugin() );
+
+        return jdbi.withExtension(
+                LibraryDao.class, dao -> dao.filterId(id));
     }
 }
