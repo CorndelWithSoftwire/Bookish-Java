@@ -17,16 +17,17 @@ public class BookSplashService extends DatabaseService {
 
     public void editBook(Book book) {
         jdbi.useHandle(handle ->
-                handle.createUpdate("INSERT INTO book (id, title, ISBN, published_date, publisher, genre, number_of_copies, author_id)\n" +
-                                "VALUES (:title, :ISBN, :published_date, :publisher, :genre, :number_of_copies, :author_id)\n" +
-                                "ON DUPLICATE KEY UPDATE id=VALUES(id),\n" +
-                                "title=VALUES(title),\n" +
-                                "ISBN=VALUES(ISBN),\n" +
-                                "published_date=VALUES(published_date),\n" +
-                                "publisher=VALUES(publisher),\n" +
-                                "genre=VALUES(genre),\n" +
-                                "number_of_copies=VALUES(number_of_copies),\n" +
+                handle.createUpdate("INSERT INTO book (id, title, ISBN, published_date, publisher, genre, number_of_copies, author_id) " +
+                                "VALUES (:id, :title, :ISBN, :published_date, :publisher, :genre, :number_of_copies, :author_id) " +
+                                "ON DUPLICATE KEY UPDATE id=VALUES(id), " +
+                                "title=VALUES(title), " +
+                                "ISBN=VALUES(ISBN), " +
+                                "published_date=VALUES(published_date), " +
+                                "publisher=VALUES(publisher), " +
+                                "genre=VALUES(genre), " +
+                                "number_of_copies=VALUES(number_of_copies), " +
                                 "author_id=VALUES(author_id);")
+                        .bind("id", book.getId())
                         .bind("title", book.getTitle())
                         .bind("ISBN", book.getIsbn())
                         .bind("published_date", book.getPublishedDate())

@@ -45,9 +45,15 @@
 <form id="formForEditBook" th:action="@{/book-splash/edit-book}" method="post">
     <h2>Edit book:</h2>
     <div class="form-group row">
+        <label form="inputId" class="col-sm-2 col-form-label">Id</label>
+        <div class="col-sm-10">
+            <input type="text" name="id" class="form-control" id="inputId" th:value="${bookSplashModel.getBook().getId()}" th:placeholder="${bookSplashModel.getBook().getId()}">
+        </div>
+    </div>
+    <div class="form-group row">
         <label form="inputTitle" class="col-sm-2 col-form-label">Title</label>
         <div class="col-sm-10">
-            <input type="text" name="title" class="form-control" id="inputPassword" th:value="${bookSplashModel.getBook().getTitle()}" th:placeholder="${bookSplashModel.getBook().getTitle()}">
+            <input type="text" name="title" class="form-control" id="inputTitle" th:value="${bookSplashModel.getBook().getTitle()}" th:placeholder="${bookSplashModel.getBook().getTitle()}">
         </div>
     </div>
     <div class="form-group row">

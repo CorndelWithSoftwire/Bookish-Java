@@ -40,6 +40,6 @@ public class BookSplashController {
             System.out.println(e.getMessage());
         }
 
-        return new RedirectView("/book-splash");
+        return new RedirectView("/book-splash/filterid?id="+book.getId());
     }
 }
