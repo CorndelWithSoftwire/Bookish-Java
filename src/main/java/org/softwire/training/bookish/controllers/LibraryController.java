@@ -12,6 +12,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -62,14 +63,38 @@ public class LibraryController {
     }
 
 
+//    @RequestMapping("/sort")
+//    ModelAndView sort(@RequestParam String column) {
+//
+//        List<Book> allBooks = (ascending) ? libraryService.sort(column) : libraryService.sortReverse(column);
+//        ascending = !ascending;
+//
+//        LibraryPageModel libraryPageModel = new LibraryPageModel();
+//        libraryPageModel.setBooks(allBooks);
+//
+//        return new ModelAndView("library", "libraryModel", libraryPageModel);
+//    }
+
+
     @RequestMapping("/sort")
-    ModelAndView sort(@RequestParam String column) {
+    ModelAndView sort(@RequestParam String column, @RequestParam (name="authorId", required = false) Integer id) {
 
-        List<Book> allBooks = (ascending) ? libraryService.sort(column) : libraryService.sortReverse(column);
-        ascending = !ascending;
+        List<Book> allBooks = new ArrayList<>();
 
+        if (id == null || id == 0) {
+            allBooks = (ascending) ? libraryService.sort(column) : libraryService.sortReverse(column);
+            ascending = !ascending;
+
+        } else {
+            System.out.println("id is " + id);
+
+            allBooks = (ascending) ? libraryService.filterAndSort(column, id) : libraryService.filterAndSortReverse(column, id);
+            ascending = !ascending;
+
+        }
         LibraryPageModel libraryPageModel = new LibraryPageModel();
         libraryPageModel.setBooks(allBooks);
+        libraryPageModel.setAuthorId(id);
 
         return new ModelAndView("library", "libraryModel", libraryPageModel);
     }
@@ -80,6 +105,7 @@ public class LibraryController {
 
         LibraryPageModel libraryPageModel = new LibraryPageModel();
         libraryPageModel.setBooks(allBooks);
+        libraryPageModel.setAuthorId(id);
 
         return new ModelAndView("library", "libraryModel", libraryPageModel);
     }
