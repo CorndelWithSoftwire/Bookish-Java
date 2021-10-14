@@ -86,8 +86,6 @@ public class LibraryController {
             ascending = !ascending;
 
         } else {
-            System.out.println("id is " + id);
-
             allBooks = (ascending) ? libraryService.filterAndSort(column, id) : libraryService.filterAndSortReverse(column, id);
             ascending = !ascending;
 
