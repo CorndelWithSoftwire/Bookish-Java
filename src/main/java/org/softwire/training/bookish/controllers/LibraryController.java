@@ -36,6 +36,7 @@ public class LibraryController {
         return new ModelAndView("library", "libraryModel", libraryPageModel);
     }
 
+
     @RequestMapping("/add-book")
     RedirectView addBook(@ModelAttribute Book book) {
         try{
@@ -50,8 +51,12 @@ public class LibraryController {
 
     @RequestMapping("/delete-book")
     RedirectView deleteTechnology(@RequestParam int bookID) {
+        try {
+            libraryService.deleteBook(bookID);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
 
-        libraryService.deleteBook(bookID);
 
         return new RedirectView("/library");
     }
@@ -69,5 +74,14 @@ public class LibraryController {
         return new ModelAndView("library", "libraryModel", libraryPageModel);
     }
 
+    @RequestMapping("/filterid")
+    ModelAndView filterid(@RequestParam int id){
+        List<Book> allBooks = libraryService.filterId(id);
+
+        LibraryPageModel libraryPageModel = new LibraryPageModel();
+        libraryPageModel.setBooks(allBooks);
+
+        return new ModelAndView("library", "libraryModel", libraryPageModel);
+    }
 
 }

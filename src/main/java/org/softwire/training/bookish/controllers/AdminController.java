@@ -47,7 +47,7 @@ public class AdminController {
     }
 
     @RequestMapping("/add-user")
-    RedirectView addUser(@ModelAttribute User user) {
+    RedirectView addUser(User user) {
 
         userService.addUser(user);
 
