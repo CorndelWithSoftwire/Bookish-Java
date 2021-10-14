@@ -19,20 +19,20 @@ public class PopulateDB {
 		Jdbi jdbi = createJdbiConnection();
 
 		Books allBooks = new Books("resources/books.csv");
-		populateBooks(jdbi, allBooks);
+//		populateBooks(jdbi, allBooks);
+
+//		populateUsers(jdbi);
+//		makeLibrarians(jdbi);
+
+
+//		Authors allAuthors = new Authors(allBooks);
+//		List<BookAuthor> bookAuthor = createBookAuthors(allBooks, allAuthors);
+//
+//		populateAuthors(jdbi, allAuthors);
+//
+//		populateBookAuthors(jdbi, bookAuthor);
+//		populateCopies(jdbi, allBooks);
 		/*
-		populateUsers(jdbi);
-		makeLibrarians(jdbi);
-
-
-		Authors allAuthors = new Authors(allBooks);
-		List<BookAuthor> bookAuthor = createBookAuthors(allBooks, allAuthors);
-
-		populateAuthors(jdbi, allAuthors);
-
-		populateBookAuthors(jdbi, bookAuthor);
-		populateCopies(jdbi, allBooks);
-
 		 */
 //		populateBorrows(jdbi);
 

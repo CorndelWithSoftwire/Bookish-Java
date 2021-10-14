@@ -6,11 +6,9 @@ import org.jdbi.v3.sqlobject.statement.SqlQuery;
 import org.jdbi.v3.sqlobject.statement.SqlUpdate;
 import org.softwire.training.bookish.models.database.Book;
 import org.softwire.training.bookish.models.database.BookDict;
-import org.springframework.data.util.Pair;
 
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
 public interface BookDao {
 
@@ -26,7 +24,6 @@ public interface BookDao {
             , String Cover_photo_url);
 
     default void deconstructBook() {
-
     }
 
     @SqlQuery("SELECT * FROM Book WHERE Title=:title")
@@ -41,5 +38,8 @@ public interface BookDao {
     @RegisterBeanMapper(BookDict.class)
     List<BookDict> getAllBooks(@Bind("limit") int limit, @Bind("page") int page);
 
-//    @SqlQuery("SELECT BookId FROM ")
+
+    @SqlQuery("SELECT BookId,Title,AuthorName,CreatedAt,UpdatedAt,Slug,Isbn,Subtitle,Subjects,CoverPhotoUrl FROM Book JOIN BookAuthor BA on Book.BookId = :bookIdNum JOIN Authors A on A.AuthorId = BA.Author LIMIT 1")
+    @RegisterBeanMapper(Book.class)
+    Book getBooksById(@Bind("bookIdNum") int bookIdNum);
 }
