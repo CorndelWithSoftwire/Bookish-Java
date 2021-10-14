@@ -55,17 +55,25 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <tr th:each="book : ${libraryModel.getBooks()}">
-                            <td th:text="${book.getId()}"></td>
-                            <td th:text="${book.getTitle()}"></td>
-                            <td th:text="${book.getIsbn()}"></td>
-                            <td th:text="${book.getPublishedDate()}"></td>
-                            <td th:text="${book.getPublisher()}"></td>
-                            <td th:text="${book.getGenre()}"></td>
-                            <td th:text="${book.getNumberOfCopies()}"></td>
-                            <td th:text="${book.getAuthorName()}"></td>
-                            <td class="delete-button"> <a th:href="${'/library/delete-book?bookID=' + book.getId()}">Delete</a></td>
-                        </tr>
+                            <tr th:each="book : ${libraryModel.getBooks()}">
+                                <td th:text="${book.getId()}"></td>
+<!--                                TODO: change action -->
+                                <form id="authorsName" th:action="@{/library}" method="get">
+<!--                                    TODO: change value to book.getId -->
+                                    <input type="text" style="display: none" th:value="${book.getAuthorId}" name="filterId">
+                                    <td>
+<!--                                    TODO: change href and type -->
+                                        <a th:href="${'/library/filterid?id='}+${book.getAuthorId}" type="${author.getName}" th:text="${book.getTitle()}"></a>
+                                    </td>
+                                </form>
+                                <td th:text="${book.getIsbn()}"></td>
+                                <td th:text="${book.getPublishedDate()}"></td>
+                                <td th:text="${book.getPublisher()}"></td>
+                                <td th:text="${book.getGenre()}"></td>
+                                <td th:text="${book.getNumberOfCopies()}"></td>
+                                <td th:text="${book.getAuthorName()}"></td>
+                                <td class="delete-button"> <a th:href="${'/library/delete-book?bookID=' + book.getId()}">Delete</a></td>
+                            </tr>
                         </tbody>
                     </table>
                 </div>
