@@ -14,16 +14,17 @@ public class Book {
     private int authorId;
     private String authorName;
 
-//    public Book(int iD, String title, String iSBN, Date publishedDate, String publisher, String genre, String summary, String numOfCopies, String authorID) {
-//        this.iD = iD;
-//        this.title = title;
-//        this.iSBN = iSBN;
-//        this.publishedDate = publishedDate;
-//        this.publisher = publisher;
-//        this.genre = genre;
-//        this.numOfCopies = numOfCopies;
-//        this.authorID = authorID;
-//    }
+    public Book(int id, String title, int isbn, String publishedDate, String publisher, String genre, int numberOfCopies, int authorId, String authorName) {
+        this.id = id;
+        this.title = title;
+        this.isbn = isbn;
+        this.publishedDate = publishedDate;
+        this.publisher = publisher;
+        this.genre = genre;
+        this.numberOfCopies = numberOfCopies;
+        this.authorId = authorId;
+        this.authorName = authorName;
+    }
 
     public Book() {
         this.id = 0;

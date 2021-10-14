@@ -3,6 +3,7 @@ package org.softwire.training.bookish.models.database;
 import org.jdbi.v3.core.result.LinkedHashMapRowReducer;
 import org.jdbi.v3.core.result.RowView;
 
+import java.util.List;
 import java.util.Map;
 
 public class BookAuthorReducer

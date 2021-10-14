@@ -25,8 +25,8 @@
         <div class="navbar-item">
             <a href="/user">User</a>
         </div>
-        <div>
-            <form th:action="@{/search/search-book}" method="post">
+        <div class="navbar-item search-box">
+            <form th:action="@{/library/search}" method="post">
                 <input type="text" id="search" name="search"><br>
                 <input type="submit" value="Search">
             </form>

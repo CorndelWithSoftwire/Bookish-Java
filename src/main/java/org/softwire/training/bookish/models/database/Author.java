@@ -40,6 +40,10 @@ public class Author {
         this.placeOfBirth = placeOfBirth;
     }
 
+    public List<Book> getWrittenBookList() {
+        return writtenBookList;
+    }
+
     public void addAuthorsBook(Book book) {writtenBookList.add(book);}
 
     @Override
