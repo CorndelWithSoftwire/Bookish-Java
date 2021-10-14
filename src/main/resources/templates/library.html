@@ -75,8 +75,9 @@
 </div>
 
 <!--adding book section-->
-<h2>Add a book:</h2>
+
 <form id="formForAddBook" th:action="@{/library/add-book}" method="post">
+    <h2>Add a book:</h2>
     <div class="form-group row">
         <label form="inputTitle" class="col-sm-2 col-form-label">Title</label>
         <div class="col-sm-10">
@@ -86,7 +87,7 @@
     <div class="form-group row">
         <label form="inputISBN" class="col-sm-2 col-form-label">ISBN</label>
         <div class="col-sm-10">
-            <input type="number" name="iSBN" class="form-control" id="inputISBN" placeholder="ISBN">
+            <input type="text" name="iSBN" class="form-control" id="inputISBN" placeholder="ISBN">
         </div>
     </div>
     <div class="form-group row">
@@ -110,13 +111,13 @@
     <div class="form-group row">
         <label form="inputNumberOfCopies" class="col-sm-2 col-form-label">Number Of Copies</label>
         <div class="col-sm-10">
-            <input type="number" name="numOfCopies" class="form-control" id="inputNumberOfCopies" placeholder="Number of copies">
+            <input type="text" name="numOfCopies" class="form-control" id="inputNumberOfCopies" placeholder="Number of copies">
         </div>
     </div>
     <div class="form-group row">
         <label form="inputAuthorID" class="col-sm-2 col-form-label">Author ID</label>
         <div class="col-sm-10">
-            <input type="number" name="authorID" class="form-control" id="inputAuthorID" placeholder="Author ID *(CHECK THAT AUTHOR ID EXISTS IN DATABASE, IF NOT THEN CREATE AN ACCOUNT IN AUTHOR PAGE)">
+            <input type="text" name="authorID" class="form-control" id="inputAuthorID" placeholder="Author ID *(CHECK THAT AUTHOR ID EXISTS IN DATABASE, IF NOT THEN CREATE AN ACCOUNT IN AUTHOR PAGE)">
         </div>
     </div>
 <!--        <input type="submit" value="Add book" />-->
@@ -139,37 +140,27 @@
         });
 
         // for accessing the form and submit button
-
         $("#flexSwitchCheckDefault").on('change', function() {
 
             localStorage.input = $(this).is(':checked');
 
             if ($(this).is(':checked')) {
 
-                // alert(switchStatus);// To verify
                 alert("Admin right enabled");
                 $("#addBookInput").removeClass("disabled")
-                // also enable the form
-                const form = document.getElementById("formForAddBook");
-                const elements = form.elements;
-                let i = 0, len = elements.length;
-                for (; i < len; ++i) {
-                    elements[i].readOnly = false;
-                }
+
+                // show remove column
+                $('.table td:nth-child(9), .table th:nth-child(9)').show();
+                $('#formForAddBook').show();
             }
             else {
 
-                // alert(switchStatus);// To verify
                 alert("Admin right disabled");
                 $("#addBookInput").addClass("disabled");
 
-                // also disable the forms
-                const form = document.getElementById("formForAddBook");
-                const elements = form.elements;
-                let i = 0, len = elements.length;
-                for (; i < len; ++i) {
-                    elements[i].readOnly = true;
-                }
+                // hide content
+                $('.table td:nth-child(9), .table th:nth-child(9)').hide();
+                $('#formForAddBook').hide();
             }
         });
     });
@@ -179,35 +170,15 @@
     $(function(){
         const test = localStorage.input === 'true' ? true : false;
         $('#flexSwitchCheckDefault').prop('checked', test);
-
         console.log("Admin right: " +$("#flexSwitchCheckDefault").is(':checked'));
 
         if (! $("#flexSwitchCheckDefault").is(':checked')) {
-            $("#addBookInput").addClass("disabled");
-            // also disable the forms
-            const form = document.getElementById("formForAddBook");
-            const elements = form.elements;
-            let i = 0, len = elements.length;
-            for (; i < len; ++i) {
-                elements[i].readOnly = true;
-            }
-        } else {
-            $("#addBookInput").removeClass("disabled")
-            // also enable the form
-            const form = document.getElementById("formForAddBook");
-            const elements = form.elements;
-            let i = 0, len = elements.length;
-            for (; i < len; ++i) {
-                elements[i].readOnly = false;
-            }
+            // hide content on load
+            $('.table td:nth-child(9), .table th:nth-child(9)').hide();
+            $('#formForAddBook').hide();
         }
 
+
     });
-
-    // $('#flexSwitchCheckDefault').on('change', function() {
-    //     localStorage.input = $(this).is(':checked');
-    //     console.log($(this).is(':checked'));
-    // });
-
 </script>
 </html>
