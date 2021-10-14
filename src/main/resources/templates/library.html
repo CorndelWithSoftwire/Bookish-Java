@@ -67,13 +67,10 @@
                         <tbody>
                             <tr th:each="book : ${libraryModel.getBooks()}">
                                 <td th:text="${book.getId()}"></td>
-<!--                                TODO: change action -->
-                                <form id="authorsName" th:action="@{/library}" method="get">
-<!--                                    TODO: change value to book.getId -->
-                                    <input type="text" style="display: none" th:value="${book.getAuthorId}" name="filterId">
+                                <form id="bookTitle" th:action="@{/book-splash}" method="get">
+                                    <input type="text" style="display: none" th:value="${book.getId}" name="filterId">
                                     <td>
-<!--                                    TODO: change href and type -->
-                                        <a th:href="${'/library/filterid?id='}+${book.getAuthorId}" type="${author.getName}" th:text="${book.getTitle()}"></a>
+                                        <a th:href="${'/book-splash/filterid?id='}+${book.getId}" type="${book.getTitle}" th:text="${book.getTitle()}"></a>
                                     </td>
                                 </form>
                                 <td th:text="${book.getIsbn()}"></td>
@@ -138,9 +135,8 @@
             <input type="text" name="authorId" class="form-control" id="inputAuthorID" placeholder="Author ID *(CHECK THAT AUTHOR ID EXISTS IN DATABASE, IF NOT THEN CREATE AN ACCOUNT IN AUTHOR PAGE)">
         </div>
     </div>
-<!--        <input type="submit" value="Add book" />-->
+    <!--        <input type="submit" value="Add book" />-->
     <input type="submit" class="col-sm-12 btn btn-primary" id="addBookInput"></input>
-
 </form>
 </body>
 

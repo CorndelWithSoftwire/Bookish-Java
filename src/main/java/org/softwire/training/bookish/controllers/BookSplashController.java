@@ -20,14 +20,14 @@ public class BookSplashController {
         this.bookSplashService = bookSplashService;
     }
 
-    @RequestMapping("")
+    @RequestMapping("/filterid")
     ModelAndView bookSplash(@RequestParam int id) {
         Book book = bookSplashService.getBook(id);
 
         BookSplashPageModel bookSplashPageModel = new BookSplashPageModel();
         bookSplashPageModel.setBook(book);
 
-        return new ModelAndView("book", "bookSplashModel", bookSplashPageModel);
+        return new ModelAndView("book-splash", "bookSplashModel", bookSplashPageModel);
     }
 }
 
