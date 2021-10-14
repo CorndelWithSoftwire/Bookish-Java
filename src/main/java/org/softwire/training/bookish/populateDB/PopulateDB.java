@@ -19,8 +19,7 @@ public class PopulateDB {
 		Jdbi jdbi = createJdbiConnection();
 
 
-		/*
-		populateUsers(jdbi);
+		//populateUsers(jdbi);
 		makeLibrarians(jdbi);
 
 		Books allBooks = new Books("resources/books.csv");
@@ -32,7 +31,6 @@ public class PopulateDB {
 		populateBookAuthors(jdbi, bookAuthor);
 		populateCopies(jdbi, allBooks);
 
-		 */
 		populateBorrows(jdbi);
 
 
@@ -77,7 +75,7 @@ public class PopulateDB {
 	public static Jdbi createJdbiConnection() {
 		Properties connProperties = new Properties();
 		connProperties.put("user", "root");
-		connProperties.put("password", "c7f/SGXS<80D1H/Iqf0PQp90@dicw(J?");
+		connProperties.put("password", "rootpw");
 		connProperties.setProperty("useSSL", "false");
 		Jdbi jdbi = Jdbi.create("jdbc:mysql://localhost:3306/bookish", connProperties);
 		jdbi.installPlugin(new SqlObjectPlugin());

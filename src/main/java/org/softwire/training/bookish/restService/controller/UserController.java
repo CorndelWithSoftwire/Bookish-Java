@@ -7,6 +7,7 @@ import org.softwire.training.bookish.models.database.User;
 import org.softwire.training.bookish.populateDB.PopulateDB;
 import org.softwire.training.bookish.restService.response.ErrorResponse;
 import org.softwire.training.bookish.restService.response.Response;
+import org.softwire.training.bookish.restService.response.UserGetSuccessResponse;
 import org.softwire.training.bookish.restService.response.UserSuccessResponse;
 import org.springframework.web.bind.annotation.*;
 
@@ -42,12 +43,24 @@ public class UserController {
     @DeleteMapping("/user/delete/{userId}")
     public Response deleteUser(@PathVariable("userId") String userId) {
         Jdbi jdbi = PopulateDB.createJdbiConnection();
-        User userToDelete = new User;
+        User userToDelete = new User();
         try {
             userToDelete.getUserFromDatabase(jdbi, userId);
         } catch (NoUserExeception noUserExeception) {
-            return new ErrorResponse(400, noUserExeception.getLocalizedMessage())
+            return new ErrorResponse(400, noUserExeception.getLocalizedMessage());
         }
+        return new UserSuccessResponse(200, userId);
+    }
 
+    @GetMapping("/user/{id}")
+    public Response getUser(@PathVariable("id") String userId) {
+        Jdbi jdbi = PopulateDB.createJdbiConnection();
+        User user = new User();
+        try {
+            user.getUserFromDatabase(jdbi, userId);
+        } catch (NoUserExeception ex) {
+            return new ErrorResponse(400, ex.getLocalizedMessage());
+        }
+        return new UserGetSuccessResponse(200, user);
     }
 }

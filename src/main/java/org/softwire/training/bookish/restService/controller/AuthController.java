@@ -5,6 +5,7 @@ import org.softwire.training.bookish.execeptions.NoUserExeception;
 import org.softwire.training.bookish.models.database.User;
 import org.softwire.training.bookish.populateDB.PopulateDB;
 import org.softwire.training.bookish.restService.models.JsonWebToken;
+import org.softwire.training.bookish.restService.models.registerRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -15,23 +16,29 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("")
 public class AuthController {
 
     @PostMapping("/register")
-    ResponseEntity<String> registerNewUser(@RequestBody User userPayload) {
+    ResponseEntity<String> registerNewUser(@RequestBody registerRequest userPayload) {
+        System.out.println(userPayload);
+        User newUser = new User();
+        newUser.setUsername(userPayload.getUsername());
+        newUser.setPasshashFromString(userPayload.getPassword());
+        newUser.setEmail(userPayload.getEmail());
+        newUser.setPhoneNumber(userPayload.getPhone());
         Jdbi jdbi = PopulateDB.createJdbiConnection();
         try {
-            userPayload.getUserFromDatabase(jdbi, userPayload.getUsername());
+            newUser.getUserFromDatabase(jdbi, newUser.getUsername());
         } catch (NoUserExeception ex) {
-            userPayload.insertUserToDatabase(jdbi);
+            newUser.insertUserToDatabase(jdbi);
             User foundUser = null;
             try {
-                userPayload.getUserFromDatabase(jdbi, userPayload.getUsername());
+                newUser.getUserFromDatabase(jdbi, newUser.getUsername());
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            if (foundUser.getUsername().equals(userPayload.getUsername())) {
+            if (foundUser.getUsername().equals(newUser.getUsername())) {
                 return ResponseEntity.status(HttpStatus.CREATED).body("Successfully Created new User");
             }
         }

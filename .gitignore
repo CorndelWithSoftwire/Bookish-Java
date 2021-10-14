@@ -1,6 +1,8 @@
 # Created by https://www.toptal.com/developers/gitignore/api/intellij+iml,maven,java
 # Edit at https://www.toptal.com/developers/gitignore?templates=intellij+iml,maven,java
 
+volumes/
+
 ### macOS ###
 # General
 .DS_Store
