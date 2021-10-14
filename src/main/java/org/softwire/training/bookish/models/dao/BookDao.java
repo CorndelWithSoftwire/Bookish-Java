@@ -40,4 +40,6 @@ public interface BookDao {
     @SqlQuery("SELECT Title,BookId FROM BOOK LIMIT :limit offset :page")
     @RegisterBeanMapper(BookDict.class)
     List<BookDict> getAllBooks(@Bind("limit") int limit, @Bind("page") int page);
+
+//    @SqlQuery("SELECT BookId FROM ")
 }

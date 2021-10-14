@@ -1,6 +1,7 @@
 package org.softwire.training.bookish.restService.controller;
 
 import org.jdbi.v3.core.Jdbi;
+import org.softwire.training.bookish.models.database.Book;
 import org.softwire.training.bookish.models.database.BookDict;
 import org.softwire.training.bookish.models.database.Books;
 import org.softwire.training.bookish.populateDB.PopulateDB;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -23,7 +25,9 @@ public class BooksController {
     }
 
 //    @GetMapping("books/{id}")
-//    List<String> getBookById(@PathVariable(value = "id",required = true) int id ){}
+//    Book getBookById(@PathVariable(value = "id",required = true) int id ){
+//        return new Book().get
+//    }
 
 
 }

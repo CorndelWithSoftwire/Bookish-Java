@@ -62,6 +62,10 @@ public class Books {
         return jdbi.withExtension(BookDao.class, Dao -> Dao.getAllBooks(50, page * 50));
     }
 
+//    public Book getBookById(Jdbi jdbi, int bookID) {
+//        return jdbi.withExtension(Book.class, Dao -> Dao.)
+//    }
+
 
 }
 
