@@ -7,9 +7,10 @@ import org.softwire.training.bookish.models.dao.BookDao;
 import java.util.Date;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Optional;
 
 public class Book {
-    Integer BookID;
+    Optional<Integer> BookID;
     String Title;
     String Authors;
     Date Created_at;
@@ -26,7 +27,7 @@ public class Book {
 
     public Book(){}
 
-    public Integer getBookID() {
+    public Optional<Integer> getBookID() {
         return BookID;
     }
 
@@ -63,7 +64,7 @@ public class Book {
     }
 
     public void setBookID(Integer bookID) {
-        BookID = bookID;
+        BookID = Optional.ofNullable(bookID);
     }
 
     public void setTitle(String title) {
@@ -102,8 +103,8 @@ public class Book {
         Cover_photo_url = cover_photo_url;
     }
 
-    public void insertBook(Jdbi jdbi) {
-       jdbi.useExtension(BookDao.class, dao -> dao.insertBook(this.BookID, this.Title, this.Created_at, this.getUpdated_at(), this.Slug, this.ISBN, this.Subtitle, this.Subjects, this.Cover_photo_url));
+    public int insertBook(Jdbi jdbi) {
+       return jdbi.withExtension(BookDao.class, dao -> dao.insertBook(this.Title, this.Created_at, this.getUpdated_at(), this.Slug, this.ISBN, this.Subtitle, this.Subjects, this.Cover_photo_url));
     }
 
     private Date createDate(String dateString) {

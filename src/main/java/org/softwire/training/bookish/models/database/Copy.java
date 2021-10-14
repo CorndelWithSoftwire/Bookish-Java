@@ -25,7 +25,7 @@ public class Copy {
 		this.bookId = bookId;
 	}
 
-	public void insertCopyIntoDb(Jdbi jdbi) {
-		jdbi.useExtension(CopyDao.class, dao -> dao.insertCopy(this.copyId, this.bookId));
+	public int insertCopyIntoDb(Jdbi jdbi) {
+		return jdbi.withExtension(CopyDao.class, dao -> dao.insertCopy(this.bookId));
 	}
 }

@@ -21,8 +21,8 @@ public class BorrowController {
     @PostMapping("/borrow")
     Response borrowBook(@RequestBody Borrow newBorrow) {
         Jdbi jdbi = PopulateDB.createJdbiConnection();
-        newBorrow.insertIntoDatabase(jdbi);
-        return new BorrowSuccessResponse(200, 234324);
+        int borrowId = newBorrow.insertIntoDatabase(jdbi);
+        return new BorrowSuccessResponse(200, borrowId);
     }
 
     @GetMapping("/borrow/byUser/{username}")

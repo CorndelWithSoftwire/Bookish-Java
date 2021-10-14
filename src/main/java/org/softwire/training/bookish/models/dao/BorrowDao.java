@@ -2,6 +2,7 @@ package org.softwire.training.bookish.models.dao;
 
 import org.jdbi.v3.sqlobject.config.RegisterBeanMapper;
 import org.jdbi.v3.sqlobject.customizer.Bind;
+import org.jdbi.v3.sqlobject.statement.GetGeneratedKeys;
 import org.jdbi.v3.sqlobject.statement.SqlQuery;
 import org.jdbi.v3.sqlobject.statement.SqlUpdate;
 import org.softwire.training.bookish.models.database.Book;
@@ -11,8 +12,9 @@ import java.util.Date;
 import java.util.List;
 
 public interface BorrowDao {
-	@SqlUpdate("INSERT INTO Borrows VALUES (?, ?, ?, ?, ?, ?)")
-	void insertBorrow(int borrowId, int borrowedCopy, String username, Date checkOutDate, Date checkInDate, Date DueDate);
+	@SqlUpdate("INSERT INTO Borrows(borrowedcopyid, username, checkoutdate, checkindate, duedate) VALUES (?, ?, ?, ?, ?)")
+	@GetGeneratedKeys
+	int insertBorrow(int borrowedCopy, String username, Date checkOutDate, Date checkInDate, Date DueDate);
 
 	@SqlQuery("SELECT * FROM Borrows WHERE Username=:username")
 	@RegisterBeanMapper(Borrow.class)

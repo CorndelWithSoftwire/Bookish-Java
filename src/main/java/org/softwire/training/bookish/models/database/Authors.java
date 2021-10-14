@@ -9,7 +9,6 @@ public class Authors {
     private final Set<Author> authors = new HashSet<>();
 
     public Authors(Books arrayOfBooks) {
-        AtomicInteger increment = new AtomicInteger();
         arrayOfBooks.booksList.forEach(book -> {
             String author = book.getAuthors();
             String[] multipleAuthors = author.split(",");
@@ -18,7 +17,7 @@ public class Authors {
                 if (each.contains("\"")) {
                     author_name = recursiveTrim(each.replaceAll("\"", ""));
                 }
-                authors.add(new Author(increment.getAndIncrement(), author_name));
+                authors.add(new Author(author_name));
             }
         });
     }
