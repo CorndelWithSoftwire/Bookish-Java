@@ -4,7 +4,7 @@ package org.softwire.training.bookish.models.database;
 import java.util.Objects;
 
 public class Book {
-    private int id;
+    private final int id;
     private String title;
     private int isbn;
     private String publishedDate;
