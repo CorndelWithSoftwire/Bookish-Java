@@ -2,6 +2,7 @@ package org.softwire.training.bookish.models.database;
 
 import org.jdbi.v3.core.Jdbi;
 import org.softwire.training.bookish.models.dao.BookDao;
+import org.springframework.data.util.Pair;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -57,7 +58,7 @@ public class Books {
     }
 
 
-    public List<String> getBooksList(Jdbi jdbi, int page) {
+    public List<BookDict> getBooksList(Jdbi jdbi, int page) {
         return jdbi.withExtension(BookDao.class, Dao -> Dao.getAllBooks(50, page * 50));
     }
 
