@@ -18,7 +18,7 @@ public class BookSplashService extends DatabaseService {
     public void editBook(Book book) {
         jdbi.useHandle(handle ->
                 handle.createUpdate("INSERT INTO book (id, title, ISBN, published_date, publisher, genre, number_of_copies, author_id)\n" +
-                                "VALUES (4, 'Harry Potter and the Goblet of Your Mum', '1111111151', '1997', 'Scholastic', 'fantasy', 2, 1)\n" +
+                                "VALUES (:title, :ISBN, :published_date, :publisher, :genre, :number_of_copies, :author_id)\n" +
                                 "ON DUPLICATE KEY UPDATE id=VALUES(id),\n" +
                                 "title=VALUES(title),\n" +
                                 "ISBN=VALUES(ISBN),\n" +

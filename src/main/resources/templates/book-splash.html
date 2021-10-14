@@ -42,53 +42,52 @@
     </table>
 </div>
 
-<!-- TODO: change action -->
-<form id="formForAddBook" th:action="@{/library/add-book}" method="post">
+<form id="formForEditBook" th:action="@{/book-splash/edit-book}" method="post">
     <h2>Edit book:</h2>
     <div class="form-group row">
         <label form="inputTitle" class="col-sm-2 col-form-label">Title</label>
         <div class="col-sm-10">
-            <input type="text" name="title" class="form-control" id="inputPassword" th:placeholder="${bookSplashModel.getBook().getTitle()}">
+            <input type="text" name="title" class="form-control" id="inputPassword" th:value="${bookSplashModel.getBook().getTitle()}" th:placeholder="${bookSplashModel.getBook().getTitle()}">
         </div>
     </div>
     <div class="form-group row">
         <label form="inputISBN" class="col-sm-2 col-form-label">ISBN</label>
         <div class="col-sm-10">
-            <input type="text" name="isbn" class="form-control" id="inputISBN" th:placeholder="${bookSplashModel.getBook().getIsbn()}">
+            <input type="text" name="isbn" class="form-control" id="inputISBN" th:value="${bookSplashModel.getBook().getIsbn()}" th:placeholder="${bookSplashModel.getBook().getIsbn()}">
         </div>
     </div>
     <div class="form-group row">
         <label form="inputPublishedDate" class="col-sm-2 col-form-label">Published Date</label>
         <div class="col-sm-10">
-            <input type="text" name="publishedDate" class="form-control" id="inputPublishedDate" th:placeholder="${bookSplashModel.getBook().getPublishedDate()}">
+            <input type="text" name="publishedDate" class="form-control" id="inputPublishedDate" th:value="${bookSplashModel.getBook().getPublishedDate()}" th:placeholder="${bookSplashModel.getBook().getPublishedDate()}">
         </div>
     </div>
     <div class="form-group row">
         <label form="inputPublisher" class="col-sm-2 col-form-label">Publisher</label>
         <div class="col-sm-10">
-            <input type="text" name="publisher" class="form-control" id="inputPublisher" th:placeholder="${bookSplashModel.getBook().getPublisher()}">
+            <input type="text" name="publisher" class="form-control" id="inputPublisher" th:value="${bookSplashModel.getBook().getPublisher()}" th:placeholder="${bookSplashModel.getBook().getPublisher()}">
         </div>
     </div>
     <div class="form-group row">
         <label form="inputGenre" class="col-sm-2 col-form-label">Genre</label>
         <div class="col-sm-10">
-            <input type="text" name="genre" class="form-control" id="inputGenre" th:placeholder="${bookSplashModel.getBook().getGenre()}">
+            <input type="text" name="genre" class="form-control" id="inputGenre" th:value="${bookSplashModel.getBook().getGenre()}" th:placeholder="${bookSplashModel.getBook().getGenre()}">
         </div>
     </div>
     <div class="form-group row">
         <label form="inputNumberOfCopies" class="col-sm-2 col-form-label">Number Of Copies</label>
         <div class="col-sm-10">
-            <input type="text" name="numberOfCopies" class="form-control" id="inputNumberOfCopies" th:placeholder="${bookSplashModel.getBook().getNumberOfCopies()}">
+            <input type="text" name="numberOfCopies" class="form-control" id="inputNumberOfCopies" th:value="${bookSplashModel.getBook().getNumberOfCopies()}" th:placeholder="${bookSplashModel.getBook().getNumberOfCopies()}">
         </div>
     </div>
     <div class="form-group row">
         <label form="inputAuthorID" class="col-sm-2 col-form-label">Author ID</label>
         <div class="col-sm-10">
-            <input type="text" name="authorId" class="form-control" id="inputAuthorID" th:placeholder="${bookSplashModel.getBook().getAuthorId()}">
+            <input type="text" name="authorId" class="form-control" id="inputAuthorID" th:value="${bookSplashModel.getBook().getAuthorId()}" th:placeholder="${bookSplashModel.getBook().getAuthorId()}">
         </div>
     </div>
     <!--        <input type="submit" value="Add book" />-->
-    <input type="submit" class="col-sm-12 btn btn-primary" id="addBookInput"></input>
+    <input type="submit" class="col-sm-12 btn btn-primary" id="editBookInput" />
 </form>
 
 </body>
