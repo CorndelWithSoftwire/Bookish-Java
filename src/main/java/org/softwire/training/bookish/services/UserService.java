@@ -19,24 +19,16 @@ public class UserService extends DatabaseService {
 
     public List<User> sort(String column) {
         jdbi.installPlugin( new SqlObjectPlugin() );
-        List<User> userList = jdbi.withExtension(
-                UserDao.class, dao -> {
-                    return dao.sort(column);
 
-                });
-
-        return userList;
+        return jdbi.withExtension(
+                UserDao.class, dao -> dao.sort(column));
     }
 
     public List<User> sortReverse(String column) {
         jdbi.installPlugin( new SqlObjectPlugin() );
-        List<User> userList = jdbi.withExtension(
-                UserDao.class, dao -> {
-                    return dao.sortReverse(column);
 
-                });
-
-        return userList;
+        return jdbi.withExtension(
+                UserDao.class, dao -> dao.sortReverse(column));
     }
 
     public void addUser(User user) {

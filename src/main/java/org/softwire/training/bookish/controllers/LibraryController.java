@@ -75,5 +75,14 @@ public class LibraryController {
         return new ModelAndView("library", "libraryModel", libraryPageModel);
     }
 
+    @RequestMapping("/filterid")
+    ModelAndView filterid(@RequestParam int id){
+        List<Book> allBooks = libraryService.filterId(id);
+
+        LibraryPageModel libraryPageModel = new LibraryPageModel();
+        libraryPageModel.setBooks(allBooks);
+
+        return new ModelAndView("library", "libraryModel", libraryPageModel);
+    }
 
 }
