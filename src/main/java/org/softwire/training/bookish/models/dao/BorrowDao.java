@@ -18,6 +18,10 @@ public interface BorrowDao {
 	@RegisterBeanMapper(Borrow.class)
 	List<Borrow> getUsersBorrows(@Bind("username") String username);
 
+	@SqlQuery("SELECT * FROM Borrows WHERE BorrowId=:id")
+	@RegisterBeanMapper(Borrow.class)
+	List<Borrow> getBorrowById(@Bind("id") int id);
+
 	@SqlQuery("SELECT * FROM Borrows WHERE BorrowedCopyId=:borrowCopyId")
 	@RegisterBeanMapper(Borrow.class)
 	List<Borrow> getBorrowsByCopy(@Bind("borrowCopyId") int borrowCopyId);

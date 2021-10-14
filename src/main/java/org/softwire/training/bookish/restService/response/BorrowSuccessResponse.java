@@ -1,6 +1,6 @@
 package org.softwire.training.bookish.restService.response;
 
-public class BorrowSuccessResponse {
+public class BorrowSuccessResponse implements Response{
     private int status;
     private int borrowId;
 

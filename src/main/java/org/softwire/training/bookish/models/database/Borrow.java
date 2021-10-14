@@ -1,6 +1,7 @@
 package org.softwire.training.bookish.models.database;
 
 import org.jdbi.v3.core.Jdbi;
+import org.softwire.training.bookish.execeptions.NoBorrowsException;
 import org.softwire.training.bookish.models.dao.BorrowDao;
 
 import java.util.Date;
@@ -68,11 +69,19 @@ public class Borrow {
 		jdbi.useExtension(BorrowDao.class, dao -> dao.insertBorrow(this.borrowId, this.borrowCopyId, this.username, this.checkOutDate, this.checkInDate, this.dueDate));
 	}
 
-	public List<Borrow> queryByUsername(Jdbi jdbi, String username) {
-		return jdbi.withExtension(BorrowDao.class, dao -> dao.getUsersBorrows(username));
+	public List<Borrow> queryByUsername(Jdbi jdbi, String username) throws NoBorrowsException {
+		List<Borrow> borrows = jdbi.withExtension(BorrowDao.class, dao -> dao.getUsersBorrows(username));
+		if (borrows.isEmpty()) {
+			throw new NoBorrowsException("There are no borrows for this user");
+		}
+		return borrows;
 	}
 
-	public List<Book> queryUsersBorrowedBooks(Jdbi jdbi, String username) {
-		return jdbi.withExtension(BorrowDao.class, dao -> dao.getUsersBorrowedBooks(username));
+	public List<Borrow> queryById(Jdbi jdbi, int id) throws NoBorrowsException {
+		List<Borrow> borrows = jdbi.withExtension(BorrowDao.class, dao -> dao.getBorrowById(id));
+		if (borrows.isEmpty()) {
+			throw new NoBorrowsException("There are no borrows for this user");
+		}
+		return borrows;
 	}
 }

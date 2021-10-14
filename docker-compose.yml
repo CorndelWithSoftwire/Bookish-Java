@@ -25,6 +25,8 @@ services:
   webapp:
     build: Bookish-Frontend
     image: webapp
+    volumes:
+      - ~/Work/CorndelBootcamp/Bookish-Frontend/dist:/usr/share/nginx/html
     ports:
       - "5000:80"
 
