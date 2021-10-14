@@ -46,6 +46,20 @@ public class LibraryService extends DatabaseService {
                 LibraryDao.class, dao -> dao.sort(column));
     }
 
+    public List<Book> filterAndSort(String column, int id) {
+        jdbi.installPlugin( new SqlObjectPlugin() ); // usually when connecting
+
+        return jdbi.withExtension(
+                LibraryDao.class, dao -> dao.filterAndSort(column, id));
+    }
+
+    public List<Book> filterAndSortReverse(String column, int id) {
+        jdbi.installPlugin( new SqlObjectPlugin() ); // usually when connecting
+
+        return jdbi.withExtension(
+                LibraryDao.class, dao -> dao.filterAndSortReverse(column, id));
+    }
+
     public List<Book> sortReverse(String column) {
         jdbi.installPlugin( new SqlObjectPlugin() );
 
