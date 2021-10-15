@@ -14,6 +14,8 @@ import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
+import static org.softwire.training.bookish.connect.SqlConnect.createJdbiConnection;
+
 public class PopulateDB {
 	public static void main(String[] args) throws SQLException {
 		Jdbi jdbi = createJdbiConnection();
@@ -60,15 +62,7 @@ public class PopulateDB {
 		populateBorrows(jdbi);
 	}
 
-	public static Jdbi createJdbiConnection() {
-		Properties connProperties = new Properties();
-		connProperties.put("user", "root");
-		connProperties.put("password", "c7f/SGXS<80D1H/Iqf0PQp90@dicw(J?");
-		connProperties.setProperty("useSSL", "false");
-		Jdbi jdbi = Jdbi.create("jdbc:mysql://localhost:3306/bookish", connProperties);
-		jdbi.installPlugin(new SqlObjectPlugin());
-		return jdbi;
-	}
+
 
 	private static void populateBorrows(Jdbi jdbi) {
 		Date date = new Date();

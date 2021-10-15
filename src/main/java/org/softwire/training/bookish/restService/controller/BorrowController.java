@@ -10,24 +10,24 @@ import org.softwire.training.bookish.restService.response.BorrowSuccessResponse;
 import org.softwire.training.bookish.restService.response.BorrowsListResponse;
 import org.softwire.training.bookish.restService.response.ErrorResponse;
 import org.softwire.training.bookish.restService.response.Response;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+import static org.softwire.training.bookish.connect.SqlConnect.createJdbiConnection;
+
+@RestController
 public class BorrowController {
+    Jdbi jdbi = createJdbiConnection();
+
     @PostMapping("/borrow")
     Response borrowBook(@RequestBody Borrow newBorrow) {
-        Jdbi jdbi = PopulateDB.createJdbiConnection();
         int borrowId = newBorrow.insertIntoDatabase(jdbi);
         return new BorrowSuccessResponse(200, borrowId);
     }
 
     @GetMapping("/borrow/byUser/{username}")
     Response getBookBorrow(@PathVariable("username") String username) {
-        Jdbi jdbi = PopulateDB.createJdbiConnection();
         Borrow borrow = new Borrow();
         List<Borrow> borrows;
         try {
@@ -40,7 +40,6 @@ public class BorrowController {
 
     @GetMapping("/borrow/byId/{id}")
     Response getBorrowById(@PathVariable("id") int id) {
-       Jdbi jdbi = PopulateDB.createJdbiConnection();
        List<Borrow> borrows;
        try {
            borrows = new Borrow().queryById(jdbi, id);
