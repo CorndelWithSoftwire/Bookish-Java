@@ -101,7 +101,7 @@
                     <artifactId>spring-boot-maven-plugin</artifactId>
                     <configuration>
                         <fork>true</fork>
-                        <mainClass>org.djna.asynch.estate.webapp.HomeMonitorApplication</mainClass>
+                        <mainClass>org.softwire.training.bookish.restService.RestService</mainClass>
                     </configuration>
                     <executions>
                         <execution>

@@ -18,67 +18,52 @@ public class PopulateDB {
 	public static void main(String[] args) throws SQLException {
 		Jdbi jdbi = createJdbiConnection();
 
-		Books allBooks = new Books("resources/books.csv");
-//		populateBooks(jdbi, allBooks);
+		String[] tables = {"Authors", "Book", "BookAuthor", "Borrows", "Copies", "Librarians", "Users"};
 
-//		populateUsers(jdbi);
-//		makeLibrarians(jdbi);
-
-
-//		Authors allAuthors = new Authors(allBooks);
-//		List<BookAuthor> bookAuthor = createBookAuthors(allBooks, allAuthors);
-//
-//		populateAuthors(jdbi, allAuthors);
-//
-//		populateBookAuthors(jdbi, bookAuthor);
-//		populateCopies(jdbi, allBooks);
-		/*
-		 */
-//		populateBorrows(jdbi);
-
-
-		/*
-		List<Author> authorObj = jdbi.withExtension(AuthorDao.class, dao -> dao.getAuthorByName("  Andrew Glover"));
-		System.out.println(authorObj);
-
-
-		List<User> users = jdbi.withExtension(UserDao.class, dao -> dao.getUser("Test3"));
-		System.out.println(users);
-
-		List<Librarian> librarians = jdbi.withExtension(LibrarianDao.class, dao -> {
-			//dao.createLibrarian("Test3");
-			return dao.getLibrarian("Test3");
+		jdbi.useHandle(handle -> {
+			handle.execute("SET FOREIGN_KEY_CHECKS=0");
+			Arrays.stream(tables).forEach(table -> {
+				handle.execute("drop table "+table);
+			});
+			handle.execute("SET FOREIGN_KEY_CHECKS=1");
+			handle.execute("CREATE TABLE Book (BookId int NOT NULL AUTO_INCREMENT, Title varchar(255)  NOT NULL, CreatedAt date  NOT NULL, UpdatedAt date  NOT NULL, Slug varchar(255)  NOT NULL, Isbn varchar(255)  NULL, Subtitle varchar(255)  NULL, Subjects varchar(600)  NULL, CoverPhotoUrl varchar(255) NULL, PRIMARY KEY (BookId));");
+			handle.execute("CREATE TABLE Copies (CopyId int  NOT NULL AUTO_INCREMENT, BookId int  NOT NULL , PRIMARY KEY (CopyId));");
+			handle.execute("CREATE TABLE BookAuthor (Book int  NOT NULL, Author int  NOT NULL);");
+			handle.execute("CREATE TABLE Authors (AuthorId int  NOT NULL AUTO_INCREMENT, AuthorName varchar(255)  NOT NULL, PRIMARY KEY (AuthorId));");
+			handle.execute("CREATE TABLE Users (Username varchar(32)  NOT NULL ,PasswordHash varchar(255)  NOT NULL ,Email varchar(255)  NOT NULL ,PhoneNumber long  NOT NULL ,PRIMARY KEY (Username));");
+			handle.execute("CREATE TABLE Librarians (Username varchar(32)  NOT NULL ,PRIMARY KEY (Username));");
+			handle.execute("CREATE TABLE Borrows (BorrowId int  NOT NULL AUTO_INCREMENT, BorrowedCopyId int  NOT NULL ,Username varchar(32)  NOT NULL ,CheckOutDate date  NOT NULL ,CheckInDate date, DueDate date  NOT NULL, PRIMARY KEY (BorrowId));");
+			handle.execute("ALTER TABLE BookAuthor ADD CONSTRAINT fk_Book_BookId FOREIGN KEY(Book) REFERENCES Book (BookId);");
+			handle.execute("ALTER TABLE Borrows ADD CONSTRAINT fk_Copies_CopyId FOREIGN KEY(BorrowedCopyId) REFERENCES Copies (CopyId);");
+			handle.execute("ALTER TABLE Copies ADD CONSTRAINT fk_Copies_BookId FOREIGN KEY(BookId) REFERENCES Book (BookId);");
+			handle.execute("ALTER TABLE BookAuthor ADD CONSTRAINT fk_Authors_AuthorId FOREIGN KEY(Author) REFERENCES Authors (AuthorId);");
+			handle.execute("ALTER TABLE Librarians ADD CONSTRAINT fk_Librarians_Username FOREIGN KEY(Username) REFERENCES Users (Username);");
+			handle.execute("ALTER TABLE Borrows ADD CONSTRAINT fk_Borrows_Username FOREIGN KEY(Username) REFERENCES Users (Username);");
+			handle.execute("CREATE INDEX idx_Book_Title ON Book (Title);");
+			handle.execute("CREATE INDEX idx_Authors_Name ON Authors (AuthorName);");
 		});
-		System.out.println(librarians);
 
-//		List<User> users = jdbi.withExtension(UserDao.class, dao -> {
-//			dao.insertUser("Test3","null","do@email.com","909876654");
-//		return null;
-//		});
-//		System.out.println(users);
-		User user3 = new User();
-		user3.setUsername("bec");
-		user3.setEmail("bec@gmail.com");
-		user3.setPasshashFromString("hello");
-		user3.setPhoneNumber("98765433");
-		user3.insertUserToDatabase(jdbi);
-//
-//		List<Librarian> librarians = jdbi.withExtension(LibrarianDao.class, dao -> {
-//			//dao.createLibrarian("Test3");
-//			return dao.getLibrarian("Test3");
-//		});
-//		System.out.println(librarians);
 
-		User user = new User();
-		user.getUserFromDatabase(jdbi, "bec" );
-		System.out.println(user);
-*/
+		populateUsers(jdbi);
+		makeLibrarians(jdbi);
+
+		Books allBooks = new Books("resources/books.csv");
+		Authors allAuthors = new Authors(allBooks);
+		populateAuthors(jdbi, allAuthors);
+
+		populateBooks(jdbi, allBooks);
+		List<BookAuthor> bookAuthor = createBookAuthors(allBooks, allAuthors);
+
+		populateBookAuthors(jdbi, bookAuthor);
+		populateCopies(jdbi, allBooks);
+
+		populateBorrows(jdbi);
 	}
 
 	public static Jdbi createJdbiConnection() {
 		Properties connProperties = new Properties();
 		connProperties.put("user", "root");
-		connProperties.put("password", "c7f/SGXS<80D1H/Iqf0PQp90@dicw(J?");
+		connProperties.put("password", "rootpw");
 		connProperties.setProperty("useSSL", "false");
 		Jdbi jdbi = Jdbi.create("jdbc:mysql://localhost:3306/bookish", connProperties);
 		jdbi.installPlugin(new SqlObjectPlugin());
@@ -107,18 +92,18 @@ public class PopulateDB {
 			int numOfCopies = rand.nextInt(5);
 			for (int copyNum = 0; copyNum <= numOfCopies; copyNum++) {
 				Copy copy = new Copy();
-				copy.setBookId(b.getBookID());
+				copy.setBookId(b.getBookID().get());
 				copy.setCopyId(id.getAndIncrement());
 				copy.insertCopyIntoDb(jdbi);
 			}
 		});
 	}
 
-	public static void populateBookAuthors(Jdbi jdbi, List<BookAuthor> bookAuthor) {
+	private static void populateBookAuthors(Jdbi jdbi, List<BookAuthor> bookAuthor) {
 		bookAuthor.forEach(bookAuthor1 -> bookAuthor1.insertBookAuthor(jdbi));
 	}
 
-	public static List<BookAuthor> createBookAuthors(Books allBooks, Authors allAuthors) {
+	private static List<BookAuthor> createBookAuthors(Books allBooks, Authors allAuthors) {
 		HashMap<Integer, ArrayList<Integer>> bookAuthorSet = new HashMap<>();
 		Set<Author> authors = allAuthors.getAuthors();
 		allBooks.booksList.forEach(book -> {
@@ -131,12 +116,13 @@ public class PopulateDB {
 				if (tempAuthorList == null) {
 					tempAuthorList = new ArrayList<>();
 				}
-				tempAuthorList.add(bookAuthor.getAuthorId());
-				bookAuthorSet.put(book.getBookID(), tempAuthorList);
+				tempAuthorList.add(bookAuthor.getAuthorId().get());
+				bookAuthorSet.put(book.getBookID().get(), tempAuthorList);
 			}
 		});
 		List<BookAuthor> bookAuthorList = new ArrayList<>();
 		bookAuthorSet.keySet().forEach(key -> {
+			System.out.println(key);
 			ArrayList<Integer> authorsList = bookAuthorSet.get(key);
 			authorsList.forEach(auth -> {
 				BookAuthor bookAuthor = new BookAuthor();
@@ -155,36 +141,16 @@ public class PopulateDB {
 		return string;
 	}
 
-	public static void populateBooks(Jdbi jdbi, Books allBooks) {
-		Integer count = jdbi.withExtension(BookDao.class, dao -> {
-			for (Book each : allBooks.booksList) {
-				dao.insertBook(
-						each.getBookID(),
-						each.getTitle(),
-						each.getCreated_at(),
-						each.getUpdated_at(),
-						each.getSlug(),
-						each.getISBN(),
-						each.getSubtitle(),
-						each.getSubjects(),
-						each.getCover_photo_url()
-				);
-
-			};
-			return 5;
+	private static void populateBooks(Jdbi jdbi, Books allBooks) {
+		allBooks.booksList.forEach(book -> {
+			book.setBookID(book.insertBook(jdbi));
 		});
 	}
 
-	public static void populateAuthors(Jdbi jdbi, Authors allAuthors) {
-		Integer count = jdbi.withExtension(AuthorDao.class, dao -> {
-			for (Author each : allAuthors.getAuthors()) {
-				dao.insertAuthors(
-						each.getAuthorId(),
-						each.getAuthorName()
-				);
-			}
-			;
-			return 5;
+	private static void populateAuthors(Jdbi jdbi, Authors allAuthors) {
+		allAuthors.getAuthors().forEach(author -> {
+			author.setAuthorId(author.insertIntoDb(jdbi));
+			System.out.println(author.getAuthorId().get());
 		});
 	}
 

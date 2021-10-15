@@ -1,13 +1,15 @@
 package org.softwire.training.bookish.models.database;
 
 import org.jdbi.v3.core.Jdbi;
+import org.softwire.training.bookish.execeptions.NoBorrowsException;
 import org.softwire.training.bookish.models.dao.BorrowDao;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 public class Borrow {
-	private int borrowId;
+	private Optional<Integer> borrowId;
 	private int borrowCopyId;
 	private String username;
 	private Date checkOutDate;
@@ -16,12 +18,12 @@ public class Borrow {
 
 	public Borrow() {};
 
-	public int getBorrowId() {
+	public Optional<Integer> getBorrowId() {
 		return borrowId;
 	}
 
 	public void setBorrowId(int borrowId) {
-		this.borrowId = borrowId;
+		this.borrowId = Optional.of(borrowId);
 	}
 
 	public int getBorrowCopyId() {
@@ -64,15 +66,23 @@ public class Borrow {
 		this.dueDate = dueDate;
 	}
 
-	public void insertIntoDatabase(Jdbi jdbi) {
-		jdbi.useExtension(BorrowDao.class, dao -> dao.insertBorrow(this.borrowId, this.borrowCopyId, this.username, this.checkOutDate, this.checkInDate, this.dueDate));
+	public int insertIntoDatabase(Jdbi jdbi) {
+		return jdbi.withExtension(BorrowDao.class, dao -> dao.insertBorrow(this.borrowCopyId, this.username, this.checkOutDate, this.checkInDate, this.dueDate));
 	}
 
-	public List<Borrow> queryByUsername(Jdbi jdbi, String username) {
-		return jdbi.withExtension(BorrowDao.class, dao -> dao.getUsersBorrows(username));
+	public List<Borrow> queryByUsername(Jdbi jdbi, String username) throws NoBorrowsException {
+		List<Borrow> borrows = jdbi.withExtension(BorrowDao.class, dao -> dao.getUsersBorrows(username));
+		if (borrows.isEmpty()) {
+			throw new NoBorrowsException("There are no borrows for this user");
+		}
+		return borrows;
 	}
 
-	public List<Book> queryUsersBorrowedBooks(Jdbi jdbi, String username) {
-		return jdbi.withExtension(BorrowDao.class, dao -> dao.getUsersBorrowedBooks(username));
+	public List<Borrow> queryById(Jdbi jdbi, int id) throws NoBorrowsException {
+		List<Borrow> borrows = jdbi.withExtension(BorrowDao.class, dao -> dao.getBorrowById(id));
+		if (borrows.isEmpty()) {
+			throw new NoBorrowsException("There are no borrows for this user");
+		}
+		return borrows;
 	}
 }

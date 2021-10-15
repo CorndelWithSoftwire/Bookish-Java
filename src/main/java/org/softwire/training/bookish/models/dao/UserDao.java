@@ -19,4 +19,7 @@ public interface UserDao {
 	@SqlQuery("SELECT * FROM Users")
 	@RegisterBeanMapper(User.class)
 	List<User> getUsers();
+
+	@SqlUpdate("DELETE FROM Users WHERE Username=:username")
+	void deleteUser(@Bind("username") String name);
 }

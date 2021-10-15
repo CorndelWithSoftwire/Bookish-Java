@@ -4,13 +4,15 @@ package org.softwire.training.bookish.models.database;
 import org.jdbi.v3.core.Jdbi;
 import org.softwire.training.bookish.models.dao.BookDao;
 
+import java.util.Date;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 public class Book {
-    Integer BookID;
+    Optional<Integer> BookID;
     String Title;
     String Authors;
     Date Created_at;
@@ -33,12 +35,44 @@ public class Book {
         Authors = authors;
     }
 
-    public Integer getBookID() {
+    public Optional<Integer> getBookID() {
         return BookID;
     }
 
+    public String getTitle() {
+        return Title;
+    }
+
+    public Date getCreated_at() {
+        return Created_at;
+    }
+
+    public Date getUpdated_at() {
+        return Updated_at;
+    }
+
+    public String getSlug() {
+        return Slug;
+    }
+
+    public String getISBN() {
+        return ISBN;
+    }
+
+    public String getSubtitle() {
+        return Subtitle;
+    }
+
+    public String getSubjects() {
+        return Subjects;
+    }
+
+    public String getCover_photo_url() {
+        return Cover_photo_url;
+    }
+
     public void setBookID(Integer bookID) {
-        BookID = bookID;
+        BookID = Optional.ofNullable(bookID);
     }
 
     public String getTitle() {
@@ -113,8 +147,8 @@ public class Book {
         Cover_photo_url = cover_photo_url;
     }
 
-    public void insertBook(Jdbi jdbi) {
-        jdbi.useExtension(BookDao.class, dao -> dao.insertBook(this.BookID, this.Title, this.Created_at, this.getUpdated_at(), this.Slug, this.ISBN, this.Subtitle, this.Subjects, this.Cover_photo_url));
+    public int insertBook(Jdbi jdbi) {
+       return jdbi.withExtension(BookDao.class, dao -> dao.insertBook(this.Title, this.Created_at, this.getUpdated_at(), this.Slug, this.ISBN, this.Subtitle, this.Subjects, this.Cover_photo_url));
     }
 
     public void deleteBook(Jdbi jdbi) {
@@ -150,8 +184,6 @@ public class Book {
                 ", Cover_photo_url='" + Cover_photo_url + '\'' +
                 '}';
     }
-
-
 }
 
 

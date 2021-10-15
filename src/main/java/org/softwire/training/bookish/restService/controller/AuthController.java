@@ -6,22 +6,29 @@ import org.softwire.training.bookish.models.database.User;
 import org.softwire.training.bookish.populateDB.PopulateDB;
 import org.softwire.training.bookish.restService.models.JsonWebToken;
 import org.softwire.training.bookish.restService.response.*;
+import org.softwire.training.bookish.restService.models.registerRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("")
 public class AuthController {
 
     @PostMapping("/register")
-    @ResponseBody
-    Response registerNewUser(@RequestBody User userPayload) {
+    Response  registerNewUser(@RequestBody registerRequest userPayload) {
+        System.out.println(userPayload);
+        User newUser = new User();
+        newUser.setUsername(userPayload.getUsername());
+        newUser.setPasshashFromString(userPayload.getPassword());
+        newUser.setEmail(userPayload.getEmail());
+        newUser.setPhoneNumber(userPayload.getPhone());
         Jdbi jdbi = PopulateDB.createJdbiConnection();
         try {
-            User checkToSeeIfUserExist = userPayload.getUserFromDatabase(jdbi, userPayload.getUsername());
+            newUser.getUserFromDatabase(jdbi, newUser.getUsername());
         } catch (NoUserExeception ex) {
-            userPayload.insertUserToDatabase(jdbi);
+            newUser.insertUserToDatabase(jdbi);
+            User foundUser = null;
             try {
                 User foundUser = userPayload.getUserFromDatabase(jdbi, userPayload.getUsername());
             } catch (NoUserExeception exeception) {

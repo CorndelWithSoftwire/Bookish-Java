@@ -1,14 +1,16 @@
 package org.softwire.training.bookish.models.database;
 
-import java.util.Objects;
+import org.jdbi.v3.core.Jdbi;
+import org.softwire.training.bookish.models.dao.AuthorDao;
+
+import java.util.Optional;
 
 public class Author {
     private  String authorName;
-    private  int authorId;
+    private Optional<Integer> authorId;
 
 
-    public Author(int increment,String authorName) {
-        this.authorId = increment;
+    public Author(String authorName) {
         this.authorName = authorName;
     }
 
@@ -18,7 +20,7 @@ public class Author {
         return authorName;
     }
 
-    public int getAuthorId() {
+    public Optional<Integer> getAuthorId() {
         return authorId;
     }
 
@@ -35,7 +37,7 @@ public class Author {
     }
 
     public void setAuthorId(int authorId) {
-        this.authorId = authorId;
+        this.authorId = Optional.of(authorId);
     }
 
     @Override
@@ -51,6 +53,10 @@ public class Author {
     @Override
     public int hashCode() {
         return authorName.hashCode();
+    }
+
+    public int insertIntoDb(Jdbi jdbi) {
+       return jdbi.withExtension(AuthorDao.class, dao -> dao.insertAuthors(this.getAuthorName()));
     }
 }
 

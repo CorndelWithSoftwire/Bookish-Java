@@ -12,7 +12,6 @@ public class UserSuccessResponse implements Response {
     }
 
     public int getStatus() {
-
         return status;
     }
 

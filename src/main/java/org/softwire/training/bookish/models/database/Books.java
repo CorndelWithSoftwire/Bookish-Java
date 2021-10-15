@@ -41,7 +41,6 @@ public class Books {
         }
         bookRecords.forEach(e -> {
             Book book = new Book();
-            book.setBookID(Integer.valueOf(e.get(0)));
             book.setTitle(e.get(1));
             book.setAuthors(e.get(2));
             book.setCreated_at(e.get(4));
