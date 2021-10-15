@@ -4,15 +4,14 @@ import org.jdbi.v3.core.Jdbi;
 import org.softwire.training.bookish.models.database.Book;
 import org.softwire.training.bookish.models.database.BookDict;
 import org.softwire.training.bookish.models.database.Books;
-import org.softwire.training.bookish.populateDB.PopulateDB;
 import org.softwire.training.bookish.restService.response.ErrorResponse;
 import org.softwire.training.bookish.restService.response.Response;
 import org.softwire.training.bookish.restService.response.SuccessfulBookCreation;
+import org.softwire.training.bookish.restService.response.SuccessfulBookDeleteResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 import static org.softwire.training.bookish.connect.SqlConnect.createJdbiConnection;
 
@@ -28,14 +27,13 @@ public class BooksController {
 
     @GetMapping("book/{id}")
     Book getBookById(@PathVariable(value = "id") int id) {
-        return new Book().getBookById(this.jdbi, Optional.of(id));
+        return new Book().getBookById(this.jdbi, id);
     }
 
     @PostMapping("book")
     Response createANewBook(@RequestBody Book newBook) {
-
         newBook.insertBook(this.jdbi);
-        Optional<Integer> id = newBook.getBookID();
+        int id = Integer.parseInt(newBook.getBookNonOptional());
         Book insertedBook = newBook.getBookById(this.jdbi, id);
         return insertedBook.getBookID().isEmpty()
                 ? new ErrorResponse(HttpStatus.BAD_REQUEST.value(), "Something went wrong book couldn't be created")
@@ -43,18 +41,26 @@ public class BooksController {
                 HttpStatus.CREATED.value(),
                 String.format("Successfully Created new books %s", insertedBook.getTitle())
         );
-
     }
 
-//    @DeleteMapping("book")
-//    Response deleteANewbook(@RequestBody Book removeBook) {
-////        removeBook.
-//    }
 
-//    @DeleteMapping("book/{id}")
-//    Response deleteANewbook(@PathVariable Book removeBookByID) {
-//
-//    }
+    @DeleteMapping("book/{id}")
+    Response deleteABook(@PathVariable Integer id) {
+        Book basicBookObj = new Book();
+
+        // checks if there's a book in the db to even be deleted
+        if (basicBookObj.getBookById(jdbi, id).getBookID().isEmpty()) {
+            return new ErrorResponse(HttpStatus.BAD_REQUEST.value(), String.format("No Book Found With Id:%s", id));
+        }
+
+        // if there is then delete
+        basicBookObj.deleteBook(jdbi, id);
+        Book findBook = basicBookObj.getBookById(jdbi, id);
+        if (findBook.getBookID().isPresent()) {
+            return new SuccessfulBookDeleteResponse(HttpStatus.OK.value(), String.format("Successfully deleted book %s", id));
+        }
+        return new ErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR.value(), "Oops something went wrong on our side");
+    }
 
 
 }

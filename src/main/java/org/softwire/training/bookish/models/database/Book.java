@@ -121,11 +121,11 @@ public class Book {
         return jdbi.withExtension(BookDao.class, dao -> dao.insertBook(this.Title, this.Created_at, this.getUpdated_at(), this.Slug, this.ISBN, this.Subtitle, this.Subjects, this.Cover_photo_url));
     }
 
-//    public void deleteBook(Jdbi jdbi) {
-//        jdbi.useExtension(BookDao.class, dao -> dao.deleteBook());
-//    }
+    public void deleteBook(Jdbi jdbi, Integer id) {
+        jdbi.useExtension(BookDao.class, dao -> dao.deleteBook(id));
+    }
 
-    public Book getBookById(Jdbi jdbi, Optional<Integer> bookID) {
+    public Book getBookById(Jdbi jdbi, int bookID) {
         return jdbi.withExtension(BookDao.class, Dao -> Dao.getBooksById(bookID));
     }
 
@@ -153,6 +153,10 @@ public class Book {
                 ", Subjects='" + Subjects + '\'' +
                 ", Cover_photo_url='" + Cover_photo_url + '\'' +
                 '}';
+    }
+
+    public String getBookNonOptional() {
+        return this.BookID.toString();
     }
 }
 

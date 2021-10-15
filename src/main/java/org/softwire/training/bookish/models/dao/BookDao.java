@@ -1,7 +1,6 @@
 package org.softwire.training.bookish.models.dao;
 
 import org.jdbi.v3.sqlobject.config.RegisterBeanMapper;
-import org.jdbi.v3.sqlobject.config.RegisterBeanMappers;
 import org.jdbi.v3.sqlobject.customizer.Bind;
 import org.jdbi.v3.sqlobject.statement.GetGeneratedKeys;
 import org.jdbi.v3.sqlobject.statement.SqlQuery;
@@ -11,7 +10,6 @@ import org.softwire.training.bookish.models.database.BookDict;
 
 import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 
 public interface BookDao {
 
@@ -47,11 +45,10 @@ public interface BookDao {
 
     @SqlQuery("SELECT BookId,Title,AuthorName,CreatedAt,UpdatedAt,Slug,Isbn,Subtitle,Subjects,CoverPhotoUrl FROM Book JOIN BookAuthor ON Book.BookId = BookAuthor.Book JOIN Authors ON Authors.AuthorId = BookAuthor.Author WHERE Book.BookId = :bookIdNum;")
     @RegisterBeanMapper(Book.class)
-    Book getBooksById(@Bind("bookIdNum") Optional<Integer> bookIdNum);
+    Book getBooksById(@Bind("bookIdNum") Integer bookIdNum);
 
-//    void deleteBook();
 
-//    @SqlQuery("DELETE FROM Book WHERE =:"";\n")
-//    @RegisterBeanMapper(Book.class)
-//    void deleteBook();
+    @SqlUpdate("DELETE FROM Book WHERE BookId = :bookId" )
+    @RegisterBeanMapper(Book.class)
+    void deleteBook(@Bind("bookId") int bookId);
 }
