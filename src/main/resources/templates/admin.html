@@ -48,9 +48,9 @@
                 </thead>
                 <tbody>
                 <tr th:each="user: ${adminModel.getUsers}">
-                    <th scope="row" th:text="${user.getId}"></th>
-                    <td th:text="${user.getForename}"></td>
-                    <td th:text="${user.getSurname}"></td>
+                    <td><a th:href="${'/user/userid?id='} + ${user.getId} + '&forename=' + ${user.getForename} + '&surname=' + ${user.getSurname} + '&bookID=0'" th:text="${user.getId}"></a> </td>
+                    <td><a th:href="${'/user/userid?id='} + ${user.getId} + '&forename=' + ${user.getForename} + '&surname=' + ${user.getSurname} + '&bookID=0'" th:text="${user.getForename}"></a></td>
+                    <td><a th:href="${'/user/userid?id='} + ${user.getId} + '&forename=' + ${user.getForename} + '&surname=' + ${user.getSurname} + '&bookID=0'" th:text="${user.getSurname}"></a></td>
                     <td><a th:href="${'/admin/delete-user?userId='}+${user.getId}">Delete</a></td>
                 </tr>
                 </tbody>

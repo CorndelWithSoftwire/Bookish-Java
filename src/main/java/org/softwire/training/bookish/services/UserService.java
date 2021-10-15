@@ -1,6 +1,8 @@
 package org.softwire.training.bookish.services;
 
 import org.jdbi.v3.sqlobject.SqlObjectPlugin;
+import org.jdbi.v3.sqlobject.statement.SqlQuery;
+import org.softwire.training.bookish.models.database.Book;
 import org.softwire.training.bookish.models.database.User;
 import org.softwire.training.bookish.models.database.UserDao;
 import org.springframework.stereotype.Service;
@@ -15,6 +17,80 @@ public class UserService extends DatabaseService {
                         .mapToBean(User.class)
                         .list()
         );
+    }
+
+//    public void borrow(int book_id, int user_id) {
+//        String defaultDate = "2021-12-31";
+//        jdbi.useHandle(handle ->
+//                handle.createUpdate("UPDATE book " +
+//                "SET number_of_copies = GREATEST(0, number_of_copies - 1) " +
+//                "WHERE book.id = :book_id; " +
+//                "INSERT into copy_registry (book_id, borrowed_by, return_date) VALUES " +
+//                "(:book_id, :user_id, :return_date)")
+//                        .bind("book_id", book_id)
+//                        .bind("user_id", user_id)
+//                        .bind("return_date", defaultDate)
+//                        .execute()
+//        );
+//    }
+
+        public void borrow(int book_id, int user_id) {
+
+        List<Book> currentInventory = this.getBorrowList(user_id);
+        for (Book book: currentInventory) {
+            if (book.getId() == book_id) {
+                System.out.println("deny borrow more than once");
+                return;
+            }
+        }
+
+        jdbi.useHandle(handle ->
+                handle.createUpdate("UPDATE book " +
+                "SET number_of_copies = GREATEST(0, number_of_copies - 1) " +
+                "WHERE book.id = :book_id")
+                        .bind("book_id", book_id)
+                        .execute()
+        );
+
+            jdbi.useHandle(handle ->
+                    handle.createUpdate("INSERT INTO copy_registry (book_id, borrowed_by, return_date) VALUES " +
+                                    "(:book_id, :user_id, '2021-12-31');")
+                            .bind("book_id", book_id)
+                            .bind("user_id", user_id)
+                            .execute()
+            );
+    }
+
+    public void returnBook(int book_id, int user_id) {
+            jdbi.useHandle(handle ->
+                    handle.createUpdate("DELETE FROM copy_registry WHERE book_id = :book_id and borrowed_by = :user_id ;")
+                            .bind("book_id", book_id)
+                            .bind("user_id", user_id)
+                            .execute()
+            );
+
+            jdbi.useHandle(handle ->
+                    handle.createUpdate("UPDATE book " +
+                            "SET number_of_copies = GREATEST(0, number_of_copies + 1) " +
+                            "WHERE id = :book_id;")
+                            .bind("book_id", book_id)
+                            .execute()
+            );
+    }
+
+
+
+    public List<Book> getBorrowList(int id) {
+        jdbi.installPlugin( new SqlObjectPlugin() );
+
+        return jdbi.withExtension(
+                UserDao.class, dao -> dao.booksBorrowedByUserID(id));
+    }
+
+    public List<Book> getAvailableBooksToBorrow() {
+        jdbi.installPlugin( new SqlObjectPlugin() );
+        return jdbi.withExtension(
+                UserDao.class, dao -> dao.availableBooksToBorrow());
     }
 
     public List<User> sort(String column) {
