@@ -39,6 +39,17 @@ public class Book {
     }
 
 
+    public String getProfilePicUrl() {
+        return ProfilePicUrl;
+    }
+
+    public void setProfilePicUrl(String profilePicUrl) {
+        ProfilePicUrl = profilePicUrl;
+    }
+    public void setBookID(Optional<Integer> bookID) {
+        BookID = bookID;
+    }
+
     public void setBookID(Integer bookID) {
         BookID = Optional.ofNullable(bookID);
     }
