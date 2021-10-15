@@ -12,7 +12,6 @@ import java.util.Optional;
 public class Book {
     Optional<Integer> BookID;
     String Title;
-    String ProfilePicUrl;
     String Authors;
     Date Created_at;
     Date Updated_at;
@@ -38,14 +37,6 @@ public class Book {
         return BookID;
     }
 
-
-    public String getProfilePicUrl() {
-        return ProfilePicUrl;
-    }
-
-    public void setProfilePicUrl(String profilePicUrl) {
-        ProfilePicUrl = profilePicUrl;
-    }
     public void setBookID(Optional<Integer> bookID) {
         BookID = bookID;
     }

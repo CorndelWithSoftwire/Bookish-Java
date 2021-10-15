@@ -15,12 +15,23 @@ public class Borrow {
 	private Date checkOutDate;
 	private Date checkInDate;
 	private Date dueDate;
+	private String bookId;
 
 	public Borrow() {};
+
+	public String getBookId() {
+		return bookId;
+	}
+
+	public void setBookId(String bookId) {
+		this.bookId = bookId;
+	}
 
 	public Optional<Integer> getBorrowId() {
 		return borrowId;
 	}
+
+	public void setBorrowId(Optional<Integer> borrowId) { this.borrowId = borrowId; }
 
 	public void setBorrowId(int borrowId) {
 		this.borrowId = Optional.of(borrowId);

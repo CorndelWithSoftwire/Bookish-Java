@@ -11,6 +11,8 @@ import org.softwire.training.bookish.restService.response.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import static org.softwire.training.bookish.connect.SqlConnect.createJdbiConnection;
+
 @RestController
 @RequestMapping("")
 public class AuthController {
@@ -23,7 +25,7 @@ public class AuthController {
         newUser.setPasshashFromString(userPayload.getPassword());
         newUser.setEmail(userPayload.getEmail());
         newUser.setPhoneNumber(userPayload.getPhone());
-        Jdbi jdbi = PopulateDB.createJdbiConnection();
+        Jdbi jdbi = createJdbiConnection();
         try {
             newUser.getUserFromDatabase(jdbi, newUser.getUsername());
         } catch (NoUserExeception ex) {
@@ -44,11 +46,16 @@ public class AuthController {
     Response logUserIn(@RequestBody loginRequest userPayload) {
         /*
         Todo: Create a web token when the correct user have been found in the db
+
         log user in by producing a web token that they can store on the frontend
         or
          */
         // check if the username and password are the same, if so return json web token if not then an error-
-        Jdbi jdbi = PopulateDB.createJdbiConnection();
+        Jdbi jdbi = createJdbiConnection();
+        User userFound = new User();
+        userFound.setUsername(userPayload.getUsername());
+        userFound.setPasshashFromString(userPayload.getPassword());
+
         User findUser = new User();
         findUser.setUsername(userPayload.getUsername());
         findUser.setPasshashFromString(userPayload.getPassword());
