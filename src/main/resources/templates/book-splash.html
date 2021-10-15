@@ -91,12 +91,30 @@
     <div class="form-group row">
         <label form="inputAuthorID" class="col-sm-2 col-form-label">Author ID</label>
         <div class="col-sm-10">
-            <input type="text" name="authorId" class="form-control" id="inputAuthorID" th:value="${bookSplashModel.getBook().getAuthorId()}" th:placeholder="${bookSplashModel.getBook().getAuthorId()}">
+            <input type="text" name="authorId" class="form-control" id="inputAuthorID" oninput="onInput(document.getElementById('inputAuthorID').value);"  th:value="${bookSplashModel.getBook().getAuthorId()}" th:placeholder="${bookSplashModel.getBook().getAuthorId()}">
         </div>
+        <p id="suggestedAuthorName">Suggested Author Name: </p>
     </div>
-    <!--        <input type="submit" value="Add book" />-->
+    <script>
+        function onInput(id) {
+            // $.ajax({
+            //     url: '/find-author',
+            //     type: 'POST',
+            //     data: {id:id}
+            // })
+            document.getElementById('suggestedAuthorName').innerHTML = 'Suggested Author Name: ' + id;
+        }
+    </script>
     <input type="submit" class="col-sm-12 btn btn-primary" id="editBookInput" />
 </form>
+<!--<form id="formForAuthorName" th:action="@{/book-splash/find-author}" method="post">-->
+<!--    <div class="form-group row">-->
+<!--        <label form="inputAuthorName" class="col-sm-2 col-form-label">Author Name</label>-->
+<!--        <div class="col-sm-10">-->
+<!--            <input type="text" name="authorName" class="form-control" id="inputAuthorName" th:value="${bookSplashModel.getAuthor().getName()}">-->
+<!--        </div>-->
+<!--    </div>-->
+<!--</form>-->
 
 </body>
 </html>

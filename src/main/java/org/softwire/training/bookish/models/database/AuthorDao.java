@@ -4,7 +4,6 @@ import org.jdbi.v3.sqlobject.config.RegisterBeanMapper;
 import org.jdbi.v3.sqlobject.customizer.Bind;
 import org.jdbi.v3.sqlobject.customizer.Define;
 import org.jdbi.v3.sqlobject.statement.SqlQuery;
-import org.jdbi.v3.sqlobject.statement.UseRowReducer;
 
 import java.util.List;
 
@@ -19,7 +18,7 @@ public interface AuthorDao {
 
     @SqlQuery("SELECT * FROM author WHERE id = :id")
     @RegisterBeanMapper(value = Author.class)
-    @UseRowReducer(BookAndAuthorReducer.class)
     Author findAuthor(@Bind("id") int id);
+
 
 }

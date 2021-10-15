@@ -7,9 +7,7 @@ public class BookSplashPageModel {
     private Book Book;
     private Author Author;
     public Book getBook() { return Book; }
-    public Author getAuthor() {
-        return Author;
-    }
+    public Author getAuthor() { return Author; }
     public void setBook(Book book) { Book = book; }
     public void setAuthor(Author author) {Author = author;}
 }

@@ -44,7 +44,7 @@ public class BookSplashController {
         return new RedirectView("/book-splash/filterid?id="+book.getId());
     }
 
-    @RequestMapping("/findauthor")
+    @RequestMapping("/find-author")
     ModelAndView findAuthor(@RequestParam String id) {
         Author author = bookSplashService.getAuthor(Integer.parseInt(id));
 
