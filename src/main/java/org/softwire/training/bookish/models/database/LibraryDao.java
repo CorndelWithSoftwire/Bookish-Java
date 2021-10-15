@@ -34,4 +34,20 @@ public interface LibraryDao {
     @SqlQuery("SELECT * FROM book WHERE author_id = :id")
     @RegisterBeanMapper(value = Book.class)
     List<Book> filterId(@Bind("id") int id);
+
+
+    @SqlQuery("SELECT book.id, book.title, book.ISBN, book.published_date, book.publisher, book.genre, book.number_of_copies, book.author_id, " +
+            "author.name AS aname, author.id AS aid FROM book JOIN author ON book.author_id = author.id WHERE book.author_id = :id ORDER BY <column>")
+    @RegisterBeanMapper(value = Book.class)
+    @RegisterBeanMapper(value = Author.class, prefix = "a")
+    @UseRowReducer(BookAndAuthorReducer.class)
+    List<Book> filterAndSort(@Define("column") String column, @Bind("id") int id);
+
+    @SqlQuery("SELECT book.id, book.title, book.ISBN, book.published_date, book.publisher, book.genre, book.number_of_copies, book.author_id, " +
+            "author.name AS aname, author.id AS aid FROM book JOIN author ON book.author_id = author.id WHERE book.author_id = :id ORDER BY <column> DESC")
+    @RegisterBeanMapper(value = Book.class)
+    @RegisterBeanMapper(value = Author.class, prefix = "a")
+    @UseRowReducer(BookAndAuthorReducer.class)
+    List<Book> filterAndSortReverse(@Define("column") String column, @Bind("id") int id);
+
 }

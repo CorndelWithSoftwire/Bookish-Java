@@ -18,9 +18,4 @@ public class IndexController {
         return "greeting";
     }
 
-//    @GetMapping("/about")
-//    public String about() {
-//        return "about";
-//    }
-
 }

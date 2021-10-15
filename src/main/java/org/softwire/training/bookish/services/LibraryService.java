@@ -1,34 +1,19 @@
 package org.softwire.training.bookish.services;
 
-import org.jdbi.v3.core.Jdbi;
-import org.jdbi.v3.core.spi.JdbiPlugin;
 import org.jdbi.v3.sqlobject.SqlObjectPlugin;
-import org.softwire.training.bookish.models.database.Author;
 import org.softwire.training.bookish.models.database.Book;
-import org.softwire.training.bookish.models.database.BookDao;
 import org.softwire.training.bookish.models.database.LibraryDao;
 import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
 public class LibraryService extends DatabaseService {
-//    public List<Book> getAllBooks() {
-//        return jdbi.withHandle(handle ->
-//                handle.createQuery("SELECT * FROM book")
-//                        .mapToBean(Book.class)
-//                        .list()
-//        );
-//    }
 
     public List<Book> getAllBooks() {
-        jdbi.installPlugin((JdbiPlugin) new SqlObjectPlugin()); // usually when connecting
+        jdbi.installPlugin(new SqlObjectPlugin()); // usually when connecting
 
-        List<Book> books = jdbi.withExtension(
-                LibraryDao.class, dao -> {
-                    return dao.listOfBooks();
-                }
-        );
-        return books;
+        return jdbi.withExtension(
+                LibraryDao.class, LibraryDao::listOfBooks);
     }
 
     public void addBook(Book book) {
@@ -54,21 +39,25 @@ public class LibraryService extends DatabaseService {
         );
     }
 
-//    public List<Book> sort(String column) {
-//        List<Book> bookList = jdbi.withHandle(handle ->
-//                handle.createQuery("SELECT * FROM book ORDER BY :column_name")
-//                        .bind("column_name", column)
-//                        .mapToBean(Book.class)
-//                        .list()
-//        );
-//        return bookList;
-//    }
-
     public List<Book> sort(String column) {
         jdbi.installPlugin( new SqlObjectPlugin() ); // usually when connecting
 
         return jdbi.withExtension(
                 LibraryDao.class, dao -> dao.sort(column));
+    }
+
+    public List<Book> filterAndSort(String column, int id) {
+        jdbi.installPlugin( new SqlObjectPlugin() ); // usually when connecting
+
+        return jdbi.withExtension(
+                LibraryDao.class, dao -> dao.filterAndSort(column, id));
+    }
+
+    public List<Book> filterAndSortReverse(String column, int id) {
+        jdbi.installPlugin( new SqlObjectPlugin() ); // usually when connecting
+
+        return jdbi.withExtension(
+                LibraryDao.class, dao -> dao.filterAndSortReverse(column, id));
     }
 
     public List<Book> sortReverse(String column) {
