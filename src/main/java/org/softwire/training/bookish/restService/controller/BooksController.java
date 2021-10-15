@@ -28,7 +28,7 @@ public class BooksController {
         return new Book().getBookById(this.jdbi, id);
     }
 
-    @PostMapping("book/create")
+    @PostMapping("book")
     Response createANewBook(@RequestBody Book newBook) {
 
         newBook.insertBook(this.jdbi);

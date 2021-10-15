@@ -114,11 +114,11 @@ public class PopulateDB {
 		});
 	}
 
-	private static void populateBookAuthors(Jdbi jdbi, List<BookAuthor> bookAuthor) {
+	public static void populateBookAuthors(Jdbi jdbi, List<BookAuthor> bookAuthor) {
 		bookAuthor.forEach(bookAuthor1 -> bookAuthor1.insertBookAuthor(jdbi));
 	}
 
-	private static List<BookAuthor> createBookAuthors(Books allBooks, Authors allAuthors) {
+	public static List<BookAuthor> createBookAuthors(Books allBooks, Authors allAuthors) {
 		HashMap<Integer, ArrayList<Integer>> bookAuthorSet = new HashMap<>();
 		Set<Author> authors = allAuthors.getAuthors();
 		allBooks.booksList.forEach(book -> {
@@ -155,7 +155,7 @@ public class PopulateDB {
 		return string;
 	}
 
-	private static void populateBooks(Jdbi jdbi, Books allBooks) {
+	public static void populateBooks(Jdbi jdbi, Books allBooks) {
 		Integer count = jdbi.withExtension(BookDao.class, dao -> {
 			for (Book each : allBooks.booksList) {
 				dao.insertBook(
@@ -175,7 +175,7 @@ public class PopulateDB {
 		});
 	}
 
-	private static void populateAuthors(Jdbi jdbi, Authors allAuthors) {
+	public static void populateAuthors(Jdbi jdbi, Authors allAuthors) {
 		Integer count = jdbi.withExtension(AuthorDao.class, dao -> {
 			for (Author each : allAuthors.getAuthors()) {
 				dao.insertAuthors(
