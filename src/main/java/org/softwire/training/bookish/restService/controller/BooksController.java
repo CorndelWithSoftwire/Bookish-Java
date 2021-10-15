@@ -24,7 +24,7 @@ public class BooksController {
     }
 
     @GetMapping("book/{id}")
-    Book getBookById(@PathVariable(value = "id", required = true) int id) {
+    Book getBookById(@PathVariable(value = "id") int id) {
         return new Book().getBookById(this.jdbi, id);
     }
 
@@ -40,6 +40,16 @@ public class BooksController {
                         String.format("Successfully Created new books %s", insertedBook.getTitle())
                 ) :
                 new ErrorResponse(HttpStatus.BAD_REQUEST.value(), "Something went wrong book couldn't be created");
+    }
+
+    @DeleteMapping("book")
+    Response deleteANewbook(@RequestBody Book removeBook){
+        removeBook.
+    }
+
+    @DeleteMapping("book/{id}")
+    Response deleteANewbook(@PathVariable Book removeBookByID){
+
     }
 
 

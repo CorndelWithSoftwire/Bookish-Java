@@ -42,4 +42,8 @@ public interface BookDao {
     @SqlQuery("SELECT BookId,Title,AuthorName,CreatedAt,UpdatedAt,Slug,Isbn,Subtitle,Subjects,CoverPhotoUrl FROM Book JOIN BookAuthor BA on Book.BookId = :bookIdNum JOIN Authors A on A.AuthorId = BA.Author LIMIT 1")
     @RegisterBeanMapper(Book.class)
     Book getBooksById(@Bind("bookIdNum") int bookIdNum);
+
+    @SqlQuery("DELETE FROM Book WHERE =:"";\n")
+    @RegisterBeanMapper(Book.class)
+    void deleteBook();
 }
