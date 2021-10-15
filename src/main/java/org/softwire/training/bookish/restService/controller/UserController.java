@@ -11,11 +11,14 @@ import org.softwire.training.bookish.restService.response.UserGetSuccessResponse
 import org.softwire.training.bookish.restService.response.UserSuccessResponse;
 import org.springframework.web.bind.annotation.*;
 
+import static org.softwire.training.bookish.connect.SqlConnect.createJdbiConnection;
+
 @RestController
 public class UserController {
+    Jdbi jdbi = createJdbiConnection();
+
     @PostMapping("/user/promote/{userId}")
     public Response promoteUser(@PathVariable(value="userId")String userId) {
-        Jdbi jdbi = PopulateDB.createJdbiConnection();
         User userToPromote = new User();
         try {
             userToPromote.getUserFromDatabase(jdbi, userId);
@@ -30,7 +33,6 @@ public class UserController {
 
     @PostMapping("/user/demote/{userId}")
     public Response demoteUser(@PathVariable("userId") String userId) {
-        Jdbi jdbi = PopulateDB.createJdbiConnection();
         User userToDemote = new User();
         try {
             userToDemote.getUserFromDatabase(jdbi, userId);
@@ -42,7 +44,6 @@ public class UserController {
 
     @DeleteMapping("/user/delete/{userId}")
     public Response deleteUser(@PathVariable("userId") String userId) {
-        Jdbi jdbi = PopulateDB.createJdbiConnection();
         User userToDelete = new User();
         try {
             userToDelete.getUserFromDatabase(jdbi, userId);
@@ -54,7 +55,6 @@ public class UserController {
 
     @GetMapping("/user/{id}")
     public Response getUser(@PathVariable("id") String userId) {
-        Jdbi jdbi = PopulateDB.createJdbiConnection();
         User user = new User();
         try {
             user.getUserFromDatabase(jdbi, userId);

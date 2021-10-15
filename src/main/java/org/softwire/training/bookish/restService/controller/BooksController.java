@@ -14,10 +14,12 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
 
+import static org.softwire.training.bookish.connect.SqlConnect.createJdbiConnection;
+
 @RestController
 @RequestMapping("/api")
 public class BooksController {
-    Jdbi jdbi = PopulateDB.createJdbiConnection();
+    Jdbi jdbi = createJdbiConnection();
 
     @GetMapping("books/{page}")
     List<BookDict> getAllBookNames(@PathVariable(value = "page", required = false) int page) {

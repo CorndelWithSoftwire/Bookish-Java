@@ -16,7 +16,7 @@ public interface BorrowDao {
 	@GetGeneratedKeys
 	int insertBorrow(int borrowedCopy, String username, Date checkOutDate, Date checkInDate, Date DueDate);
 
-	@SqlQuery("SELECT * FROM Borrows WHERE Username=:username")
+	@SqlQuery("SELECT * FROM Borrows JOIN Copies on Copies.CopyId=Borrows.BorrowedCopyId WHERE Username=:username")
 	@RegisterBeanMapper(Borrow.class)
 	List<Borrow> getUsersBorrows(@Bind("username") String username);
 

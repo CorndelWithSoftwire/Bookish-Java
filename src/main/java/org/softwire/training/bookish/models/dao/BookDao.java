@@ -1,6 +1,7 @@
 package org.softwire.training.bookish.models.dao;
 
 import org.jdbi.v3.sqlobject.config.RegisterBeanMapper;
+import org.jdbi.v3.sqlobject.config.RegisterBeanMappers;
 import org.jdbi.v3.sqlobject.customizer.Bind;
 import org.jdbi.v3.sqlobject.statement.GetGeneratedKeys;
 import org.jdbi.v3.sqlobject.statement.SqlQuery;
@@ -44,7 +45,7 @@ public interface BookDao {
     List<BookDict> getAllBooks(@Bind("limit") int limit, @Bind("page") int page);
 
 
-    @SqlQuery("SELECT BookId,Title,AuthorName,CreatedAt,UpdatedAt,Slug,Isbn,Subtitle,Subjects,CoverPhotoUrl FROM Book JOIN BookAuthor BA on Book.BookId = :bookIdNum JOIN Authors A on A.AuthorId = BA.Author LIMIT 1")
+    @SqlQuery("SELECT BookId,Title,AuthorName,CreatedAt,UpdatedAt,Slug,Isbn,Subtitle,Subjects,CoverPhotoUrl FROM Book JOIN BookAuthor ON Book.BookId = BookAuthor.Book JOIN Authors ON Authors.AuthorId = BookAuthor.Author WHERE Book.BookId = :bookIdNum;")
     @RegisterBeanMapper(Book.class)
     Book getBooksById(@Bind("bookIdNum") Optional<Integer> bookIdNum);
 
