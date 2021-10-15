@@ -1,5 +1,6 @@
 package org.softwire.training.bookish.controllers;
 
+import org.softwire.training.bookish.models.database.Author;
 import org.softwire.training.bookish.models.database.Book;
 import org.softwire.training.bookish.models.page.BookSplashPageModel;
 import org.softwire.training.bookish.services.BookSplashService;
@@ -41,5 +42,15 @@ public class BookSplashController {
         }
 
         return new RedirectView("/book-splash/filterid?id="+book.getId());
+    }
+
+    @RequestMapping("/findauthor")
+    ModelAndView findAuthor(@RequestParam String id) {
+        Author author = bookSplashService.getAuthor(Integer.parseInt(id));
+
+        BookSplashPageModel bookSplashPageModel = new BookSplashPageModel();
+        bookSplashPageModel.setAuthor(author);
+
+        return new ModelAndView("book-splash", "bookSplashModel", bookSplashPageModel);
     }
 }

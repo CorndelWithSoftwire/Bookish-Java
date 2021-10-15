@@ -10,6 +10,8 @@ select * from copy_registry;
 
 SELECT * FROM user u, copy_registry c WHERE u.id = c.borrowed_by;
 
+SELECT name FROM author WHERE id = 1;
+
 DELETE FROM book WHERE id = 1;
 
 DELETE FROM user where id = 2;
