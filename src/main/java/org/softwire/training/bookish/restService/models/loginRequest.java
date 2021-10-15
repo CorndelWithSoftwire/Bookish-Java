@@ -1,10 +1,14 @@
 package org.softwire.training.bookish.restService.models;
 
-public class LoginRequest {
+public class loginRequest {
     private String username;
     private String password;
 
-    public LoginRequest(String username, String password) {
+    public loginRequest(){
+
+    }
+
+    public loginRequest(String username, String password) {
         this.username = username;
         this.password = password;
     }

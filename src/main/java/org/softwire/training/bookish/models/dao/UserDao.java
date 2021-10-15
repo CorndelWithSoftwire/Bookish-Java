@@ -14,7 +14,7 @@ public interface UserDao {
 
 	@SqlQuery("SELECT * FROM Users WHERE Username=:username")
 	@RegisterBeanMapper(User.class)
-	List<User> getUser(@Bind("username") String name);
+	List<User> getUser(@Bind("username") String username);
 
 	@SqlQuery("SELECT * FROM Users")
 	@RegisterBeanMapper(User.class)
