@@ -50,17 +50,17 @@
         <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
             <div class="card-body">
                 <div>
-                    <table class="table">
+                    <table class="table" >
                         <thead>
                         <tr>
-                            <th><a th:href="${'/library/sort?column=id'}">ID</a></th>
-                            <th><a th:href="${'/library/sort?column=title'}">Title</a> </th>
-                            <th><a th:href="${'/library/sort?column=isbn'}">ISBN</a> </th>
-                            <th><a th:href="${'/library/sort?column=published_date'}">Published Date</a></th>
-                            <th><a th:href="${'/library/sort?column=publisher'}">Publisher</a></th>
-                            <th><a th:href="${'/library/sort?column=genre'}">Genre</a></th>
-                            <th><a th:href="${'/library/sort?column=number_of_copies'}">Number of Copies</a></th>
-                            <th><a th:href="${'/library/sort?column=name'}">Author</a></th>
+                            <th><a th:href="${'/library/sort?column=id' + '&authorId=' + libraryModel.getAuthorId()}">ID</a></th>
+                            <th><a th:href="${'/library/sort?column=title' + '&authorId=' + libraryModel.getAuthorId()}">Title</a> </th>
+                            <th><a th:href="${'/library/sort?column=isbn' + '&authorId=' + libraryModel.getAuthorId()}">ISBN</a> </th>
+                            <th><a th:href="${'/library/sort?column=published_date' + '&authorId=' + libraryModel.getAuthorId()}">Published Date</a></th>
+                            <th><a th:href="${'/library/sort?column=publisher' + '&authorId=' + libraryModel.getAuthorId()}">Publisher</a></th>
+                            <th><a th:href="${'/library/sort?column=genre' + '&authorId=' + libraryModel.getAuthorId()}">Genre</a></th>
+                            <th><a th:href="${'/library/sort?column=number_of_copies' + '&authorId=' + libraryModel.getAuthorId()}">Number of Copies</a></th>
+                            <th><a th:href="${'/library/sort?column=name' + '&authorId=' + libraryModel.getAuthorId()}">Author</a></th>
                             <th><a>Remove</a></th>
                         </tr>
                         </thead>
@@ -142,7 +142,25 @@
 
 <script>
 
+
+    // const lastPart = window.location.href.split("?").pop();
+    // console.log(lastPart);
+
+
+
+        //
+        // console.log(id);
+        const lastPart = window.location.href.split("?").pop();
+        console.log(lastPart)
+
+
+
+
+
+
     $(document).ready(function(){
+
+
         // for accessing the links
         $(".delete-button a").click(function(event){
             if(document.getElementById('flexSwitchCheckDefault').checked) {
