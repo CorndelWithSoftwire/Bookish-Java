@@ -32,7 +32,7 @@ public class PopulateDB {
 			handle.execute("CREATE TABLE Authors (AuthorId int  NOT NULL AUTO_INCREMENT, AuthorName varchar(255)  NOT NULL, PRIMARY KEY (AuthorId));");
 			handle.execute("CREATE TABLE Users (Username varchar(32)  NOT NULL ,PasswordHash varchar(255)  NOT NULL ,Email varchar(255)  NOT NULL ,PhoneNumber long  NOT NULL ,PRIMARY KEY (Username));");
 			handle.execute("CREATE TABLE Librarians (Username varchar(32)  NOT NULL ,PRIMARY KEY (Username));");
-			handle.execute("CREATE TABLE Borrows (BorrowId int  NOT NULL AUTO_INCREMENT, BorrowedCopyId int  NOT NULL ,Username varchar(32)  NOT NULL ,CheckOutDate date  NOT NULL ,CheckInDate date  NOT NULL ,DueDate date  NOT NULL ,PRIMARY KEY (BorrowId) );");
+			handle.execute("CREATE TABLE Borrows (BorrowId int  NOT NULL AUTO_INCREMENT, BorrowedCopyId int  NOT NULL ,Username varchar(32)  NOT NULL ,CheckOutDate date  NOT NULL ,CheckInDate date, DueDate date  NOT NULL, PRIMARY KEY (BorrowId));");
 			handle.execute("ALTER TABLE BookAuthor ADD CONSTRAINT fk_Book_BookId FOREIGN KEY(Book) REFERENCES Book (BookId);");
 			handle.execute("ALTER TABLE Borrows ADD CONSTRAINT fk_Copies_CopyId FOREIGN KEY(BorrowedCopyId) REFERENCES Copies (CopyId);");
 			handle.execute("ALTER TABLE Copies ADD CONSTRAINT fk_Copies_BookId FOREIGN KEY(BookId) REFERENCES Book (BookId);");
@@ -47,10 +47,10 @@ public class PopulateDB {
 		populateUsers(jdbi);
 		makeLibrarians(jdbi);
 
+		Books allBooks = new Books("resources/books.csv");
 		Authors allAuthors = new Authors(allBooks);
 		populateAuthors(jdbi, allAuthors);
 
-		Books allBooks = new Books("resources/books.csv");
 		populateBooks(jdbi, allBooks);
 		List<BookAuthor> bookAuthor = createBookAuthors(allBooks, allAuthors);
 
