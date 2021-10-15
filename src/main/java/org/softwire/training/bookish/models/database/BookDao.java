@@ -15,4 +15,15 @@ public interface BookDao {
     @RegisterBeanMapper(value = Book.class)
     @UseRowReducer(BookAuthorReducer.class)
     List<Author> listAuthorAndBooks(@Bind("booktitle") String title);
+
+//    @SqlQuery("SELECT * FROM book WHERE id = :id")
+//    @RegisterBeanMapper(value = Book.class)
+//    Book filterId(@Bind("id") int id);
+
+    @SqlQuery("SELECT book.id, book.title, book.ISBN, book.published_date, book.publisher, book.genre, book.number_of_copies, book.author_id, " +
+            "author.name AS aname, author.id AS aid FROM book JOIN author ON book.author_id = author.id WHERE book.id = :id")
+    @RegisterBeanMapper(value = Book.class)
+    @RegisterBeanMapper(value = Author.class, prefix = "a")
+    @UseRowReducer(BookAndAuthorReducer.class)
+    Book filterId(@Bind("id") int id);
 }

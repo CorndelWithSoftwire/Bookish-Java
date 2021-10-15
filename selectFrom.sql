@@ -24,3 +24,14 @@ SELECT book.id, book.title, book.ISBN, book.published_date, book.publisher,
 FROM book JOIN author ON book.author_id = author.id;
 
 SELECT book.id, book.title, book.ISBN, book.published_date, book.publisher, book.genre, book.number_of_copies, book.author_id, author.name AS aname, author.id AS aid FROM book JOIN author ON book.author_id = author.id where book.title LIKE '%the%';
+
+INSERT INTO book (id, title, ISBN, published_date, publisher, genre, number_of_copies, author_id)
+VALUES (4, 'Harry Potter and the Goblet of Fire', '1111111151', '1997', 'Scholastic', 'fantasy', 2, 1)
+ON DUPLICATE KEY UPDATE id=VALUES(id),
+                        title=VALUES(title),
+                        ISBN=VALUES(ISBN),
+                        published_date=VALUES(published_date),
+                        publisher=VALUES(publisher),
+                        genre=VALUES(genre),
+                        number_of_copies=VALUES(number_of_copies),
+                        author_id=VALUES(author_id);
