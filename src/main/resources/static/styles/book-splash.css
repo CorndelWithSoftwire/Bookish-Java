@@ -1,3 +1,42 @@
 .book-cover:hover {
     transform: scale(1.5); /* (150% zoom - Note: if the zoom is too large, it will go outside of the viewport) */
 }
+
+.book-splash-container {
+    margin: 20px;
+}
+
+.info-qr-container {
+    margin: 10px;
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.book-info-container {
+    border: 1px solid #ccc;
+    border-radius: 16px;
+    padding: 1em 80px;
+    width: 30%;
+}
+
+.qr-code {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.edit-book-container {
+    margin: 20px;
+}
+
+.book-info-container td {
+    padding: 5px 20px;
+}
+
+.info-field {
+    color: #70757a;
+}
+
+.edit-book-container label {
+    color: #70757a;
+}
