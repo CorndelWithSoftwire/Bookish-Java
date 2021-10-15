@@ -12,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api")
@@ -25,32 +26,33 @@ public class BooksController {
 
     @GetMapping("book/{id}")
     Book getBookById(@PathVariable(value = "id") int id) {
-        return new Book().getBookById(this.jdbi, id);
+        return new Book().getBookById(this.jdbi, Optional.of(id));
     }
 
     @PostMapping("book")
     Response createANewBook(@RequestBody Book newBook) {
 
         newBook.insertBook(this.jdbi);
-        int id = newBook.getBookID();
+        Optional<Integer> id = newBook.getBookID();
         Book insertedBook = newBook.getBookById(this.jdbi, id);
-        return insertedBook.getBookID() == null ?
-                new SuccessfulBookCreation(
-                        HttpStatus.CREATED.value(),
-                        String.format("Successfully Created new books %s", insertedBook.getTitle())
-                ) :
-                new ErrorResponse(HttpStatus.BAD_REQUEST.value(), "Something went wrong book couldn't be created");
-    }
-
-    @DeleteMapping("book")
-    Response deleteANewbook(@RequestBody Book removeBook){
-        removeBook.
-    }
-
-    @DeleteMapping("book/{id}")
-    Response deleteANewbook(@PathVariable Book removeBookByID){
+        return insertedBook.getBookID().isEmpty()
+                ? new ErrorResponse(HttpStatus.BAD_REQUEST.value(), "Something went wrong book couldn't be created")
+                : new SuccessfulBookCreation(
+                HttpStatus.CREATED.value(),
+                String.format("Successfully Created new books %s", insertedBook.getTitle())
+        );
 
     }
+
+//    @DeleteMapping("book")
+//    Response deleteANewbook(@RequestBody Book removeBook) {
+////        removeBook.
+//    }
+
+//    @DeleteMapping("book/{id}")
+//    Response deleteANewbook(@PathVariable Book removeBookByID) {
+//
+//    }
 
 
 }

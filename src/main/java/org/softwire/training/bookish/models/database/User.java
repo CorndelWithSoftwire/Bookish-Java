@@ -15,7 +15,15 @@ public class User {
 	String passhash;
 	String email;
 	String phoneNumber;
+	String ProfilePicUrl;
 
+	public String getProfilePicUrl() {
+		return ProfilePicUrl;
+	}
+
+	public void setProfilePicUrl(String profilePicUrl) {
+		ProfilePicUrl = profilePicUrl;
+	}
 
 	public void setPasshashFromString(String password) {
 		this.passhash = Hashing.sha256()

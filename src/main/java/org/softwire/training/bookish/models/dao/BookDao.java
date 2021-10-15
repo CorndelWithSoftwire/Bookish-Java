@@ -10,19 +10,22 @@ import org.softwire.training.bookish.models.database.BookDict;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 public interface BookDao {
 
-    @SqlUpdate("INSERT INTO Book(title, createdat, updatedat, slug, isbn, subtitle, subjects, coverphotourl) VALUES (?, ?, ?, ?, ?, ?, ?, ?)")
+    @SqlUpdate("INSERT INTO Book(Title,CreatedAt,UpdatedAt,Slug,Isbn,Subtitle,Subjects,CoverPhotoUrl ) VALUES ( ?, ?, ?, ?, ?, ?, ?,?)")
     @GetGeneratedKeys
-    int insertBook(String Title
-            , Date Created_at
-            , Date Updated_at
-            , String Slug
-            , String ISBN
-            , String Subtitle
-            , String Subjects
-            , String Cover_photo_url);
+    int insertBook(
+            String Title,
+            Date Created_at,
+            Date Updated_at,
+            String Slug,
+            String ISBN,
+            String Subtitle,
+            String Subjects,
+            String Cover_photo_url
+    );
 
     default void deconstructBook() {
 
@@ -43,9 +46,11 @@ public interface BookDao {
 
     @SqlQuery("SELECT BookId,Title,AuthorName,CreatedAt,UpdatedAt,Slug,Isbn,Subtitle,Subjects,CoverPhotoUrl FROM Book JOIN BookAuthor BA on Book.BookId = :bookIdNum JOIN Authors A on A.AuthorId = BA.Author LIMIT 1")
     @RegisterBeanMapper(Book.class)
-    Book getBooksById(@Bind("bookIdNum") int bookIdNum);
+    Book getBooksById(@Bind("bookIdNum") Optional<Integer> bookIdNum);
 
-    @SqlQuery("DELETE FROM Book WHERE =:"";\n")
-    @RegisterBeanMapper(Book.class)
-    void deleteBook();
+//    void deleteBook();
+
+//    @SqlQuery("DELETE FROM Book WHERE =:"";\n")
+//    @RegisterBeanMapper(Book.class)
+//    void deleteBook();
 }

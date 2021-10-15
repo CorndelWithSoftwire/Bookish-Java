@@ -4,16 +4,15 @@ package org.softwire.training.bookish.models.database;
 import org.jdbi.v3.core.Jdbi;
 import org.softwire.training.bookish.models.dao.BookDao;
 
-import java.util.Date;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.List;
 import java.util.Optional;
 
 public class Book {
     Optional<Integer> BookID;
     String Title;
+    String ProfilePicUrl;
     String Authors;
     Date Created_at;
     Date Updated_at;
@@ -39,37 +38,6 @@ public class Book {
         return BookID;
     }
 
-    public String getTitle() {
-        return Title;
-    }
-
-    public Date getCreated_at() {
-        return Created_at;
-    }
-
-    public Date getUpdated_at() {
-        return Updated_at;
-    }
-
-    public String getSlug() {
-        return Slug;
-    }
-
-    public String getISBN() {
-        return ISBN;
-    }
-
-    public String getSubtitle() {
-        return Subtitle;
-    }
-
-    public String getSubjects() {
-        return Subjects;
-    }
-
-    public String getCover_photo_url() {
-        return Cover_photo_url;
-    }
 
     public void setBookID(Integer bookID) {
         BookID = Optional.ofNullable(bookID);
@@ -148,14 +116,14 @@ public class Book {
     }
 
     public int insertBook(Jdbi jdbi) {
-       return jdbi.withExtension(BookDao.class, dao -> dao.insertBook(this.Title, this.Created_at, this.getUpdated_at(), this.Slug, this.ISBN, this.Subtitle, this.Subjects, this.Cover_photo_url));
+        return jdbi.withExtension(BookDao.class, dao -> dao.insertBook(this.Title, this.Created_at, this.getUpdated_at(), this.Slug, this.ISBN, this.Subtitle, this.Subjects, this.Cover_photo_url));
     }
 
-    public void deleteBook(Jdbi jdbi) {
-        jdbi.useExtension(BookDao.class, dao -> dao.deleteBook());
-    }
+//    public void deleteBook(Jdbi jdbi) {
+//        jdbi.useExtension(BookDao.class, dao -> dao.deleteBook());
+//    }
 
-    public Book getBookById(Jdbi jdbi, int bookID) {
+    public Book getBookById(Jdbi jdbi, Optional<Integer> bookID) {
         return jdbi.withExtension(BookDao.class, Dao -> Dao.getBooksById(bookID));
     }
 

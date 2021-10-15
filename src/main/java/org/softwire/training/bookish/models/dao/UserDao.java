@@ -9,7 +9,7 @@ import org.softwire.training.bookish.models.database.User;
 import java.util.List;
 
 public interface UserDao {
-	@SqlUpdate("INSERT INTO Users VALUES (?, ?, ?, ?)")
+	@SqlUpdate("INSERT INTO Users (Username, PasswordHash, Email, PhoneNumber) VALUES (?, ?, ?, ?)")
 	void insertUser(String username, String passhash, String email, String phoneNumber);
 
 	@SqlQuery("SELECT * FROM Users WHERE Username=:username")

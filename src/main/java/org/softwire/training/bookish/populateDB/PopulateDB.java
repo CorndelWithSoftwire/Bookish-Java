@@ -30,7 +30,7 @@ public class PopulateDB {
 			handle.execute("CREATE TABLE Copies (CopyId int  NOT NULL AUTO_INCREMENT, BookId int  NOT NULL , PRIMARY KEY (CopyId));");
 			handle.execute("CREATE TABLE BookAuthor (Book int  NOT NULL, Author int  NOT NULL);");
 			handle.execute("CREATE TABLE Authors (AuthorId int  NOT NULL AUTO_INCREMENT, AuthorName varchar(255)  NOT NULL, PRIMARY KEY (AuthorId));");
-			handle.execute("CREATE TABLE Users (Username varchar(32)  NOT NULL ,PasswordHash varchar(255)  NOT NULL ,Email varchar(255)  NOT NULL ,PhoneNumber long  NOT NULL ,PRIMARY KEY (Username));");
+			handle.execute("CREATE TABLE Users (Username varchar(32)  NOT NULL ,ProfilePicUrl varchar(255),PasswordHash varchar(255)  NOT NULL ,Email varchar(255)  NOT NULL ,PhoneNumber long  NOT NULL ,PRIMARY KEY (Username));");
 			handle.execute("CREATE TABLE Librarians (Username varchar(32)  NOT NULL ,PRIMARY KEY (Username));");
 			handle.execute("CREATE TABLE Borrows (BorrowId int  NOT NULL AUTO_INCREMENT, BorrowedCopyId int  NOT NULL ,Username varchar(32)  NOT NULL ,CheckOutDate date  NOT NULL ,CheckInDate date, DueDate date  NOT NULL, PRIMARY KEY (BorrowId));");
 			handle.execute("ALTER TABLE BookAuthor ADD CONSTRAINT fk_Book_BookId FOREIGN KEY(Book) REFERENCES Book (BookId);");
@@ -63,7 +63,7 @@ public class PopulateDB {
 	public static Jdbi createJdbiConnection() {
 		Properties connProperties = new Properties();
 		connProperties.put("user", "root");
-		connProperties.put("password", "rootpw");
+		connProperties.put("password", "c7f/SGXS<80D1H/Iqf0PQp90@dicw(J?");
 		connProperties.setProperty("useSSL", "false");
 		Jdbi jdbi = Jdbi.create("jdbc:mysql://localhost:3306/bookish", connProperties);
 		jdbi.installPlugin(new SqlObjectPlugin());

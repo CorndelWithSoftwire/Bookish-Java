@@ -47,7 +47,6 @@ public class BookDbTest {
     void testGetBooks() {
         // test if we  get 50 BookDict since it's limited by 50 in the sql query.
         // BookDict consists of a name and an ID
-        PopulateDB.populateBooks(_jdbi, new Books("resources/books.csv"));
         int page = 1;
         List<BookDict> books = new Books().getBooksList(_jdbi, page);
         assertThat(books.size()).isEqualTo(50);
