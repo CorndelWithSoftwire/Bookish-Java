@@ -91,8 +91,9 @@
     </div>
     <div class="form-group row">
         <label form="inputAuthorID" class="col-sm-2 col-form-label">Author ID</label>
-        <div class="col-sm-10">
+        <div class="col-sm-10 author-container">
             <input type="text" name="authorId" class="form-control" id="inputAuthorID" th:value="${bookSplashModel.getBook().getAuthorId()}" th:placeholder="${bookSplashModel.getBook().getAuthorId()}">
+            <span id="suggestedAuthorName" th:text="${bookSplashModel.getBook().getAuthorName()}"></span>
         </div>
     </div>
     <script th:inline="javascript">
@@ -111,11 +112,11 @@
             }
         }
     </script>
-        <div class="form-group row">
-        <label form="authorName" class="col-sm-2 col-form-label">Author Name</label>
-        <div class="col-sm-10">
-            <p id="suggestedAuthorName" th:text="${bookSplashModel.getBook().getAuthorName()}"></p>
-        </div>
+<!--        <div class="form-group row">-->
+<!--        <label form="authorName" class="col-sm-2 col-form-label">Author Name</label>-->
+<!--        <div class="col-sm-10">-->
+<!--            <p id="suggestedAuthorName" th:text="${bookSplashModel.getBook().getAuthorName()}"></p>-->
+<!--        </div>-->
     </div>
     <input type="submit" class="col-sm-12 btn btn-primary" id="editBookInput" />
 </form>

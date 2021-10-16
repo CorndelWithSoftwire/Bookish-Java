@@ -50,11 +50,11 @@ public class BookSplashController {
         String authorName;
 
         if (id == 0) {
-            authorName = "No author with this name";
+            authorName = "No author with this id";
         } else {
             author = bookSplashService.getAuthor(id);
             if (author == null) {
-                authorName = "No author with this name";
+                authorName = "No author with this id";
             } else {
                 authorName = author.getName();
             }
