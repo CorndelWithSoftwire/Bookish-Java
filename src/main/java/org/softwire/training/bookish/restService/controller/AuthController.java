@@ -28,7 +28,10 @@ public class AuthController {
         Jdbi jdbi = createJdbiConnection();
         try {
             newUser.getUserFromDatabase(jdbi, newUser.getUsername());
-        } catch (NoUserExeception ex) {
+        } catch (IndexOutOfBoundsException e) {
+            return new ErrorResponse(HttpStatus.NOT_FOUND.value(), e.getMessage());
+        }
+        catch (NoUserExeception ex) {
             newUser.insertUserToDatabase(jdbi);
             User foundUser = new User();
             try {

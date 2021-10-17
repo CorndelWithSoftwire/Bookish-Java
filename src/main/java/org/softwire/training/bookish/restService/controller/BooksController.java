@@ -12,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 import static org.softwire.training.bookish.connect.SqlConnect.createJdbiConnection;
 
@@ -32,14 +33,17 @@ public class BooksController {
 
     @PostMapping("book")
     Response createANewBook(@RequestBody Book newBook) {
-        newBook.insertBook(this.jdbi);
-        int id = Integer.parseInt(newBook.getBookNonOptional());
-        Book insertedBook = newBook.getBookById(this.jdbi, id);
-        return insertedBook.getBookID().isEmpty()
+        int id = (int) newBook.insertNewBook(this.jdbi);
+        newBook.setBookID(id);
+//        error when returning a new book object retrieved from the database.
+
+        Optional<Integer> returnedId = newBook.getBookID();
+        
+        return returnedId.isEmpty()
                 ? new ErrorResponse(HttpStatus.BAD_REQUEST.value(), "Something went wrong book couldn't be created")
                 : new SuccessfulBookCreation(
                 HttpStatus.CREATED.value(),
-                String.format("Successfully Created new books %s", insertedBook.getTitle())
+                String.format("Successfully Created new books %s", newBook.getTitle())
         );
     }
 

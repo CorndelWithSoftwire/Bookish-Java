@@ -1,6 +1,7 @@
 package org.softwire.training.bookish.models.database;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.jdbi.v3.core.Jdbi;
 import org.softwire.training.bookish.models.dao.BookDao;
 
@@ -33,6 +34,7 @@ public class Book {
         Authors = authors;
     }
 
+    @JsonIgnore
     public Optional<Integer> getBookID() {
         return BookID;
     }
@@ -41,8 +43,13 @@ public class Book {
         BookID = bookID;
     }
 
+//    @JsonIgnore
     public void setBookID(Integer bookID) {
         BookID = Optional.ofNullable(bookID);
+    }
+
+    public void setBookId(Optional<Integer> bookID) {
+        this.BookID = bookID;
     }
 
     public String getTitle() {
@@ -155,8 +162,12 @@ public class Book {
                 '}';
     }
 
-    public String getBookNonOptional() {
-        return this.BookID.toString();
+    public Integer getBookNonOptional() {
+        return Integer.valueOf(this.BookID.toString());
+    }
+
+    public long insertNewBook(Jdbi jdbi) {
+        return jdbi.withExtension(BookDao.class, dao -> dao.insertBookRetrieveId(this.Title, this.Created_at, this.getUpdated_at(), this.Slug, this.ISBN, this.Subtitle, this.Subjects, this.Cover_photo_url));
     }
 }
 

@@ -22,11 +22,11 @@ public class User {
         setPasshashFromString(passhash);
     }
 
-	public User() {
+    public User() {
 
-	}
+    }
 
-	public String getProfilePicUrl() {
+    public String getProfilePicUrl() {
         return ProfilePicUrl;
     }
 
@@ -86,6 +86,8 @@ public class User {
             this.email = tempUser.getEmail();
             this.passhash = tempUser.getPasshash();
             this.phoneNumber = tempUser.getPhoneNumber();
+        } catch (IndexOutOfBoundsException e) {
+            new NoUserExeception("No user in the database under that username");
         } catch (Exception e) {
             throw new NoUserExeception("No user in the database under that username");
         }

@@ -30,6 +30,19 @@ public interface BookDao {
 
     }
 
+    @SqlUpdate("INSERT INTO Book(Title,CreatedAt,UpdatedAt,Slug,Isbn,Subtitle,Subjects,CoverPhotoUrl ) VALUES ( ?, ?, ?, ?, ?, ?, ?,?);")
+    @GetGeneratedKeys
+    long insertBookRetrieveId(
+            String Title,
+            Date Created_at,
+            Date Updated_at,
+            String Slug,
+            String ISBN,
+            String Subtitle,
+            String Subjects,
+            String Cover_photo_url
+    );
+
     @SqlQuery("SELECT * FROM Book WHERE Title=:title")
     @RegisterBeanMapper(Book.class)
     List<Book> getBookByTitle(@Bind("title") String title);
@@ -48,7 +61,7 @@ public interface BookDao {
     Book getBooksById(@Bind("bookIdNum") Integer bookIdNum);
 
 
-    @SqlUpdate("DELETE FROM Book WHERE BookId = :bookId" )
+    @SqlUpdate("DELETE FROM Book WHERE BookId = :bookId")
     @RegisterBeanMapper(Book.class)
     void deleteBook(@Bind("bookId") int bookId);
 }
