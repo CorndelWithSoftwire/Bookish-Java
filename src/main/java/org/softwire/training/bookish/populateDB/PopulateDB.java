@@ -24,7 +24,7 @@ public class PopulateDB {
                 handle.execute("drop table " + table);
             });
             handle.execute("SET FOREIGN_KEY_CHECKS=1");
-            handle.execute("CREATE TABLE Book (BookId int NOT NULL AUTO_INCREMENT, Title varchar(255)  NOT NULL, CreatedAt date  NOT NULL, UpdatedAt date  NOT NULL, Slug varchar(255)  NOT NULL, Isbn varchar(255)  NULL, Subtitle varchar(255)  NULL, Subjects varchar(600)  NULL, CoverPhotoUrl varchar(255) NULL, PRIMARY KEY (BookId));");
+            handle.execute("CREATE TABLE Book (BookId int NOT NULL AUTO_INCREMENT, Title varchar(255)  NOT NULL, CreatedAt TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP, UpdatedAt TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP, Slug varchar(255)  NOT NULL, Isbn varchar(255)  NULL, Subtitle varchar(255)  NULL, Subjects varchar(600)  NULL, CoverPhotoUrl varchar(255) NULL, PRIMARY KEY (BookId));");
             handle.execute("CREATE TABLE Copies (CopyId int  NOT NULL AUTO_INCREMENT, BookId int  NOT NULL , PRIMARY KEY (CopyId));");
             handle.execute("CREATE TABLE BookAuthor (Book int  NOT NULL, Author int  NOT NULL);");
             handle.execute("CREATE TABLE Authors (AuthorId int  NOT NULL AUTO_INCREMENT, AuthorName varchar(255)  NOT NULL, PRIMARY KEY (AuthorId));");
