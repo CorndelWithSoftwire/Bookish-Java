@@ -8,6 +8,8 @@ select title, author_id from book where title = 'BECOMING';
 
 select * from copy_registry;
 
+SELECT * FROM author WHERE id = 1;
+
 SELECT * FROM user u, copy_registry c WHERE u.id = c.borrowed_by;
 
 DELETE FROM book WHERE id = 1;
@@ -38,4 +40,5 @@ ON DUPLICATE KEY UPDATE id=VALUES(id),
 
 SELECT author.name AS aname, author.id AS aid, author.place_of_birth as aplace_of_birth,
        book.id, book.title, book.ISBN, book.published_date, book.publisher, book.genre, book.number_of_copies, book.author_id
+
 FROM book JOIN author ON book.author_id = author.id where book.title LIKE '%suzanne%' OR author.name LIKE '%suzanne%'

@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
+import org.springframework.web.bind.annotation.*;
+import org.softwire.training.bookish.models.database.Author;
 
 @Controller
 @RequestMapping("/book-splash")
@@ -41,5 +43,26 @@ public class BookSplashController {
         }
 
         return new RedirectView("/book-splash/filterid?id="+book.getId());
+    }
+
+    @RequestMapping("/find-author")
+    @ResponseBody
+    public String findAuthor(@RequestParam int id) {
+        Author author;
+        String authorName;
+
+        if (id == 0) {
+            authorName = "No author with this id";
+        } else {
+            author = bookSplashService.getAuthor(id);
+            if (author == null) {
+                authorName = "No author with this id";
+            } else {
+                authorName = author.getName();
+            }
+
+        }
+
+        return authorName;
     }
 }
