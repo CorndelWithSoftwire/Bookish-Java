@@ -47,4 +47,8 @@ public class LibraryPageModel {
     public void setAuthorName(String authorName) {
         this.authorName = authorName;
     }
+
+    public boolean isAuthorId() {
+        return authorId != 0;
+    }
 }

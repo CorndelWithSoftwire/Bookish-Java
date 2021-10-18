@@ -42,4 +42,14 @@ public class AuthorService extends DatabaseService{
         );
     }
 
+    public void editAuthor(Author author) {
+        jdbi.useHandle(handle ->
+                handle.createUpdate("UPDATE author SET name = :name, place_of_birth = :place_of_birth WHERE id = :id")
+                    .bind("id", author.getId())
+                    .bind("name", author.getName())
+                    .bind("place_of_birth", author.getPlaceOfBirth())
+                    .execute()
+        );
+    }
+
 }

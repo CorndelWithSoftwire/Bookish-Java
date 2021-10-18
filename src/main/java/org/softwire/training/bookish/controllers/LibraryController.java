@@ -3,6 +3,7 @@ package org.softwire.training.bookish.controllers;
 import org.softwire.training.bookish.models.database.Author;
 import org.softwire.training.bookish.models.database.Book;
 import org.softwire.training.bookish.models.page.LibraryPageModel;
+import org.softwire.training.bookish.services.AuthorService;
 import org.softwire.training.bookish.services.LibraryService;
 import org.softwire.training.bookish.services.SearchService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,11 +26,13 @@ public class LibraryController {
     private final LibraryService libraryService;
     private final SearchService searchService;
     private boolean ascending = true;
+    private final AuthorService authorService;
 
     @Autowired
-    public LibraryController(LibraryService libraryService, SearchService searchService) {
+    public LibraryController(LibraryService libraryService, SearchService searchService, AuthorService authorService) {
         this.libraryService = libraryService;
         this.searchService = searchService;
+        this.authorService = authorService;
     }
 
 
@@ -149,6 +152,17 @@ public class LibraryController {
         }
 
         return authorName;
+    }
+
+    @RequestMapping("/edit-author")
+    RedirectView editAuthor(@ModelAttribute Author author) {
+        try {
+            System.out.println(author);
+            authorService.editAuthor(author);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        return new RedirectView("/author");
     }
 
 }

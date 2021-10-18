@@ -158,10 +158,14 @@
             }
         }
     </script>
-    <!--        <input type="submit" value="Add book" />-->
     <input type="submit" class="col-sm-12 btn btn-primary" id="addBookInput"></input>
 </form>
 
+<!-- editing book when author id is available-->
+<th:block th:if="${libraryModel.isAuthorId()}">
+    <div th:replace="fragments/edit-author :: edit-author(${libraryModel.getAuthorId()}, ${libraryModel.getAuthorName()})">
+    </div>
+</th:block>
 </body>
 
 <script>
@@ -176,11 +180,6 @@
         // console.log(id);
         const lastPart = window.location.href.split("?").pop();
         console.log(lastPart)
-
-
-
-
-
 
     $(document).ready(function(){
 
