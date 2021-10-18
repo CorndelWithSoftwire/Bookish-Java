@@ -93,7 +93,7 @@
                 <input type="text" name="publishedDate" class="form-control" id="inputPublishedDate" th:value="${bookSplashModel.getBook().getPublishedDate()}" th:placeholder="${bookSplashModel.getBook().getPublishedDate()}">
             </div>
         </div>
-      <div class="form-group row">
+        <div class="form-group row">
             <label form="inputPublisher" class="col-sm-2 col-form-label">Publisher</label>
             <div class="col-sm-10">
                 <input type="text" name="publisher" class="form-control" id="inputPublisher" th:value="${bookSplashModel.getBook().getPublisher()}" th:placeholder="${bookSplashModel.getBook().getPublisher()}">
@@ -111,31 +111,15 @@
                 <input type="text" name="numberOfCopies" class="form-control" id="inputNumberOfCopies" th:value="${bookSplashModel.getBook().getNumberOfCopies()}" th:placeholder="${bookSplashModel.getBook().getNumberOfCopies()}">
             </div>
         </div>
-    <div class="form-group row">
-        <label form="inputAuthorID" class="col-sm-2 col-form-label">Author ID</label>
-        <div class="col-sm-10 author-container">
-            <input type="text" name="authorId" class="form-control" id="inputAuthorID" th:value="${bookSplashModel.getBook().getAuthorId()}" th:placeholder="${bookSplashModel.getBook().getAuthorId()}">
-            <span id="suggestedAuthorName" th:text="${bookSplashModel.getBook().getAuthorName()}"></span>
+        <div class="form-group row">
+            <label form="inputAuthorID" class="col-sm-2 col-form-label">Author ID</label>
+            <div class="col-sm-10">
+                <input type="text" name="authorId" class="form-control" id="inputAuthorID" th:value="${bookSplashModel.getBook().getAuthorId()}" th:placeholder="${bookSplashModel.getBook().getAuthorId()}">
+            </div>
         </div>
-    </div>
-    <script th:inline="javascript">
-        window.oninput = function () {
-
-            document.getElementById("inputAuthorID").addEventListener('input', doThing);
-
-            function doThing(evt) {
-                evt.preventDefault();
-                $.get({
-                    url: /*[[ @{/book-splash/find-author} ]]*/ null,
-                    data: { id: evt.target.value ? evt.target.value.trim() : 0 }
-                }).then(function(result) {
-                    $('#suggestedAuthorName').text(result);
-                });
-            }
-        }
-    </script>
-    <input type="submit" class="col-sm-12 btn btn-primary" id="editBookInput" />
-</form>
+        <!--        <input type="submit" value="Add book" />-->
+        <input type="submit" class="col-sm-12 btn btn-primary" id="editBookInput" />
+    </form>
 </div>
 </body>
 <script>
