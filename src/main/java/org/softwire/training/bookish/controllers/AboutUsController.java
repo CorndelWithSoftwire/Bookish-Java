@@ -15,7 +15,7 @@ import java.util.List;
 
 @Controller
 @RequestMapping("/about")
-public class AboutUsController {
+public class AboutUsController extends ExceptionController {
 
     private final TechnologyService technologyService;
 

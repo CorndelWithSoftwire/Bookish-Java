@@ -15,7 +15,7 @@ import org.softwire.training.bookish.models.database.Author;
 
 @Controller
 @RequestMapping("/book-splash")
-public class BookSplashController {
+public class BookSplashController extends ExceptionController {
 
     private final BookSplashService bookSplashService;
 

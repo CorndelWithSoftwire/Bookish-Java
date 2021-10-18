@@ -13,7 +13,7 @@ import java.util.List;
 
 @Controller
 @RequestMapping("/author")
-public class AuthorController {
+public class AuthorController extends ExceptionController {
 
     private final AuthorService authorService;
     private boolean ascending = true;
