@@ -35,11 +35,16 @@ services:
     image: spring-api
     ports:
       - "6060:8080"
+    environment:
+      - "SQL_UNAME=root"
+      - "SQL_PASS=rootpw"
+      - "SQL_DB=bookish"
+      - "SQL_HOST=db"
 
   elasticsearch:
-    image: elasticsearch/elasticsearch:7.10.2
+    image: elasticsearch/elasticsearch:7.10.2-amd64
     environment:
-      - discorvery.type=single-node
+      - discovery.type=single-node
       - bootstrap.memory_lock=true
       - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
 
