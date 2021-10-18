@@ -1,6 +1,8 @@
 package org.softwire.training.bookish.services;
 
 import org.jdbi.v3.sqlobject.SqlObjectPlugin;
+import org.softwire.training.bookish.models.database.Author;
+import org.softwire.training.bookish.models.database.AuthorDao;
 import org.softwire.training.bookish.models.database.Book;
 import org.softwire.training.bookish.models.database.LibraryDao;
 import org.springframework.stereotype.Service;
@@ -72,5 +74,12 @@ public class LibraryService extends DatabaseService {
 
         return jdbi.withExtension(
                 LibraryDao.class, dao -> dao.filterId(id));
+    }
+
+    public Author getAuthor(int id) {
+        jdbi.installPlugin(new SqlObjectPlugin()); // usually when connecting
+
+        return jdbi.withExtension(
+                AuthorDao.class, dao -> dao.findAuthor(id));
     }
 }

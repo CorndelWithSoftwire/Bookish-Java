@@ -54,7 +54,7 @@
                             <td th:text="${author.getId}"></td>
                             <form id="authorsName" th:action="@{/library}" method="get">
                                 <input type="text" style="display: none" th:value="${author.getId}" name="filterId">
-                                <td><a th:href="${'/library/filterid?id='}+${author.getId}" type="${author.getName}" th:text="${author.getName}" class="btn btn-primary"></a></td>
+                                <td><a th:href="${'/library/filterid?id='}+${author.getId}+'&authorName='+${author.getName}" type="${author.getName}" th:text="${author.getName}" class="btn btn-primary"></a></td>
                             </form>
                             <td th:text="${author.getPlaceOfBirth}"></td>
                         </tr>

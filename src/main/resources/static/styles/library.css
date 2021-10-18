@@ -1,0 +1,15 @@
+.author-container {
+    position: relative;
+}
+
+#inputAuthorID,
+#suggestedAuthorName {
+    position: absolute;
+}
+
+#suggestedAuthorName {
+    z-index: 10;
+    left: 25%;
+    padding: .375rem .75rem;
+    color: #70757a;
+}

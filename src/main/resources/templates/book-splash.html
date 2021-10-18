@@ -31,7 +31,7 @@
         <h1 th:text="${bookSplashModel.getBook().getTitle()}"></h1>
         <p>
             <span class="info-field">By </span>
-            <a th:href="${'/library/filterid?id='}+${bookSplashModel.getBook().getAuthorId()}"
+            <a th:href="${'/library/filterid?id='}+${bookSplashModel.getBook().getAuthorId()}+'&authorName='+${bookSplashModel.getBook().getAuthorName()}"
                th:text="${bookSplashModel.getBook().getAuthorName()}"
                type="${book.getTitle}"></a>
         </p>

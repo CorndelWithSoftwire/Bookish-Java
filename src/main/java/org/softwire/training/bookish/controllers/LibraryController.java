@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
@@ -118,14 +119,36 @@ public class LibraryController {
     }
 
     @RequestMapping("/filterid")
-    ModelAndView filterid(@RequestParam int id){
+    ModelAndView filterid(@RequestParam int id, String authorName){
         List<Book> allBooks = libraryService.filterId(id);
 
         LibraryPageModel libraryPageModel = new LibraryPageModel();
         libraryPageModel.setBooks(allBooks);
         libraryPageModel.setAuthorId(id);
+        libraryPageModel.setAuthorName(authorName);
 
         return new ModelAndView("library", "libraryModel", libraryPageModel);
+    }
+
+    @RequestMapping("/find-author")
+    @ResponseBody
+    public String findAuthor(@RequestParam int id) {
+        Author author;
+        String authorName;
+
+        if (id == 0) {
+            authorName = "No author with this id";
+        } else {
+            author = libraryService.getAuthor(id);
+            if (author == null) {
+                authorName = "No author with this id";
+            } else {
+                authorName = author.getName();
+            }
+
+        }
+
+        return authorName;
     }
 
 }

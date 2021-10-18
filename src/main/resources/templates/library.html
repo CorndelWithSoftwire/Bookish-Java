@@ -10,6 +10,7 @@
 
 <!--    <link rel="stylesheet" href="/styles/general.css"/>-->
     <link rel="stylesheet" href="/styles/navbar.css"/>
+    <link href="/styles/library.css" rel="stylesheet"/>
 <!--    <link rel="stylesheet" href="/styles/index.css"/>-->
 </head>
 <body>
@@ -80,7 +81,7 @@
                                 <td th:text="${book.getPublisher()}"></td>
                                 <td th:text="${book.getGenre()}"></td>
                                 <td th:text="${book.getNumberOfCopies()}"></td>
-                                <td th:text="${book.getAuthorName()}"></td>
+                                <td th:text="${book.getAuthorName() != null ? book.getAuthorName() : libraryModel.getAuthorName()}"></td>
                                 <td class="delete-button"> <a th:href="${'/library/delete-book?bookID=' + book.getId()}">Delete</a></td>
                             </tr>
                         </tbody>
@@ -133,10 +134,30 @@
     </div>
     <div class="form-group row">
         <label form="inputAuthorID" class="col-sm-2 col-form-label">Author ID</label>
-        <div class="col-sm-10">
-            <input type="text" name="authorId" class="form-control" id="inputAuthorID" placeholder="Author ID *(CHECK THAT AUTHOR ID EXISTS IN DATABASE, IF NOT THEN CREATE AN ACCOUNT IN AUTHOR PAGE)">
+        <div class="col-sm-10 author-container">
+            <input type="text" name="authorId" class="form-control"
+                   id="inputAuthorID"
+                   th:value="${libraryModel.getAuthorId() != null ? libraryModel.getAuthorId() : 'id'}"
+                   placeholder="Author ID *(CHECK THAT AUTHOR ID EXISTS IN DATABASE, IF NOT THEN CREATE AN ACCOUNT IN AUTHOR PAGE)">
         </div>
+        <span id="suggestedAuthorName" th:text="${libraryModel.getAuthorName() != null ? libraryModel.getAuthorName() : ''}"></span>
     </div>
+    <script th:inline="javascript">
+        window.oninput = function () {
+
+            document.getElementById("inputAuthorID").addEventListener('input', doThing);
+
+            function doThing(evt) {
+                evt.preventDefault();
+                $.get({
+                    url: /*[[ @{/library/find-author} ]]*/ null,
+                    data: {id: evt.target.value ? evt.target.value.trim() : 0}
+                }).then(function (result) {
+                    $('#suggestedAuthorName').text(result);
+                });
+            }
+        }
+    </script>
     <!--        <input type="submit" value="Add book" />-->
     <input type="submit" class="col-sm-12 btn btn-primary" id="addBookInput"></input>
 </form>
