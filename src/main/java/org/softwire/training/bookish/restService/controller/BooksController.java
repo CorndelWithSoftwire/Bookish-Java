@@ -56,7 +56,6 @@ public class BooksController {
         if (basicBookObj.getBookById(jdbi, id).getBookID().isEmpty()) {
             return new ErrorResponse(HttpStatus.BAD_REQUEST.value(), String.format("No Book Found With Id:%s", id));
         }
-
         // if there is then delete
         basicBookObj.deleteBook(jdbi, id);
         Book findBook = basicBookObj.getBookById(jdbi, id);
