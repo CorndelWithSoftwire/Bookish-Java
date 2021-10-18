@@ -1,41 +1,52 @@
 package org.softwire.training.bookish.restService.controller;
 
 import org.jdbi.v3.core.Jdbi;
+import org.softwire.training.bookish.execeptions.NoUserExeception;
 import org.softwire.training.bookish.models.database.User;
 import org.softwire.training.bookish.populateDB.PopulateDB;
-import org.softwire.training.bookish.restService.models.JsonWebToken;
+import org.softwire.training.bookish.restService.models.loginRequest;
+import org.softwire.training.bookish.restService.models.passHashChecker;
+import org.softwire.training.bookish.restService.models.registerRequest;
+import org.softwire.training.bookish.restService.response.*;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+import static org.softwire.training.bookish.connect.SqlConnect.createJdbiConnection;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("")
 public class AuthController {
 
     @PostMapping("/register")
-    ResponseEntity<String> registerNewUser(@RequestBody User userPayload) {
-        Jdbi jdbi = PopulateDB.createJdbiConnection();
-        List<User> checkToSeeIfUserExist = userPayload.getUserFromDatabase(jdbi, userPayload.getUsername());
-        if (checkToSeeIfUserExist.isEmpty()) {
-            userPayload.insertUserToDatabase(jdbi);
-            List<User> foundUser = userPayload.getUserFromDatabase(jdbi, userPayload.getUsername());
-            if (foundUser.get(0).getUsername().equals(userPayload.getUsername())) {
-                return ResponseEntity.status(HttpStatus.CREATED).body("Successfully Created new User");
+    Response registerNewUser(@RequestBody registerRequest userPayload) {
+        System.out.println(userPayload);
+        User newUser = new User();
+        newUser.setUsername(userPayload.getUsername());
+        newUser.setPasshashFromString(userPayload.getPassword());
+        newUser.setEmail(userPayload.getEmail());
+        newUser.setPhoneNumber(userPayload.getPhone());
+        Jdbi jdbi = createJdbiConnection();
+        try {
+            newUser.getUserFromDatabase(jdbi, newUser.getUsername());
+        } catch (IndexOutOfBoundsException e) {
+            return new ErrorResponse(HttpStatus.NOT_FOUND.value(), e.getMessage());
+        }
+        catch (NoUserExeception ex) {
+            newUser.insertUserToDatabase(jdbi);
+            User foundUser = new User();
+            try {
+                foundUser.getUserFromDatabase(jdbi, userPayload.getUsername());
+            } catch (NoUserExeception exception) {
+                return new ErrorResponse(HttpStatus.BAD_REQUEST.value(), exception.getLocalizedMessage());
             }
         }
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Unable to register user");
-
-
+        return new UserSuccessResponse(HttpStatus.CREATED.value(), "Successfully Created new User");
     }
 
     //    @ResponseBody
     @PostMapping("/login")
-    ResponseEntity<String> logUserIn(@RequestBody User userPayload) {
+    public @ResponseBody
+    Response logUserIn(@RequestBody loginRequest userPayload) {
         /*
         Todo: Create a web token when the correct user have been found in the db
 
@@ -43,13 +54,29 @@ public class AuthController {
         or
          */
         // check if the username and password are the same, if so return json web token if not then an error-
-        Jdbi jdbi = PopulateDB.createJdbiConnection();
-        List<User> userFound = userPayload.getUserFromDatabase(jdbi, userPayload.getUsername());
-        if (userFound.get(0).getUsername().equals(userPayload.getUsername())) {
-            JsonWebToken jwt = new JsonWebToken("ebc2b8fcf79ac184c8c5dd112ea2ce64912023ab6e4de8d55f18494b0504f2d3", userPayload);
-            return ResponseEntity.status(HttpStatus.OK).body(jwt.getToken());
+        Jdbi jdbi = createJdbiConnection();
+        User userFound = new User();
+        userFound.setUsername(userPayload.getUsername());
+        userFound.setPasshashFromString(userPayload.getPassword());
+
+        User findUser = new User();
+        findUser.setUsername(userPayload.getUsername());
+        findUser.setPasshashFromString(userPayload.getPassword());
+        try {
+            findUser.getPassHashFromDatabaseForUser(jdbi, userPayload.getUsername());
+            passHashChecker check = new passHashChecker(userPayload.getPassword());
+            if (!check.equals(findUser.getPasshash())) {
+                throw new NoUserExeception("password found doesn't match");
+            }
+        } catch (NoUserExeception e) {
+            e.printStackTrace();
+            return new FailedLoginResponse(HttpStatus.NOT_FOUND.value(), e.getMessage());
         }
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("This User doesn't exist");
+
+        if (findUser.getUsername().equals(userPayload.getUsername())) {
+            return new SuccessfulLoginResponse(HttpStatus.OK.value(), "ebc2b8fcf79ac184c8c5dd112ea2ce64912023ab6e4de8d55f18494b0504f2d3");
+        }
+        return new ErrorResponse(500, " not implemented");
     }
 
 

@@ -1,6 +1,8 @@
 # Created by https://www.toptal.com/developers/gitignore/api/intellij+iml,maven,java
 # Edit at https://www.toptal.com/developers/gitignore?templates=intellij+iml,maven,java
 
+volumes/
+
 ### macOS ###
 # General
 .DS_Store
@@ -15,7 +17,7 @@ Icon
 ._*
 
 # Files that might appear in the root of a volume
-.DocumentRevisions-V100
+.DocumentRevisions-V10 0
 .fseventsd
 .Spotlight-V100
 .TemporaryItems

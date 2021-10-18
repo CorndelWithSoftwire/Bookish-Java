@@ -25,6 +25,8 @@ services:
   webapp:
     build: Bookish-Frontend
     image: webapp
+    volumes:
+      - ~/Work/CorndelBootcamp/Bookish-Frontend/dist:/usr/share/nginx/html
     ports:
       - "5000:80"
 
@@ -33,3 +35,36 @@ services:
     image: spring-api
     ports:
       - "6060:8080"
+    environment:
+      - "SQL_UNAME=root"
+      - "SQL_PASS=rootpw"
+      - "SQL_DB=bookish"
+      - "SQL_HOST=db"
+
+  elasticsearch:
+    image: elasticsearch/elasticsearch:7.10.2-amd64
+    environment:
+      - discovery.type=single-node
+      - bootstrap.memory_lock=true
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+
+  kibana:
+    image: kibana/kibana-oss:7.10.2
+    environment:
+      - "ELASTICSEARCH_URL=elasticsearch:9200"
+      - "SERVER_NAME=127.0.0.1"
+    ports:
+      - 5601:5601
+    depends_on:
+      - elasticsearch
+
+  logstash:
+    volumes:
+      - ./volumes/logstash/pipeline/:/usr/share/logstash/pipeline/
+      - ./volumes/logstash/config/pipelines.yml:/usr/share/logstash/config/pipelines.yml
+    build:
+      context: .
+      dockerfile: Dockerfile-logstash
+    depends_on:
+      - db
+      - elasticsearch
