@@ -81,7 +81,7 @@
                                 <td th:text="${book.getPublisher()}"></td>
                                 <td th:text="${book.getGenre()}"></td>
                                 <td th:text="${book.getNumberOfCopies()}"></td>
-                                <td th:text="${book.getAuthorName() != null ? book.getAuthorName() : libraryModel.getAuthorName()}"></td>
+                                <td th:text="${libraryModel.getAuthorName() == null ? book.getAuthorName() : libraryModel.getAuthorName()}"></td>
                                 <td class="delete-button"> <a th:href="${'/library/delete-book?bookID=' + book.getId()}">Delete</a></td>
                             </tr>
                         </tbody>
