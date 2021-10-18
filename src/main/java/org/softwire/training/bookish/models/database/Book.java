@@ -162,10 +162,6 @@ public class Book {
                 '}';
     }
 
-    public Integer getBookNonOptional() {
-        return Integer.valueOf(this.BookID.toString());
-    }
-
     public long insertNewBook(Jdbi jdbi) {
         return jdbi.withExtension(BookDao.class, dao -> dao.insertBookRetrieveId(this.Title, this.Created_at, this.getUpdated_at(), this.Slug, this.ISBN, this.Subtitle, this.Subjects, this.Cover_photo_url));
     }
