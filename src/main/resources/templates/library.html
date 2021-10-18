@@ -16,6 +16,7 @@
     <!-- This element is replaced by the HTML in fragments/navbar.html -->
 </div>
 <h3>library page- under construction</h3>
+<h4>Search string: <span th:text="${libraryModel.getSearchString()}"></span></h4>
 
 <!--admin button -->
 <div class="form-check form-switch">
@@ -53,14 +54,14 @@
                     <table class="table" >
                         <thead>
                         <tr>
-                            <th><a th:href="${'/library/sort?column=id' + '&authorId=' + libraryModel.getAuthorId()}">ID</a></th>
-                            <th><a th:href="${'/library/sort?column=title' + '&authorId=' + libraryModel.getAuthorId()}">Title</a> </th>
-                            <th><a th:href="${'/library/sort?column=isbn' + '&authorId=' + libraryModel.getAuthorId()}">ISBN</a> </th>
-                            <th><a th:href="${'/library/sort?column=published_date' + '&authorId=' + libraryModel.getAuthorId()}">Published Date</a></th>
-                            <th><a th:href="${'/library/sort?column=publisher' + '&authorId=' + libraryModel.getAuthorId()}">Publisher</a></th>
-                            <th><a th:href="${'/library/sort?column=genre' + '&authorId=' + libraryModel.getAuthorId()}">Genre</a></th>
-                            <th><a th:href="${'/library/sort?column=number_of_copies' + '&authorId=' + libraryModel.getAuthorId()}">Number of Copies</a></th>
-                            <th><a th:href="${'/library/sort?column=name' + '&authorId=' + libraryModel.getAuthorId()}">Author</a></th>
+                            <th><a th:href="${'/library/sort?column=id' + '&authorId=' + libraryModel.getAuthorId() + '&search=' + libraryModel.getSearchString()}">ID</a></th>
+                            <th><a th:href="${'/library/sort?column=title' + '&authorId=' + libraryModel.getAuthorId() + '&search=' + libraryModel.getSearchString()}">Title</a> </th>
+                            <th><a th:href="${'/library/sort?column=isbn' + '&authorId=' + libraryModel.getAuthorId() + '&search=' + libraryModel.getSearchString()}">ISBN</a> </th>
+                            <th><a th:href="${'/library/sort?column=published_date' + '&authorId=' + libraryModel.getAuthorId() + '&search=' + libraryModel.getSearchString()}">Published Date</a></th>
+                            <th><a th:href="${'/library/sort?column=publisher' + '&authorId=' + libraryModel.getAuthorId() + '&search=' + libraryModel.getSearchString()}">Publisher</a></th>
+                            <th><a th:href="${'/library/sort?column=genre' + '&authorId=' + libraryModel.getAuthorId() + '&search=' + libraryModel.getSearchString()}">Genre</a></th>
+                            <th><a th:href="${'/library/sort?column=number_of_copies' + '&authorId=' + libraryModel.getAuthorId() + '&search=' + libraryModel.getSearchString()}">Number of Copies</a></th>
+                            <th><a th:href="${'/library/sort?column=name' + '&authorId=' + libraryModel.getAuthorId() + '&search=' + libraryModel.getSearchString()}">Author</a></th>
                             <th><a>Remove</a></th>
                         </tr>
                         </thead>

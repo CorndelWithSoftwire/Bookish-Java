@@ -9,10 +9,10 @@ import java.util.List;
 
 @Service
 public class SearchService extends DatabaseService {
-    public List<Author> searchForBookTitle(String userInputBookTitle) {
+    public List<Author> searchForBookTitle(String userInput) {
         jdbi.installPlugin(new SqlObjectPlugin()); // usually when connecting
 
         return jdbi.withExtension(
-                BookDao.class, dao -> dao.listAuthorAndBooks("%"+userInputBookTitle+"%"));
+                BookDao.class, dao -> dao.listAuthorAndBooks("%"+userInput+"%"));
     }
 }
