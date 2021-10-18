@@ -10,16 +10,16 @@ import java.util.List;
 
 public class User {
     String username;
-    String passhash;
+    String passwordHash;
     String email;
     String phoneNumber;
     String ProfilePicUrl;
 
-    public User(String username, String passhash, String email, String phone) {
+    public User(String username, String passwordHash, String email, String phone) {
         this.username = username;
         this.email = email;
         this.phoneNumber = phone;
-        setPasshashFromString(passhash);
+        setPasshashFromString(passwordHash);
     }
 
     public User() {
@@ -35,7 +35,7 @@ public class User {
     }
 
     public void setPasshashFromString(String password) {
-        this.passhash = Hashing.sha256()
+        this.passwordHash = Hashing.sha256()
                 .hashString(password, StandardCharsets.UTF_8)
                 .toString();
     }
@@ -48,12 +48,12 @@ public class User {
         this.username = username;
     }
 
-    public String getPasshash() {
-        return passhash;
+    public String getPasswordHash() {
+        return passwordHash;
     }
 
-    public void setPasshash(String passhash) {
-        this.passhash = passhash;
+    public void setPasswordHash(String passwordHash) {
+        this.passwordHash = passwordHash;
     }
 
     public String getEmail() {
@@ -73,9 +73,16 @@ public class User {
 
     }
 
-    public String getPassHashFromDatabaseForUser(Jdbi jdbi, String username) {
-        List<User> passHash = jdbi.withExtension(UserDao.class, dao -> dao.getUser(username));
-        return passHash.get(0).getPasshash();
+    public String getPassHashFromDatabaseForUser(Jdbi jdbi, String username) throws NoUserExeception {
+        List<User> passHashUser = jdbi.withExtension(UserDao.class, dao -> dao.getUser(username));
+        try {
+            User tempUser = passHashUser.get(0);
+            this.username = tempUser.getUsername();
+            this.passwordHash = tempUser.passwordHash;
+        } catch (Exception e) {
+            throw new NoUserExeception("No user in the database under that username");
+        }
+        return this.passwordHash;
     }
 
     public void getUserFromDatabase(Jdbi jdbi, String username) throws NoUserExeception {
@@ -84,17 +91,15 @@ public class User {
             User tempUser = users.get(0);
             this.username = tempUser.getUsername();
             this.email = tempUser.getEmail();
-            this.passhash = tempUser.getPasshash();
+            this.passwordHash = tempUser.getPasswordHash();
             this.phoneNumber = tempUser.getPhoneNumber();
-        } catch (IndexOutOfBoundsException e) {
-            new NoUserExeception("No user in the database under that username");
         } catch (Exception e) {
             throw new NoUserExeception("No user in the database under that username");
         }
     }
 
     public void insertUserToDatabase(Jdbi jdbi) {
-        jdbi.useExtension(UserDao.class, dao -> dao.insertUser(this.username, this.passhash, this.email, this.phoneNumber));
+        jdbi.useExtension(UserDao.class, dao -> dao.insertUser(this.username, this.passwordHash, this.email, this.phoneNumber));
 
     }
 
@@ -106,7 +111,7 @@ public class User {
     public String toString() {
         return "User{" +
                 "username='" + username + '\'' +
-                ", passhash='" + passhash + '\'' +
+                ", passhash='" + passwordHash + '\'' +
                 ", email='" + email + '\'' +
                 ", phone='" + phoneNumber + '\'' +
                 '}';

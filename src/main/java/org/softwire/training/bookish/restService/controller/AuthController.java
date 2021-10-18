@@ -3,7 +3,6 @@ package org.softwire.training.bookish.restService.controller;
 import org.jdbi.v3.core.Jdbi;
 import org.softwire.training.bookish.execeptions.NoUserExeception;
 import org.softwire.training.bookish.models.database.User;
-import org.softwire.training.bookish.populateDB.PopulateDB;
 import org.softwire.training.bookish.restService.models.loginRequest;
 import org.softwire.training.bookish.restService.models.passHashChecker;
 import org.softwire.training.bookish.restService.models.registerRequest;
@@ -30,8 +29,7 @@ public class AuthController {
             newUser.getUserFromDatabase(jdbi, newUser.getUsername());
         } catch (IndexOutOfBoundsException e) {
             return new ErrorResponse(HttpStatus.NOT_FOUND.value(), e.getMessage());
-        }
-        catch (NoUserExeception ex) {
+        } catch (NoUserExeception ex) {
             newUser.insertUserToDatabase(jdbi);
             User foundUser = new User();
             try {
@@ -49,28 +47,26 @@ public class AuthController {
     Response logUserIn(@RequestBody loginRequest userPayload) {
         /*
         Todo: Create a web token when the correct user have been found in the db
-
         log user in by producing a web token that they can store on the frontend
         or
          */
         // check if the username and password are the same, if so return json web token if not then an error-
         Jdbi jdbi = createJdbiConnection();
-        User userFound = new User();
-        userFound.setUsername(userPayload.getUsername());
-        userFound.setPasshashFromString(userPayload.getPassword());
-
         User findUser = new User();
         findUser.setUsername(userPayload.getUsername());
         findUser.setPasshashFromString(userPayload.getPassword());
         try {
-            findUser.getPassHashFromDatabaseForUser(jdbi, userPayload.getUsername());
+            String passhash = findUser.getPassHashFromDatabaseForUser(jdbi, userPayload.getUsername());
             passHashChecker check = new passHashChecker(userPayload.getPassword());
-            if (!check.equals(findUser.getPasshash())) {
+            if (!check.equals(passhash)) {
                 throw new NoUserExeception("password found doesn't match");
             }
         } catch (NoUserExeception e) {
             e.printStackTrace();
             return new FailedLoginResponse(HttpStatus.NOT_FOUND.value(), e.getMessage());
+        } catch (IndexOutOfBoundsException ex) {
+
+            return new FailedLoginResponse(HttpStatus.NOT_FOUND.value(), "No user in the database under that username");
         }
 
         if (findUser.getUsername().equals(userPayload.getUsername())) {
