@@ -28,6 +28,7 @@ public class SearchController {
     @RequestMapping("")
     ModelAndView searchBook(@RequestParam String search) {
         LibraryPageModel libraryPageModel = new LibraryPageModel();
+        libraryPageModel.setSearchString(search);
 
         try{
             List<Author> searchedBooksByAuthor = searchService.searchForBookTitle(search);
