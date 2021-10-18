@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.view.RedirectView;
 
 import java.util.List;
 
@@ -41,5 +42,11 @@ public class AuthorController {
         authorPageModel.setAuthors(allAuthors);
 
         return new ModelAndView("author", "authorModel", authorPageModel);
+    }
+
+    @RequestMapping("/add-author")
+    RedirectView addAuthor(Author author) {
+        authorService.addAuthor(author);
+        return new RedirectView("/author");
     }
 }
