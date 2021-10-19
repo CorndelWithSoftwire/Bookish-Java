@@ -41,4 +41,12 @@ ON DUPLICATE KEY UPDATE id=VALUES(id),
 SELECT author.name AS aname, author.id AS aid, author.place_of_birth as aplace_of_birth,
        book.id, book.title, book.ISBN, book.published_date, book.publisher, book.genre, book.number_of_copies, book.author_id
 
-FROM book JOIN author ON book.author_id = author.id where book.title LIKE '%suzanne%' OR author.name LIKE '%suzanne%'
+FROM book JOIN author ON book.author_id = author.id where book.title LIKE '%suzanne%' OR author.name LIKE '%suzanne%';
+
+INSERT INTO author (id, name, place_of_birth)
+VALUES (13, 'Jane Doe', 'London')
+ON DUPLICATE KEY UPDATE id=VALUES(id),
+                        name=VALUES(name),
+                        place_of_birth=VALUES(place_of_birth);
+
+UPDATE author SET name = 'BOB', place_of_birth = 'London' WHERE id = 13

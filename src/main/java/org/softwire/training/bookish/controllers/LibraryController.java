@@ -3,6 +3,7 @@ package org.softwire.training.bookish.controllers;
 import org.softwire.training.bookish.models.database.Author;
 import org.softwire.training.bookish.models.database.Book;
 import org.softwire.training.bookish.models.page.LibraryPageModel;
+import org.softwire.training.bookish.services.AuthorService;
 import org.softwire.training.bookish.services.LibraryService;
 import org.softwire.training.bookish.services.SearchService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
@@ -24,11 +26,13 @@ public class LibraryController extends ExceptionController {
     private final LibraryService libraryService;
     private final SearchService searchService;
     private boolean ascending = true;
+    private final AuthorService authorService;
 
     @Autowired
-    public LibraryController(LibraryService libraryService, SearchService searchService) {
+    public LibraryController(LibraryService libraryService, SearchService searchService, AuthorService authorService) {
         this.libraryService = libraryService;
         this.searchService = searchService;
+        this.authorService = authorService;
     }
 
 
@@ -118,14 +122,47 @@ public class LibraryController extends ExceptionController {
     }
 
     @RequestMapping("/filterid")
-    ModelAndView filterid(@RequestParam int id){
+    ModelAndView filterid(@RequestParam int id, String authorName){
         List<Book> allBooks = libraryService.filterId(id);
 
         LibraryPageModel libraryPageModel = new LibraryPageModel();
         libraryPageModel.setBooks(allBooks);
         libraryPageModel.setAuthorId(id);
+        libraryPageModel.setAuthorName(authorName);
 
         return new ModelAndView("library", "libraryModel", libraryPageModel);
+    }
+
+    @RequestMapping("/find-author")
+    @ResponseBody
+    public String findAuthor(@RequestParam int id) {
+        Author author;
+        String authorName;
+
+        if (id == 0) {
+            authorName = "No author with this id";
+        } else {
+            author = libraryService.getAuthor(id);
+            if (author == null) {
+                authorName = "No author with this id";
+            } else {
+                authorName = author.getName();
+            }
+
+        }
+
+        return authorName;
+    }
+
+    @RequestMapping("/edit-author")
+    RedirectView editAuthor(@ModelAttribute Author author) {
+        try {
+            System.out.println(author);
+            authorService.editAuthor(author);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        return new RedirectView("/author");
     }
 
 }

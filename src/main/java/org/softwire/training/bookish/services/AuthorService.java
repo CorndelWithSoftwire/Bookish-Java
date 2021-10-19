@@ -33,4 +33,23 @@ public class AuthorService extends DatabaseService{
                 AuthorDao.class, dao -> dao.sortReverse(column));
     }
 
+    public void addAuthor(Author author) {
+        jdbi.useHandle(handle ->
+                handle.createUpdate("INSERT INTO author (name, place_of_birth) VALUES (:name, :place_of_birth)")
+                        .bind("name", author.getName())
+                        .bind("place_of_birth", author.getPlaceOfBirth())
+                        .execute()
+        );
+    }
+
+    public void editAuthor(Author author) {
+        jdbi.useHandle(handle ->
+                handle.createUpdate("UPDATE author SET name = :name, place_of_birth = :place_of_birth WHERE id = :id")
+                    .bind("id", author.getId())
+                    .bind("name", author.getName())
+                    .bind("place_of_birth", author.getPlaceOfBirth())
+                    .execute()
+        );
+    }
+
 }
