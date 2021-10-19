@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import java.util.List;
 
 public interface LibraryDao {
-    @SqlQuery("SELECT book.id, book.title, book.ISBN, book.published_date, book.publisher, book.genre, book.number_of_copies, book.author_id, " +
+    @SqlQuery("SELECT book.id, book.title, book.ISBN, book.published_date, book.publisher, book.genre, book.number_of_copies, book.author_id, book.book_cover_url, " +
             "author.name AS aname, author.id AS aid FROM book JOIN author ON book.author_id = author.id")
     @RegisterBeanMapper(value = Book.class)
     @RegisterBeanMapper(value = Author.class, prefix = "a")

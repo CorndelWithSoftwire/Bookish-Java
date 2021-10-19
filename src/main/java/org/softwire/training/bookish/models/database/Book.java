@@ -13,8 +13,9 @@ public class Book {
     private int numberOfCopies;
     private int authorId;
     private String authorName;
+    private String bookCoverUrl;
 
-    public Book(int id, String title, int isbn, String publishedDate, String publisher, String genre, int numberOfCopies, int authorId, String authorName) {
+    public Book(int id, String title, int isbn, String publishedDate, String publisher, String genre, int numberOfCopies, int authorId, String authorName, String bookCoverUrl) {
         this.id = id;
         this.title = title;
         this.isbn = isbn;
@@ -24,6 +25,7 @@ public class Book {
         this.numberOfCopies = numberOfCopies;
         this.authorId = authorId;
         this.authorName = authorName;
+        this.bookCoverUrl = bookCoverUrl;
     }
 
     public Book() {
@@ -36,6 +38,7 @@ public class Book {
         this.numberOfCopies = 0;
         this.authorId = 0;
         this.authorName = "";
+        this.bookCoverUrl = "";
     }
 
     public int getId() {
@@ -107,21 +110,30 @@ public class Book {
         return authorName;
     }
 
+    public String getBookCoverUrl() {
+        return bookCoverUrl;
+    }
+
     public void setAuthorName(String authorName) {
         this.authorName = authorName;
     }
+
+    public void setbookCoverUrl(String bookCoverUrl) {
+        this.bookCoverUrl = bookCoverUrl;
+    }
+
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Book book = (Book) o;
-        return id == book.id && isbn == book.isbn && numberOfCopies == book.numberOfCopies && authorId == book.authorId && Objects.equals(title, book.title) && Objects.equals(publishedDate, book.publishedDate) && Objects.equals(publisher, book.publisher) && Objects.equals(genre, book.genre);
+        return id == book.id && isbn == book.isbn && numberOfCopies == book.numberOfCopies && authorId == book.authorId && Objects.equals(title, book.title) && Objects.equals(publishedDate, book.publishedDate) && Objects.equals(publisher, book.publisher) && Objects.equals(genre, book.genre) && Objects.equals(authorName, book.authorName) && Objects.equals(bookCoverUrl, book.bookCoverUrl);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, title, isbn, publishedDate, publisher, genre, numberOfCopies, authorId);
+        return Objects.hash(id, title, isbn, publishedDate, publisher, genre, numberOfCopies, authorId, authorName, bookCoverUrl);
     }
 
     @Override
@@ -135,6 +147,8 @@ public class Book {
                 ", genre='" + genre + '\'' +
                 ", numberOfCopies=" + numberOfCopies +
                 ", authorId=" + authorId +
+                ", authorName='" + authorName + '\'' +
+                ", bookCoverUrl='" + bookCoverUrl + '\'' +
                 '}';
     }
 }

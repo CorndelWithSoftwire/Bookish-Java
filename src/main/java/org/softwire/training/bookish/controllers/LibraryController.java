@@ -87,7 +87,7 @@ public class LibraryController extends ExceptionController {
                 for (Author author : searchedBooksByAuthor) {
                     for (Book book : author.getWrittenBookList()) {
                         searchedBookList.add(new Book(book.getId(), book.getTitle(), book.getIsbn(), book.getPublishedDate(),
-                                book.getPublisher(), book.getGenre(), book.getNumberOfCopies(), book.getAuthorId(), author.getName()));
+                                book.getPublisher(), book.getGenre(), book.getNumberOfCopies(), book.getAuthorId(), author.getName(), book.getBookCoverUrl()));
                     }
                 }
                 libraryPageModel.setBooks(searchedBookList);

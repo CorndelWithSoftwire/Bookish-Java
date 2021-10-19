@@ -80,13 +80,10 @@
                             <form id="bookTitle" method="get" th:action="@{/book-splash}">
                                 <input name="filterId" style="display: none" th:value="${book.getId}" type="text">
                                 <td>
-
-                                    <a th:href="${'/book-splash/filterid?id='}+${book.getId}" th:text="${book.getTitle()}"
-                                       type="${book.getTitle}"></a>
+                                    <p th:text="${book.getTitle()}"></p>
+                                    <a th:href="${'/book-splash/filterid?id='}+${book.getId}"> <img th:src="${book.getBookCoverUrl}"  width="170px" height="200px"/> </a>
                                 </td>
                             </form>
-                            <img th:src="'https://d1w7fb2mkkr3kw.cloudfront.net/assets/images/book/lrg/9781/3385/9781338596700.jpg'"/>
-                            <td th:text="${book.getPublishedDate()}"></td>
                             <td th:text="${book.getGenre()}"></td>
                             <td th:text="${book.getNumberOfCopies()}"></td>
                             <td th:text="${libraryModel.getAuthorName() == null ? book.getAuthorName() : libraryModel.getAuthorName()}"></td>

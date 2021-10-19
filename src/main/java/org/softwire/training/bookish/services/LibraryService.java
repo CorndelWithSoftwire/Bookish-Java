@@ -20,8 +20,8 @@ public class LibraryService extends DatabaseService {
 
     public void addBook(Book book) {
             jdbi.useHandle(handle ->
-                    handle.createUpdate("INSERT INTO book (title, ISBN, published_date, publisher, genre, number_of_copies, author_id) " +
-                                    "VALUES (:title, :ISBN, :published_date, :publisher, :genre, :number_of_copies, :author_id)")
+                    handle.createUpdate("INSERT INTO book (title, ISBN, published_date, publisher, genre, number_of_copies, author_id, book_cover_url) " +
+                                    "VALUES (:title, :ISBN, :published_date, :publisher, :genre, :number_of_copies, :author_id, :book_cover_url)")
                             .bind("title", book.getTitle())
                             .bind("ISBN", book.getIsbn())
                             .bind("published_date", book.getPublishedDate())
@@ -29,6 +29,7 @@ public class LibraryService extends DatabaseService {
                             .bind("genre", book.getGenre())
                             .bind("number_of_copies", book.getNumberOfCopies())
                             .bind("author_id", book.getAuthorId())
+                            .bind("book_cover_url", book.getBookCoverUrl())
                             .execute()
             );
     }
