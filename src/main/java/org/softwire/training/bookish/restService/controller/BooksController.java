@@ -38,7 +38,7 @@ public class BooksController {
 //        error when returning a new book object retrieved from the database.
 
         Optional<Integer> returnedId = newBook.getBookId();
-        
+
         return returnedId.isEmpty()
                 ? new ErrorResponse(HttpStatus.BAD_REQUEST.value(), "Something went wrong book couldn't be created")
                 : new SuccessfulBookCreation(

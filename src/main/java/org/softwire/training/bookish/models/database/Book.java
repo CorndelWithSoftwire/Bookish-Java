@@ -34,18 +34,25 @@ public class Book {
         Authors = authors;
     }
 
-    @JsonIgnore
+
     public Optional<Integer> getBookId() {
         return BookId;
     }
 
-    public void setBookId(Integer bookId) {
-        BookId = Optional.ofNullable(bookId);
+    public void setBookId(Optional<Integer> bookId) {
+        BookId = bookId;
     }
 
-    public void setBookId(Optional<Integer> bookId) {
-        this.BookId = bookId;
+        public void setBookId(Integer bookId) {
+        this.BookId = Optional.of(bookId);
     }
+
+
+
+//    public void setBookId(Optional<Integer> bookId) {
+//        this.BookId = bookId;
+//    }
+
 
     public String getTitle() {
         return Title;
@@ -128,7 +135,7 @@ public class Book {
     }
 
     public Book getBookById(Jdbi jdbi, int bookID) {
-        return jdbi.withExtension(BookDao.class, Dao -> Dao.getBooksById(bookID));
+        return  jdbi.withExtension(BookDao.class, Dao -> Dao.getBooksById(bookID));
     }
 
     private Date createDate(String dateString) {
