@@ -71,3 +71,10 @@ body {
 .index-text form {
 
 }
+
+.search-for-books-index-page {
+    width: 400px;
+    border-radius: 30px;
+    height: 35px;
+    box-shadow: #70757a;
+}
