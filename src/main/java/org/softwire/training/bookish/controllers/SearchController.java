@@ -16,7 +16,7 @@ import java.util.List;
 
 @Controller
 @RequestMapping("/library/search")
-public class SearchController {
+public class SearchController extends ExceptionController {
 
     private final SearchService searchService;
 

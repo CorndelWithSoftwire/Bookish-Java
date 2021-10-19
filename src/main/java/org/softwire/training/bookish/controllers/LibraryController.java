@@ -19,7 +19,7 @@ import java.util.List;
 
 @Controller
 @RequestMapping("/library")
-public class LibraryController {
+public class LibraryController extends ExceptionController {
 
     private final LibraryService libraryService;
     private final SearchService searchService;
