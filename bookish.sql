@@ -93,26 +93,10 @@ CREATE TABLE copy_registry (
 );
 
 INSERT INTO copy_registry (book_id, borrowed_by, return_date) VALUES
-(1,NULL,NULL),
-(1,NULL,NULL),
-(2,NULL,NULL),
-(3, NULL,NULL),
-(4, NULL,NULL),
-(4, NULL,NULL),
-(5, NULL,NULL),
-(6, NULL,NULL),
-(7, NULL,NULL),
-(8, NULL,NULL),
-(9, NULL,NULL),
-(10, NULL,NULL),
 (11, 5, '2021-12-31'),
 (12, 6, '2021-12-31'),
 (13, 6, '2021-12-31'),
 (14, 3, '2021-12-31'),
 (15, 2, '2021-12-31'),
 (16, 2, '2021-12-31'),
-(17, NULL,NULL),
-(18, NULL,NULL),
-(19, NULL,NULL),
-(20, 5, '2021-12-31'),
-(21, NULL,NULL);
+(20, 5, '2021-12-31');
