@@ -20,7 +20,7 @@ public class AuthorService extends DatabaseService{
     }
 
     public List<Author> sort(String column) {
-        jdbi.installPlugin( new SqlObjectPlugin() ); // usually when connecting
+        jdbi.installPlugin( new SqlObjectPlugin() );
 
         return jdbi.withExtension(
                 AuthorDao.class, dao -> dao.sort(column));

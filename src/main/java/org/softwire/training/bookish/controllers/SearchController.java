@@ -43,7 +43,6 @@ public class SearchController extends ExceptionController {
 
         } catch (Exception e) {
             System.out.println(e.getMessage());
-            // redirect to author page to create an account
         }
 
         return new ModelAndView("library", "libraryModel", libraryPageModel);
