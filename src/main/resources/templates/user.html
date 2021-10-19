@@ -6,6 +6,8 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
     <title>Bookish - Home</title>
     <link rel="stylesheet" href="/styles/navbar.css"/>
+    <link href="/styles/hover-row.css" rel="stylesheet"/>
+
 </head>
 <body>
 <div th:replace="fragments/navbar :: navbar">
@@ -114,20 +116,17 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <tr th:each="book : ${userModel.getAvailableBooksToBorrow()}">
+                        <tr th:each="book : ${userModel.getAvailableBooksToBorrow()}" th:attr="data-href=${'/book-splash/filterid?id='}+${book.getId}">
                             <td th:text="${book.getId()}"></td>
-                            <form id="bookTitle" th:action="@{/book-splash}" method="get">
-                                <input type="text" style="display: none" th:value="${book.getId}" name="filterId">
-                                <td>
-                                    <a th:href="${'/book-splash/filterid?id='}+${book.getId}" type="${book.getTitle}" th:text="${book.getTitle()}"></a>
+
+                                <td th:text="${book.getTitle()}">
                                 </td>
-                            </form>
                             <td th:text="${book.getIsbn()}"></td>
                             <td th:text="${book.getPublishedDate()}"></td>
                             <td th:text="${book.getPublisher()}"></td>
                             <td th:text="${book.getGenre()}"></td>
                             <td th:text="${book.getNumberOfCopies()}"></td>
-                            <td th:text="${book.getAuthorName()}"></td>
+                            <td th:href="${'/library/filterid?id='}+${book.getAuthorId}+${'&authorName='}+${book.getAuthorName}" th:text="${book.getAuthorName()}"></td>
                             <td> <a th:href="${'/user/userid?id='} + ${userModel.getUser().getId()} + '&forename=' + ${userModel.getUser().getForename} + '&surname=' + ${userModel.getUser().getSurname} +
                             '&bookID=' + ${book.getId}" class="btn btn-primary"> Borrow </a> </td>
                         </tr>
@@ -139,4 +138,14 @@
     </div>
 </div>
 </body>
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        const rows = document.querySelectorAll("tr[data-href]")
+        rows.forEach(row => {
+            row.addEventListener("click", () => {
+                window.location.href = row.dataset.href;
+            })
+        })
+    })
+</script>
 </html>

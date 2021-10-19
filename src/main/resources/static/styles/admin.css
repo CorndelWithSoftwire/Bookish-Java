@@ -4,12 +4,3 @@
 .col-sm-12{
     margin-top: 20px;
 }
-
-tr[data-href] {
-    cursor: pointer;
-}
-
-tr[data-href]:hover {
-    background-color: #0d6efd;
-    color: white;
-}

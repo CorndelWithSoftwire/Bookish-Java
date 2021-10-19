@@ -13,12 +13,3 @@
     padding: .375rem .75rem;
     color: #70757a;
 }
-
-tr[data-href] {
-    cursor: pointer;
-}
-
-tr[data-href]:hover {
-    background-color: #0d6efd;
-    color: white;
-}
