@@ -7,7 +7,6 @@ import org.junit.jupiter.api.Test;
 import org.softwire.training.bookish.models.database.Book;
 import org.softwire.training.bookish.models.database.BookDict;
 import org.softwire.training.bookish.models.database.Books;
-import org.softwire.training.bookish.populateDB.PopulateDB;
 
 import java.util.List;
 import java.util.Properties;
@@ -39,7 +38,7 @@ public class BookDbTest {
         jdbi.installPlugin(new SqlObjectPlugin());
 
         Book book = new Book();
-        book.setBookID(567);
+        book.setBookId(567);
         book.setAuthors("Someone...");
     }
 

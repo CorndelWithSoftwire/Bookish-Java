@@ -34,10 +34,10 @@ public class BooksController {
     @PostMapping("book")
     Response createANewBook(@RequestBody Book newBook) {
         int id = (int) newBook.insertNewBook(this.jdbi);
-        newBook.setBookID(id);
+        newBook.setBookId(id);
 //        error when returning a new book object retrieved from the database.
 
-        Optional<Integer> returnedId = newBook.getBookID();
+        Optional<Integer> returnedId = newBook.getBookId();
         
         return returnedId.isEmpty()
                 ? new ErrorResponse(HttpStatus.BAD_REQUEST.value(), "Something went wrong book couldn't be created")
@@ -53,13 +53,13 @@ public class BooksController {
         Book basicBookObj = new Book();
 
         // checks if there's a book in the db to even be deleted
-        if (basicBookObj.getBookById(jdbi, id).getBookID().isEmpty()) {
+        if (basicBookObj.getBookById(jdbi, id).getBookId().isEmpty()) {
             return new ErrorResponse(HttpStatus.BAD_REQUEST.value(), String.format("No Book Found With Id:%s", id));
         }
         // if there is then delete
         basicBookObj.deleteBook(jdbi, id);
         Book findBook = basicBookObj.getBookById(jdbi, id);
-        if (findBook.getBookID().isPresent()) {
+        if (findBook.getBookId().isPresent()) {
             return new SuccessfulBookDeleteResponse(HttpStatus.OK.value(), String.format("Successfully deleted book %s", id));
         }
         return new ErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR.value(), "Oops something went wrong on our side");

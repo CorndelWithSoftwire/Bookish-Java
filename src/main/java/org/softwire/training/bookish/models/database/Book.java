@@ -11,7 +11,7 @@ import java.util.Date;
 import java.util.Optional;
 
 public class Book {
-    Optional<Integer> BookID;
+    Optional<Integer> BookId;
     String Title;
     String Authors;
     Date Created_at;
@@ -35,21 +35,16 @@ public class Book {
     }
 
     @JsonIgnore
-    public Optional<Integer> getBookID() {
-        return BookID;
+    public Optional<Integer> getBookId() {
+        return BookId;
     }
 
-    public void setBookID(Optional<Integer> bookID) {
-        BookID = bookID;
+    public void setBookId(Integer bookId) {
+        BookId = Optional.ofNullable(bookId);
     }
 
-//    @JsonIgnore
-    public void setBookID(Integer bookID) {
-        BookID = Optional.ofNullable(bookID);
-    }
-
-    public void setBookId(Optional<Integer> bookID) {
-        this.BookID = bookID;
+    public void setBookId(Optional<Integer> bookId) {
+        this.BookId = bookId;
     }
 
     public String getTitle() {
@@ -149,7 +144,7 @@ public class Book {
     @Override
     public String toString() {
         return "Book{" +
-                "BookID=" + BookID +
+                "BookID=" + BookId +
                 ", Title='" + Title + '\'' +
                 ", Authors='" + Authors + '\'' +
                 ", Created_at='" + Created_at + '\'' +

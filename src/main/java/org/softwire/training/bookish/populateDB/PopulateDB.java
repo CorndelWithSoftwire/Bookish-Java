@@ -81,7 +81,7 @@ public class PopulateDB {
             int numOfCopies = rand.nextInt(5);
             for (int copyNum = 0; copyNum <= numOfCopies; copyNum++) {
                 Copy copy = new Copy();
-                copy.setBookId(b.getBookID().get());
+                copy.setBookId(b.getBookId().get());
                 copy.setCopyId(id.getAndIncrement());
                 copy.insertCopyIntoDb(jdbi);
             }
@@ -106,7 +106,7 @@ public class PopulateDB {
                     tempAuthorList = new ArrayList<>();
                 }
                 tempAuthorList.add(bookAuthor.getAuthorId().get());
-                bookAuthorSet.put(book.getBookID().get(), tempAuthorList);
+                bookAuthorSet.put(book.getBookId().get(), tempAuthorList);
             }
         });
         List<BookAuthor> bookAuthorList = new ArrayList<>();
@@ -132,7 +132,7 @@ public class PopulateDB {
 
     private static void populateBooks(Jdbi jdbi, Books allBooks) {
         allBooks.booksList.forEach(book -> {
-            book.setBookID(book.insertBook(jdbi));
+            book.setBookId(book.insertBook(jdbi));
         });
     }
 
