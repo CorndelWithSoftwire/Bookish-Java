@@ -6,14 +6,22 @@ import java.util.List;
 public class Author {
     private int id;
     private String name;
-    private final String placeOfBirth;
-    private final List<Book> writtenBookList;
+    private String placeOfBirth;
+    private List<Book> writtenBookList;
 
     public Author(){
         id = 0;
         name= "";
         placeOfBirth = "";
         writtenBookList = new ArrayList<>();
+    }
+
+    public void setPlaceOfBirth(String placeOfBirth) {
+        this.placeOfBirth = placeOfBirth;
+    }
+
+    public void setWrittenBookList(List<Book> writtenBookList) {
+        this.writtenBookList = writtenBookList;
     }
 
     public int getId() {
