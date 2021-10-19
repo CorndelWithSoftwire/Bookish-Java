@@ -6,8 +6,8 @@ import java.util.List;
 public class Author {
     private int id;
     private String name;
-    private String placeOfBirth;
-    private List<Book> writtenBookList;
+    private final String placeOfBirth;
+    private final List<Book> writtenBookList;
 
     public Author(){
         id = 0;
@@ -34,10 +34,6 @@ public class Author {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public void setPlaceOfBirth(String placeOfBirth) {
-        this.placeOfBirth = placeOfBirth;
     }
 
     public List<Book> getWrittenBookList() {

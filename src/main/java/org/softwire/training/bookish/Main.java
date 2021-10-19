@@ -1,15 +1,12 @@
 package org.softwire.training.bookish;
 
 import org.jdbi.v3.core.Jdbi;
-import org.softwire.training.bookish.models.database.Book;
-import org.softwire.training.bookish.models.database.CopyRegistry;
-import org.softwire.training.bookish.models.database.User;
-import org.jdbi.v3.core.spi.JdbiPlugin;
 import org.jdbi.v3.sqlobject.SqlObjectPlugin;
 import org.softwire.training.bookish.models.database.*;
 
 import java.sql.*;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class Main {
@@ -26,14 +23,11 @@ public class Main {
         listOfAvailableBooks(connectionString);
         jdbiMethod(connectionString);
         getOwners(connectionString);
-        searchForBookTitle(connectionString, "the");
+        searchForBookTitle(connectionString);
     }
 
     private static void jdbcMethod(String connectionString) throws SQLException {
         System.out.println("JDBC method...");
-
-        // TODO: print out the details of all the books (using JDBC)
-        // See this page for details: https://docs.oracle.com/javase/tutorial/jdbc/basics/processingsqlstatements.html
         ResultSet rs = makingTheConnection(connectionString,"SELECT * FROM book");
         int count = 1;
         while(rs.next()){
@@ -45,10 +39,6 @@ public class Main {
 
     private static void getBookCopies(String connectionString) throws SQLException {
         System.out.println("JDBC method...");
-
-        // TODO: print out the details of all the books (using JDBC)
-        // See this page for details: https://docs.oracle.com/javase/tutorial/jdbc/basics/processingsqlstatements.html
-
         ResultSet rs = makingTheConnection(connectionString,"select * from book");
         while(rs.next()) {
             String title = rs.getString("title");
@@ -71,25 +61,15 @@ public class Main {
 
     private static void jdbiMethod(String connectionString) {
         System.out.println("\nJDBI method...");
-
-        // TODO: print out the details of all the books (using JDBI)
-        // See this page for details: http://jdbi.org
-        // Use the "Book" class that we've created for you (in the models.database folder)
-
         Jdbi jdbi = Jdbi.create(connectionString);
-
-        /*
-        book test
-         */
         System.out.println("jdbi book test");
         List<Book> bookList = jdbi.withHandle(handle ->
               handle.createQuery("SELECT * FROM book")
                       .mapToBean(Book.class)
                       .list()
         );
-        // print book title and author id
         for (Book b: bookList) {
-            System.out.println(String.format("Title: %s, author ID: %s", b.getTitle(), b.getAuthorId()));
+            System.out.printf("Title: %s, author ID: %s%n", b.getTitle(), b.getAuthorId());
         }
       
       
@@ -102,56 +82,37 @@ public class Main {
 
         for (CopyRegistry loans: loanList) {
             if (loans.getBorrowedBy() != 0)
-            System.out.println(String.format("Book ID: %s, borrowed by ID: %s", loans.getBookId(), loans.getBorrowedBy()));
+            System.out.printf("Book ID: %s, borrowed by ID: %s%n", loans.getBookId(), loans.getBorrowedBy());
         }
 
 
     }
     private static void getOwners(String connectionString) {
         Jdbi jdbi = Jdbi.create(connectionString);
-        jdbi.installPlugin((JdbiPlugin) new SqlObjectPlugin()); // usually when connecting
+        jdbi.installPlugin(new SqlObjectPlugin());
 
         List<User> users = jdbi.withExtension(
-                UserDao.class, dao -> {
-                    return dao.listLoanUsers();
-                }
+                UserDao.class, UserDao::listLoanUsers
         );
       
        System.out.println("Users From DAO " + users);
 
     }
 
-    private static void searchForBookTitle(String connectionString, String userInputBookTitle) {
+    private static void searchForBookTitle(String connectionString) {
         Jdbi jdbi = Jdbi.create(connectionString);
-        jdbi.installPlugin((JdbiPlugin) new SqlObjectPlugin()); // usually when connecting
+        jdbi.installPlugin(new SqlObjectPlugin());
 
         List<Author> authors = jdbi.withExtension(
-                BookDao.class, dao -> {
-                    return dao.listAuthorAndBooks("%"+userInputBookTitle+"%");
-                }
+                BookDao.class, dao -> dao.listAuthorAndBooks("%"+ "the" +"%")
         );
 
         System.out.println("Books From DAO " + authors);
     }
 
-//    private static void searchForBookTitle(String connectionString, String searchedBookTitle){
-//        Jdbi jdbi = Jdbi.create(connectionString);
-//        List<Book> searchedBookList = jdbi.withHandle(handle ->
-//                handle.createQuery("SELECT author.name AS author_name, book.title AS book_title FROM book JOIN author ON book.author_id = author.id where book.title = 'Becoming'")
-//                        .mapToBean(Book.class)
-//                        .list()
-//        );
-//
-//        for (Book books: searchedBookList) {
-//            System.out.println(String.format("Book title: %s, author ID: %s", books.getTitle(), books.getAuthorID()));
-//        }
-//    }
-
     public static ResultSet makingTheConnection(String connectionString, String sql) throws SQLException {
         Connection connection = DriverManager.getConnection(connectionString);
-        String selectingFromBooks = sql;
         Statement booksStmt = connection.createStatement();
-        ResultSet sqlRs = booksStmt.executeQuery(selectingFromBooks);
-        return sqlRs;
+        return booksStmt.executeQuery(sql);
     }
 }
