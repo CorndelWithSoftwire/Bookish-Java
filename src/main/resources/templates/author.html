@@ -7,6 +7,7 @@
     <title>Bookish - Home</title>
 
     <link rel="stylesheet" href="/styles/navbar.css"/>
+    <link rel="stylesheet" href="/styles/author.css"/>
 </head>
 <body>
 <div th:replace="fragments/navbar :: navbar">
@@ -47,12 +48,9 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <tr th:each="author : ${authorModel.getAuthors()}">
+                        <tr th:each="author : ${authorModel.getAuthors()}" th:attr="data-href=${'/library/filterid?id='}+${author.getId}+'&authorName='+${author.getName}">
                             <td th:text="${author.getId}"></td>
-                            <form id="authorsName" th:action="@{/library}" method="get">
-                                <input type="text" style="display: none" th:value="${author.getId}" name="filterId">
-                                <td><a th:href="${'/library/filterid?id='}+${author.getId}+'&authorName='+${author.getName}" type="${author.getName}" th:text="${author.getName}" class="btn btn-primary"></a></td>
-                            </form>
+                            <td th:text="${author.getName}"</td>
                             <td th:text="${author.getPlaceOfBirth}"></td>
                         </tr>
                         </tbody>
@@ -82,4 +80,14 @@
     </div>
 </div>
 </body>
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        const rows = document.querySelectorAll("tr[data-href]")
+        rows.forEach(row => {
+            row.addEventListener("click", () => {
+                window.location.href = row.dataset.href;
+            })
+        })
+    })
+</script>
 </html>

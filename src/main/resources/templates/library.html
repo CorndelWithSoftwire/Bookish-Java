@@ -85,10 +85,7 @@
                         <tbody>
                         <tr th:each="book : ${libraryModel.getBooks()}" th:attr="data-href=${'/book-splash/filterid?id='}+${book.getId}">
                             <td th:text="${book.getId()}"></td>
-
-                                <td th:text="${book.getTitle()}"
-                                       type="${book.getTitle}"></a>
-                                </td>
+                            <td th:text="${book.getTitle()}"></td>
                             <td th:text="${book.getIsbn()}"></td>
                             <td th:text="${book.getPublishedDate()}"></td>
                             <td th:text="${book.getPublisher()}"></td>
@@ -96,8 +93,7 @@
                             <td th:text="${book.getNumberOfCopies()}"></td>
                             <td>
                                 <a th:href="${'/library/filterid?id='}+${book.getAuthorId}+${'&authorName='}+${book.getAuthorName}"
-                                       th:text="${libraryModel.getAuthorName() == null ? book.getAuthorName() : libraryModel.getAuthorName()}"
-                                       th:type="${book.getTitle}"></a>
+                                       th:text="${libraryModel.getAuthorName() == null ? book.getAuthorName() : libraryModel.getAuthorName()}"></a>
                             </td>
                             <td class="delete-button"><a th:href="${'/library/delete-book?bookID=' + book.getId()}">Delete</a>
                             </td>

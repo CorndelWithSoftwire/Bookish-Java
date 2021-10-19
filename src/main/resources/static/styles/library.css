@@ -19,5 +19,6 @@ tr[data-href] {
 }
 
 tr[data-href]:hover {
-    background-color: darkgray;
+    background-color: #0d6efd;
+    color: white;
 }
