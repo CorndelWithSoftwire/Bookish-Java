@@ -12,7 +12,7 @@ import java.util.List;
 public class LibraryService extends DatabaseService {
 
     public List<Book> getAllBooks() {
-        jdbi.installPlugin(new SqlObjectPlugin()); // usually when connecting
+        jdbi.installPlugin(new SqlObjectPlugin());
 
         return jdbi.withExtension(
                 LibraryDao.class, LibraryDao::listOfBooks);
@@ -42,21 +42,21 @@ public class LibraryService extends DatabaseService {
     }
 
     public List<Book> sort(String column) {
-        jdbi.installPlugin( new SqlObjectPlugin() ); // usually when connecting
+        jdbi.installPlugin( new SqlObjectPlugin() );
 
         return jdbi.withExtension(
                 LibraryDao.class, dao -> dao.sort(column));
     }
 
     public List<Book> filterAndSort(String column, int id) {
-        jdbi.installPlugin( new SqlObjectPlugin() ); // usually when connecting
+        jdbi.installPlugin( new SqlObjectPlugin() );
 
         return jdbi.withExtension(
                 LibraryDao.class, dao -> dao.filterAndSort(column, id));
     }
 
     public List<Book> filterAndSortReverse(String column, int id) {
-        jdbi.installPlugin( new SqlObjectPlugin() ); // usually when connecting
+        jdbi.installPlugin( new SqlObjectPlugin() );
 
         return jdbi.withExtension(
                 LibraryDao.class, dao -> dao.filterAndSortReverse(column, id));
@@ -77,7 +77,7 @@ public class LibraryService extends DatabaseService {
     }
 
     public Author getAuthor(int id) {
-        jdbi.installPlugin(new SqlObjectPlugin()); // usually when connecting
+        jdbi.installPlugin(new SqlObjectPlugin());
 
         return jdbi.withExtension(
                 AuthorDao.class, dao -> dao.findAuthor(id));

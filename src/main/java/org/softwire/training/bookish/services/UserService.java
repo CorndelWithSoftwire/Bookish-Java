@@ -1,7 +1,6 @@
 package org.softwire.training.bookish.services;
 
 import org.jdbi.v3.sqlobject.SqlObjectPlugin;
-import org.jdbi.v3.sqlobject.statement.SqlQuery;
 import org.softwire.training.bookish.models.database.Book;
 import org.softwire.training.bookish.models.database.User;
 import org.softwire.training.bookish.models.database.UserDao;
@@ -18,21 +17,6 @@ public class UserService extends DatabaseService {
                         .list()
         );
     }
-
-//    public void borrow(int book_id, int user_id) {
-//        String defaultDate = "2021-12-31";
-//        jdbi.useHandle(handle ->
-//                handle.createUpdate("UPDATE book " +
-//                "SET number_of_copies = GREATEST(0, number_of_copies - 1) " +
-//                "WHERE book.id = :book_id; " +
-//                "INSERT into copy_registry (book_id, borrowed_by, return_date) VALUES " +
-//                "(:book_id, :user_id, :return_date)")
-//                        .bind("book_id", book_id)
-//                        .bind("user_id", user_id)
-//                        .bind("return_date", defaultDate)
-//                        .execute()
-//        );
-//    }
 
         public void borrow(int book_id, int user_id) {
 
@@ -90,7 +74,7 @@ public class UserService extends DatabaseService {
     public List<Book> getAvailableBooksToBorrow() {
         jdbi.installPlugin( new SqlObjectPlugin() );
         return jdbi.withExtension(
-                UserDao.class, dao -> dao.availableBooksToBorrow());
+                UserDao.class, UserDao::availableBooksToBorrow);
     }
 
     public List<User> sort(String column) {

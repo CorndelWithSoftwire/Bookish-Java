@@ -2,7 +2,6 @@ package org.softwire.training.bookish.controllers;
 
 import org.softwire.training.bookish.models.database.Book;
 import org.softwire.training.bookish.models.database.User;
-import org.softwire.training.bookish.models.page.AboutPageModel;
 import org.softwire.training.bookish.models.page.UserPageModel;
 import org.softwire.training.bookish.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +9,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.view.RedirectView;
 
 import java.util.List;
 
@@ -40,18 +38,18 @@ public class UserController extends ExceptionController {
                         @RequestParam (name="return", required = false) String returnOption) {
 
         if (returnOption != null) {
-            if (returnOption.toLowerCase().equals("true")) {
+            if (returnOption.equalsIgnoreCase("true")) {
                     try {
                         userService.returnBook(book_id, id);
                     } catch (Exception e) {
-                        e.getMessage();
+                        System.out.println(e.getMessage());
                     }
             }
-        } else if (book_id != 0 & book_id != null) {
+        } else if (book_id != 0) {
             try {
                 userService.borrow(book_id, id);
             } catch (Exception e) {
-                e.getMessage();
+                System.out.println(e.getMessage());
             }
 
         }

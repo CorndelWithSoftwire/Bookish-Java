@@ -16,6 +16,14 @@ public class Author {
         writtenBookList = new ArrayList<>();
     }
 
+    public void setPlaceOfBirth(String placeOfBirth) {
+        this.placeOfBirth = placeOfBirth;
+    }
+
+    public void setWrittenBookList(List<Book> writtenBookList) {
+        this.writtenBookList = writtenBookList;
+    }
+
     public int getId() {
         return id;
     }
@@ -34,10 +42,6 @@ public class Author {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public void setPlaceOfBirth(String placeOfBirth) {
-        this.placeOfBirth = placeOfBirth;
     }
 
     public List<Book> getWrittenBookList() {
