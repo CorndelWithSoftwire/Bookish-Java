@@ -78,3 +78,16 @@ body {
     height: 35px;
     box-shadow: #70757a;
 }
+
+.add-new-author-container {
+    width: 100%;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+    margin-top: 20px;
+}
+
+.add-new-author-child {
+    width: 500px;
+    display: inline-block;
+}

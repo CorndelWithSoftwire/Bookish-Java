@@ -13,8 +13,35 @@
     <link rel="stylesheet" href="/styles/index.css"/>
 </head>
 <body>
-<div th:replace="fragments/navbar :: navbar">
-</div>
+<nav class="nav-a">
+    <div class="navbar-title">
+        <a href="/">Bookish</a>
+    </div>
+    <div class="navbar-item">
+        <a href="/about" >About</a>
+    </div>
+    <div class="navbar-item">
+        <a href="/greeting" th:style="'color:#237AAB;'">Login</a>
+    </div>
+    <div class="navbar-item">
+        <a href="/author">Author</a>
+    </div>
+    <div class="navbar-item">
+        <a href="/library">Library</a>
+    </div>
+    <div class="navbar-item">
+        <a href="/admin">Admin</a>
+    </div>
+    <div class="navbar-item search-box">
+        <form th:action="@{/library/search}" method="post">
+            <input type="text" id="search" name="search">
+            <button type="submit" class="btn btn-primary">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+                    <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
+                </svg></button>
+        </form>
+    </div>
+</nav>
 <h3>User Login</h3>
 <form class="form-inline">
     <div class="form-group mb-2">
