@@ -81,9 +81,6 @@ public class LibraryController extends ExceptionController {
         libraryPageModel.setSearchString(searchString);
 
         if (!searchString.equals("null")) {
-            System.out.println("search string is not null");
-            System.out.println(searchString.length());
-
             try{
                 List<Author> searchedBooksByAuthor = searchService.searchForBookTitle(searchString);
                 List<Book> searchedBookList = new ArrayList<>();
@@ -105,13 +102,9 @@ public class LibraryController extends ExceptionController {
         } else if (id == 0) {
             allBooks = (ascending) ? libraryService.sort(column) : libraryService.sortReverse(column);
             ascending = !ascending;
-            System.out.println("yes");
-
         } else {
             allBooks = (ascending) ? libraryService.filterAndSort(column, id) : libraryService.filterAndSortReverse(column, id);
             ascending = !ascending;
-            System.out.println("yes");
-
         }
         libraryPageModel.setBooks(allBooks);
 
