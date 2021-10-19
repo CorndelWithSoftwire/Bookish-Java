@@ -70,7 +70,7 @@ public class AuthController {
         }
 
         if (findUser.getUsername().equals(userPayload.getUsername())) {
-            return new SuccessfulLoginResponse(HttpStatus.OK.value(), "ebc2b8fcf79ac184c8c5dd112ea2ce64912023ab6e4de8d55f18494b0504f2d3");
+            return new SuccessfulLoginResponse(HttpStatus.OK.value(), "ebc2b8fcf79ac184c8c5dd112ea2ce64912023ab6e4de8d55f18494b0504f2d3", findUser.getUsername());
         }
         return new ErrorResponse(500, " not implemented");
     }
