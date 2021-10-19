@@ -46,12 +46,12 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr th:each="user: ${adminModel.getUsers}">
-                    <td><a th:href="${'/user/userid?id='} + ${user.getId} + '&forename=' + ${user.getForename} + '&surname=' + ${user.getSurname} + '&bookID=0'" th:text="${user.getId}"></a> </td>
-                    <td><a th:href="${'/user/userid?id='} + ${user.getId} + '&forename=' + ${user.getForename} + '&surname=' + ${user.getSurname} + '&bookID=0'" th:text="${user.getForename}"></a></td>
-                    <td><a th:href="${'/user/userid?id='} + ${user.getId} + '&forename=' + ${user.getForename} + '&surname=' + ${user.getSurname} + '&bookID=0'" th:text="${user.getSurname}"></a></td>
-                    <td><a th:href="${'/admin/delete-user?userId='}+${user.getId}">Delete</a></td>
-                </tr>
+                    <tr th:each="user: ${adminModel.getUsers}" th:attr="data-href=${'/user/userid?id='} + ${user.getId} + '&forename=' + ${user.getForename} + '&surname=' + ${user.getSurname} + '&bookID=0'">
+                        <td th:text="${user.getId}"></td>
+                        <td th:text="${user.getForename}"></td>
+                        <td th:text="${user.getSurname}"></td>
+                        <td><a th:href="${'/admin/delete-user?userId='}+${user.getId}">Delete</a></td>
+                    </tr>
                 </tbody>
             </table>
         </div>
@@ -76,4 +76,14 @@
 
 </form>
 </body>
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        const rows = document.querySelectorAll("tr[data-href]")
+        rows.forEach(row => {
+            row.addEventListener("click", () => {
+                window.location.href = row.dataset.href;
+            })
+        })
+    })
+</script>
 </html>
