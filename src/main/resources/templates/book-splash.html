@@ -10,17 +10,14 @@
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <title>Bookish - Home</title>
 
-    <!--    <link rel="stylesheet" href="/styles/general.css"/>-->
     <link href="/styles/navbar.css" rel="stylesheet"/>
     <link href="/styles/book-splash.css" rel="stylesheet"/>
-    <!--    <link rel="stylesheet" href="/styles/index.css"/>-->
 </head>
 <body>
 <div th:replace="fragments/navbar :: navbar">
-    <!-- This element is replaced by the HTML in fragments/navbar.html -->
 </div>
 <h3>Book page- under construction</h3>
-<!--admin button -->
+
 <div class="form-check form-switch">
     <input class="form-check-input" id="flexSwitchCheckDefault" type="checkbox">
     <label class="form-check-label" for="flexSwitchCheckDefault">Admin</label>
@@ -61,8 +58,6 @@
                 </tr>
             </table>
         </div>
-
-        <!--    <img src="https://www.uoduckstore.com/TDS%20Product%20Images/Laminated%20Anatomy%20Poster_99.jpg" alt="Cover not available" width="10%" height="10%" class="book-cover"/>-->
 
         <div class="qr-code-container">
             <img alt="qr code"
@@ -174,7 +169,6 @@
 
     $(document).ready(function () {
 
-        // for accessing the links
         $(".delete-button a").click(function (event) {
             if (document.getElementById('flexSwitchCheckDefault').checked) {
                 console.log('checkbox is checked');
@@ -184,7 +178,6 @@
             event.preventDefault();
         });
 
-        // for accessing the form and submit button
         $("#flexSwitchCheckDefault").on('change', function () {
             localStorage.input = $(this).is(':checked');
 
@@ -200,7 +193,6 @@
         });
     });
 
-    // checkbox persistence
     $(function () {
         const test = localStorage.input === 'true' ? true : false;
         $('#flexSwitchCheckDefault').prop('checked', test);

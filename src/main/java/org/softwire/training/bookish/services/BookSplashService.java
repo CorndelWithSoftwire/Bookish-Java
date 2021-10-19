@@ -11,14 +11,14 @@ import org.softwire.training.bookish.models.database.AuthorDao;
 public class BookSplashService extends DatabaseService {
 
     public Book getBook(int id) {
-        jdbi.installPlugin(new SqlObjectPlugin()); // usually when connecting
+        jdbi.installPlugin(new SqlObjectPlugin());
 
         return jdbi.withExtension(
                 BookDao.class, dao -> dao.filterId(id));
     }
 
     public Author getAuthor(int id) {
-        jdbi.installPlugin(new SqlObjectPlugin()); // usually when connecting
+        jdbi.installPlugin(new SqlObjectPlugin());
 
         return jdbi.withExtension(
                 AuthorDao.class, dao -> dao.findAuthor(id));

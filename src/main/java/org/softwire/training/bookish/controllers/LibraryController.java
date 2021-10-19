@@ -54,7 +54,6 @@ public class LibraryController extends ExceptionController {
             libraryService.addBook(book);
         } catch (Exception e) {
             System.out.println(e.getMessage());
-            // redirect to author page to create an account
         }
 
         return new RedirectView("/library");
@@ -76,16 +75,12 @@ public class LibraryController extends ExceptionController {
     ModelAndView sort(@RequestParam String column, @RequestParam (name="authorId", required = false) Integer id,
                       @RequestParam (name="search", required = false) String searchString) {
 
-        List<Book> allBooks = new ArrayList<>();
+        List<Book> allBooks;
         LibraryPageModel libraryPageModel = new LibraryPageModel();
         libraryPageModel.setAuthorId(id);
         libraryPageModel.setSearchString(searchString);
-        // for author books persistence
-        if (! searchString.equals(null) & !searchString.equals("null")) {
-            System.out.println("search string is not null");
-            System.out.println(searchString.length());
 
-            // copied code frm searchController
+        if (!searchString.equals("null")) {
             try{
                 List<Author> searchedBooksByAuthor = searchService.searchForBookTitle(searchString);
                 List<Book> searchedBookList = new ArrayList<>();
@@ -103,18 +98,13 @@ public class LibraryController extends ExceptionController {
             }
 
             return new ModelAndView("library", "libraryModel", libraryPageModel);
-            // end of copied code from search controller
 
-        } else if (id == null || id == 0) {
+        } else if (id == 0) {
             allBooks = (ascending) ? libraryService.sort(column) : libraryService.sortReverse(column);
             ascending = !ascending;
-            System.out.println("yes");
-
         } else {
             allBooks = (ascending) ? libraryService.filterAndSort(column, id) : libraryService.filterAndSortReverse(column, id);
             ascending = !ascending;
-            System.out.println("yes");
-
         }
         libraryPageModel.setBooks(allBooks);
 
