@@ -1,0 +1,56 @@
+
+h2 {
+    font-family: "Segoe UI", sans-serif;
+    font-weight: normal;
+    font-size: 24px;
+}
+
+
+.books tr{
+    width: 10%;
+    border-bottom: 1px solid #ddd;}
+
+.books {
+    border: 5px #e9ecef;
+    display: flex;
+    border-collapse: separate;
+}
+
+th, td{
+    background-color: white;
+    border: 1px solid black;
+    border-collapse: separate;
+}
+
+
+.delete-button {
+    margin-top: 10px;
+
+    background-color: indianred;
+    border-radius: 15px;
+    padding: 3px 10px 5px 10px;
+
+    font-family: "Segoe UI", sans-serif;
+    font-size: 14px;
+    color: white;
+    text-decoration: none;
+    opacity: 0.5;
+}
+.delete-button:hover {
+    opacity: 1;
+}
+
+
+.add-book-row {
+    padding: 5px 0;
+    font-family: "Segoe UI", sans-serif;
+}
+
+.add-book-row label {
+    display: flex;
+    flex-direction: row;
+}
+.add-book-row span {
+    min-width: 100px;
+    display: inline-block;
+}

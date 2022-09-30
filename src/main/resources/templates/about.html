@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" lang="html">
 
     <!--@thymesVar id="model" type="org.softwire.training.bookish.models.page.AboutPageModel"-->
 
@@ -13,7 +13,7 @@
 
     <body>
 
-        <div th:replace="fragments/navbar :: navbar">
+        <div th:replace="fragments/navbar :: navbar(${currentUser})">
             <!-- This element is replaced by the HTML in fragments/navbar.html -->
         </div>
 
@@ -22,7 +22,7 @@
 
             <div class="technology-list">
                 <div th:each="technology : ${model.technologies}" class="technology">
-                    <img th:src="${technology.logoUrl}" th:title="${technology.name}" />
+                    <img th:src="${technology.logoUrl}" th:title="${technology.name}" alt="${technology.name}"/>
 
                     <a th:href="${'/about/delete-technology?technologyId=' + technology.id}" class="delete-button">delete</a>
                 </div>

@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-
+<html xmlns:th="http://www.thymeleaf.org" lang="html">
 
     <head>
         <title>Bookish - Home</title>
@@ -12,7 +11,7 @@
 
     <body>
 
-        <div th:replace="fragments/navbar :: navbar">
+        <div th:replace="fragments/navbar :: navbar(${currentUser})">
             <!-- This element is replaced by the HTML in fragments/navbar.html -->
         </div>
 
